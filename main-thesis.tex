@@ -108,7 +108,9 @@
 
 \ifdefineAbstract
  \pagestyle{empty}
- \includeonly{1_Precontent/Certificate, 1_Precontent/declaration,1_Precontent/acknowledgement, 1_Precontent/abstract}
+ \includeonly{
+  1_Precontent/declaration, 1_Precontent/acknowledgement, 
+  1_Precontent/abstract_english, 1_Precontent/abstract_catalan, 1_Precontent/abstract_spanish}
 \fi
 
 % ***************************** Chapter Mode ***********************************
@@ -118,7 +120,7 @@
 % To use choose `chapter' option in the document class
 
 \ifdefineChapter
- \includeonly{Chapter3/chapter3}
+ \includeonly{Section1/chapter1}
 \fi
 
 % ****************************************************************
@@ -138,14 +140,11 @@
   \maketitle
 \end{titlepage}
 
-% \include{certificateofapproval/certificateofapproval}
-\include{1_Precontent/dedication}
-% \include{Declaration/declaration}
-% \include{Certificate/Certificate}
-\include{1_Precontent/acknowledgement}
-\include{1_Precontent/abstract_english}
-\include{1_Precontent/abstract_catalan}
-\include{1_Precontent/abstract_spanish}
+\include{1_Precontent/0_dedication}
+\include{1_Precontent/1_acknowledgement}
+\include{1_Precontent/2_abstract_english}
+\include{1_Precontent/3_abstract_catalan}
+\include{1_Precontent/4_abstract_spanish}
 
 % *********************** Adding TOC and List of Figures ***********************
 
@@ -186,14 +185,6 @@
 \include{Section1/chapter1}
 \include{Section2/chapter2.1}
 \include{Section2/chapter2.2}
-\include{Section3/chapter3.1}
-\include{Section3/chapter3.2}
-\include{Section3/chapter3.3}
-\include{Section3/chapter3.4}
-\include{Section3/chapter3.5}
-\include{Section3/chapter3.6}
-\include{Section4/chapter4}
-% \include{Chapter5/chapter5}
 
 
 % ********************************** Back Matter *******************************

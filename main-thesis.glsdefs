@@ -1,0 +1,224 @@
+\glsdefs@newdocentry{distL}%
+{%
+name={Distance Learning},%
+sort={Distance Learning},%
+type={main},%
+first={Distance Learning},%
+firstplural={Distance Learnings},%
+text={Distance Learning},%
+plural={Distance Learnings},%
+description={ is an extremely broad concept that covers all forms of remote education, including E-Learning and Mobile Learning. It refers to the way of learning that does not require you to be present physically at the university or institution. Learning materials and lectures are available online. Learners can stay at their homes while taking the course from an online university or other institution. They will usually also have the opportunity to attend in-person workshops, residencies, or other learning components, but the material is primarily taught through online courses.},%
+descriptionplural={ is an extremely broad concept that covers all forms of remote education, including E-Learning and Mobile Learning. It refers to the way of learning that does not require you to be present physically at the university or institution. Learning materials and lectures are available online. Learners can stay at their homes while taking the course from an online university or other institution. They will usually also have the opportunity to attend in-person workshops, residencies, or other learning components, but the material is primarily taught through online courses.},%
+symbol={\relax },%
+symbolplural={\relax },%
+user1={},%
+user2={},%
+user3={},%
+user4={},%
+user5={},%
+user6={},%
+long={},%
+longplural={},%
+short={},%
+shortplural={},%
+counter={page},%
+parent={},%
+%
+}%
+
+\glsdefs@newdocentry{el}%
+{%
+name={E-Learning},%
+sort={E-Learning},%
+type={main},%
+first={E-Learning},%
+firstplural={E-Learnings},%
+text={E-Learning},%
+plural={E-Learnings},%
+description={ is education in an electronic form. It is an alternative to traditional education, although it also often complements it. Most often, e-learning courses are made available to students via a network – a dedicated training platform or the company Learning Management System (LMS).},%
+descriptionplural={ is education in an electronic form. It is an alternative to traditional education, although it also often complements it. Most often, e-learning courses are made available to students via a network – a dedicated training platform or the company Learning Management System (LMS).},%
+symbol={\relax },%
+symbolplural={\relax },%
+user1={},%
+user2={},%
+user3={},%
+user4={},%
+user5={},%
+user6={},%
+long={},%
+longplural={},%
+short={},%
+shortplural={},%
+counter={page},%
+parent={},%
+%
+}%
+
+\glsdefs@newdocentry{mooc}%
+{%
+name={Massive Open Online Course (MOOC)},%
+sort={Massive Open Online Course (MOOC)},%
+type={main},%
+first={Massive Open Online Course (MOOC)},%
+firstplural={Massive Open Online Course (MOOC)s},%
+text={Massive Open Online Course (MOOC)},%
+plural={Massive Open Online Course (MOOC)s},%
+description={ is an online course available for large enrolment on the open web, where ‘open’ largely refers to open registration, and not necessarily courses that are openly licensed. },%
+descriptionplural={ is an online course available for large enrolment on the open web, where ‘open’ largely refers to open registration, and not necessarily courses that are openly licensed. },%
+symbol={\relax },%
+symbolplural={\relax },%
+user1={},%
+user2={},%
+user3={},%
+user4={},%
+user5={},%
+user6={},%
+long={},%
+longplural={},%
+short={},%
+shortplural={},%
+counter={page},%
+parent={},%
+%
+}%
+
+\glsdefs@newdocentry{lms}%
+{%
+name={Learning Management System (LMS)},%
+sort={Learning Management System (LMS)},%
+type={main},%
+first={Learning Management System (LMS)},%
+firstplural={Learning Management System (LMS)s},%
+text={Learning Management System (LMS)},%
+plural={Learning Management System (LMS)s},%
+description={often also called course management system or virtual learning environment, is a web-based software system that assists teachers in managing courses and delivering lessons online. It helps in administration, tracking, and reporting of the learning process. An LMS usually has the following constituent components: content creation, organization, delivery, learner support interactions, assessment and grading, and management of the learning process.},%
+descriptionplural={often also called course management system or virtual learning environment, is a web-based software system that assists teachers in managing courses and delivering lessons online. It helps in administration, tracking, and reporting of the learning process. An LMS usually has the following constituent components: content creation, organization, delivery, learner support interactions, assessment and grading, and management of the learning process.},%
+symbol={\relax },%
+symbolplural={\relax },%
+user1={},%
+user2={},%
+user3={},%
+user4={},%
+user5={},%
+user6={},%
+long={},%
+longplural={},%
+short={},%
+shortplural={},%
+counter={page},%
+parent={},%
+%
+}%
+
+\glsdefs@newdocentry{Artificial intelligence (AI) in education}%
+{%
+name={AIinEDU},%
+sort={AIinEDU},%
+type={main},%
+first={AIinEDU},%
+firstplural={AIinEDUs},%
+text={AIinEDU},%
+plural={AIinEDUs},%
+description={ refers to the application of AI for supporting student learning outcomes or facilitation of educational goals, including educational administration. As such AI may cover a range of technologies and methods, such as machine learning, natural language processing, data mining, neural networks, or an algorithm},%
+descriptionplural={ refers to the application of AI for supporting student learning outcomes or facilitation of educational goals, including educational administration. As such AI may cover a range of technologies and methods, such as machine learning, natural language processing, data mining, neural networks, or an algorithm},%
+symbol={\relax },%
+symbolplural={\relax },%
+user1={},%
+user2={},%
+user3={},%
+user4={},%
+user5={},%
+user6={},%
+long={},%
+longplural={},%
+short={},%
+shortplural={},%
+counter={page},%
+parent={},%
+%
+}%
+
+\glsdefs@newdocentry{ml}%
+{%
+name={Machine Learning},%
+sort={Machine Learning},%
+type={main},%
+first={Machine Learning},%
+firstplural={Machine Learnings},%
+text={Machine Learning},%
+plural={Machine Learnings},%
+description={involves the way in which machines such as computers learn through analyzing data and then are able to improve their performance.},%
+descriptionplural={involves the way in which machines such as computers learn through analyzing data and then are able to improve their performance.},%
+symbol={\relax },%
+symbolplural={\relax },%
+user1={},%
+user2={},%
+user3={},%
+user4={},%
+user5={},%
+user6={},%
+long={},%
+longplural={},%
+short={},%
+shortplural={},%
+counter={page},%
+parent={},%
+%
+}%
+
+\glsdefs@newdocentry{dl}%
+{%
+name={Deep Learning},%
+sort={Deep Learning},%
+type={main},%
+first={Deep Learning},%
+firstplural={Deep Learnings},%
+text={Deep Learning},%
+plural={Deep Learnings},%
+description={ is considered a subfield of machine learning and it involves training of artificial neural networks to learn from large datasets, identify patterns, and make predictions or decisions and within distance education this can aid the personalisation of learning for individual students. (Cf. Machine learning)},%
+descriptionplural={ is considered a subfield of machine learning and it involves training of artificial neural networks to learn from large datasets, identify patterns, and make predictions or decisions and within distance education this can aid the personalisation of learning for individual students. (Cf. Machine learning)},%
+symbol={\relax },%
+symbolplural={\relax },%
+user1={},%
+user2={},%
+user3={},%
+user4={},%
+user5={},%
+user6={},%
+long={},%
+longplural={},%
+short={},%
+shortplural={},%
+counter={page},%
+parent={},%
+%
+}%
+
+\glsdefs@newdocentry{cl}%
+{%
+name={Collaborative Learning},%
+sort={Collaborative Learning},%
+type={main},%
+first={Collaborative Learning},%
+firstplural={Collaborative Learnings},%
+text={Collaborative Learning},%
+plural={Collaborative Learnings},%
+description={term is also known as Federated Learning. The term Federated Learning was introduced by Google in 2016. This approach does a machine learning /deep learning model development based on multiple clients (users) connected to a global server. The clients store and keep samples locally, without data interchanging, for privacy protection and data efficiency. This decentralized concept fundamentally focuses on learning from heterogeneous datasets to acquire a global model shared by all clients. Instead of exchanging data, federated learning passes model parameters between global and local models.},%
+descriptionplural={term is also known as Federated Learning. The term Federated Learning was introduced by Google in 2016. This approach does a machine learning /deep learning model development based on multiple clients (users) connected to a global server. The clients store and keep samples locally, without data interchanging, for privacy protection and data efficiency. This decentralized concept fundamentally focuses on learning from heterogeneous datasets to acquire a global model shared by all clients. Instead of exchanging data, federated learning passes model parameters between global and local models.},%
+symbol={\relax },%
+symbolplural={\relax },%
+user1={},%
+user2={},%
+user3={},%
+user4={},%
+user5={},%
+user6={},%
+long={},%
+longplural={},%
+short={},%
+shortplural={},%
+counter={page},%
+parent={},%
+%
+}%
+
