@@ -1,14 +1,14 @@
 ########################################################
-# CONTEXT
+##################### P1 - Context #####################
 ########################################################
-@report{IPCC2023,
+@misc{IPCC2023,
   title={Climate Change 2023: Synthesis Report},
   author={IPCC},
   year={2023},
   institution={Intergovernmental Panel on Climate Change},
   url={https://www.ipcc.ch/report/ar6/syr/}
 }
-@report{UNEP2023,
+@misc{UNEP2023,
   title={Emissions Gap Report 2023},
   author={{United Nations Environment Programme}},
   year={2023},
@@ -76,7 +76,6 @@
   URL = {https://www.mdpi.com/1424-8220/19/15/3424},
   PubMedID = {31387212},
   ISSN = {1424-8220},
-  ABSTRACT = {Forecasting user flows on transportation networks is a fundamental task for Intelligent Transport Systems (ITSs). Indeed, most control and management strategies on transportation systems are based on the knowledge of user flows. For implementing ITS strategies, the forecast of user flows on some network links obtained as a function of user flows on other links (for instance, where data are available in real time with sensors) may provide a significant contribution. In this paper, we propose the use of Artificial Neural Networks (ANNs) for forecasting metro onboard passenger flows as a function of passenger counts at station turnstiles. We assume that metro station turnstiles record the number of passengers entering by means of an automatic counting system and that these data are available every few minutes (temporal aggregation); the objective is to estimate onboard passengers on each track section of the line (i.e., between two successive stations) as a function of turnstile data collected in the previous periods. The choice of the period length may depend on service schedules. Artificial Neural Networks are trained by using simulation data obtained with a dynamic loading procedure of the rail line. The proposed approach is tested on a real-scale case: Line 1 of the Naples metro system (Italy). Numerical results show that the proposed approach is able to forecast the flows on metro sections with satisfactory precision.},
   DOI = {10.3390/s19153424}
 }
 @Article{Albuquerque2021,
@@ -102,25 +101,97 @@ NUMBER = {8},
 ARTICLE-NUMBER = {554},
 URL = {https://www.mdpi.com/2220-9964/10/8/554},
 ISSN = {2220-9964},
-ABSTRACT = {Designing or expanding a bicycle-sharing system (BSS) involves addressing the infrastructure’s location of the bicycle stations. Station location is an essential factor for designing and implementing a new system or for its operation. In a complex spatial optimization context, geographic information systems (GIS) can support this decision problem. There are also numerous ways of subdividing the broad spectrum of location-allocation models used in previous studies. However, a station location comprehensive review and systematization with the specific aim of characterizing the state of the art of BSS is missing. The present research aimed to provide a comprehensive systematization for station location problems, criteria, and techniques, seeking to identify the current state of practice. We searched scientific publication databases to collect relevant publications—the final list comprised 24 papers for the literature review. The systematization addresses the two major problems concerning bicycle station location: initial network design and operation improvement (where changes in operating a BSS are implemented). Based on the literature, we propose a set of four main criteria for choosing appropriate places for bike stations (or parking) in a city: “bike network”, “operator”, “user”, and “city infrastructure”. The sub-criteria mentioned in the literature are categorized based on the proposed classification and new sub-criteria are suggested. We also group location modeling techniques into three categories: “mathematical algorithms”, “multi-criteria decision making”, and “GIS”. Combining GIS and multi-criteria decision making (MCDM) has received more attention in recent years to locate bike stations, evaluate their operating performance, and have more accurate and practical results.},
 DOI = {10.3390/ijgi10080554}
 }
 
-########################################################
-# BSS
-########################################################
-@article{Fishman2016,
-  author = {Elliot Fishman},
-  title = {Bikeshare: A Review of Recent Literature},
-  journal = {Transport Reviews},
-  volume = {36},
-  number = {1},
-  pages = {92--113},
-  year = {2016},
-  publisher = {Routledge},
-  doi = {10.1080/01441647.2015.1033036},
-  URL = {https://doi.org/10.1080/01441647.2015.1033036},
-  eprint = {https://doi.org/10.1080/01441647.2015.1033036}
+###################################################
+############# P2 - Shared mobility ################
+###################################################
+@article{Shaheen2015,
+  title={Shared mobility: Definitions, industry developments, and early understanding},
+  author={Shaheen, Susan and Chan, Nelson and Bansal, Apaar and Cohen, Adam},
+  journal={Transportation Sustainability Research Center, Innovative Mobility Research},
+  year={2015}
+}
+@misc{UNFCCC_2022,
+  author       = {{United Nations Framework Convention on Climate Change (UNFCCC)}},
+  title        = {Deep Decarbonization Technologies for Sustainable Road Mobility},
+  howpublished = {\url{https://unfccc.int/technology/shared-mobility}},
+  note         = {Accessed: 2025-07-22},
+  year         = {2022},
+  organization = {United Nations}
+}
+@article{Fu2025,
+title = {Station-based, free-float, or hybrid: An operating mode analysis of a bike-sharing system},
+journal = {Transportation Research Part B: Methodological},
+volume = {191},
+pages = {103105},
+year = {2025},
+issn = {0191-2615},
+doi = {https://doi.org/10.1016/j.trb.2024.103105},
+url = {https://www.sciencedirect.com/science/article/pii/S0191261524002297},
+author = {Chenyi Fu and Ning Zhu and Michael Pinedo and Shoufeng Ma},
+keywords = {Bike-sharing system, Operating mode analysis, Station location problem}
+}
+@misc{NatureEVSharing2023,
+  author       = {{Nature Research Intelligence}},
+  title        = {Electric vehicle car-sharing systems: a summary of recent research},
+  year         = {2023},
+  note         = {Accessed September 10, 2025},
+  url          = {https://www.nature.com/research-intelligence/nri-topic-summaries/electric-vehicle-car-sharing-systems-micro-26728}
+}
+@article{Kolleck2021,
+  AUTHOR = {Kolleck, Aaron},
+  TITLE = {Does Car-Sharing Reduce Car Ownership? Empirical Evidence from Germany},
+  JOURNAL = {Sustainability},
+  VOLUME = {13},
+  YEAR = {2021},
+  NUMBER = {13},
+  ARTICLE-NUMBER = {7384},
+  URL = {https://www.mdpi.com/2071-1050/13/13/7384},
+  ISSN = {2071-1050},
+  DOI = {10.3390/su13137384}
+}
+@article{Litman2000,
+  author       = {Todd Litman},
+  title        = {Evaluating Carsharing Benefits},
+  journal      = {Transportation Research Record},
+  volume       = {1702},
+  number       = {1},
+  pages        = {31--35},
+  year         = {2000},
+  doi          = {10.3141/1702-04},
+  publisher    = {SAGE Publications},
+  note         = {Original work published 2000}
+}
+
+######################################################
+############# P2 - What are bike-sharing systems? ####
+######################################################
+@article{Chen2022,
+  author    = {Wu Chen and Trine Agervig Carstensen and Ranran Wang and Sybil Derrible and David Rojas Rueda and Mark J. Nieuwenhuijsen and Gang Liu},
+  title     = {Historical patterns and sustainability implications of worldwide bicycle ownership and use},
+  journal   = {Communications Earth \& Environment},
+  year      = {2022},
+  volume    = {3},
+  number    = {1},
+  pages     = {171},
+  doi       = {10.1038/s43247-022-00497-4},
+  url       = {https://doi.org/10.1038/s43247-022-00497-4},
+  issn      = {2662-4435},
+}
+@article{Ricci2015,
+  title = {Bike sharing: A review of evidence on impacts and processes of implementation and operation},
+  journal = {Research in Transportation Business \& Management},
+  volume = {15},
+  pages = {28-38},
+  year = {2015},
+  note = {Managing the Business of Cycling},
+  issn = {2210-5395},
+  doi = {https://doi.org/10.1016/j.rtbm.2015.03.003},
+  url = {https://www.sciencedirect.com/science/article/pii/S2210539515000140},
+  author = {Miriam Ricci},
+  keywords = {Bike sharing, Cycling policy, Evidence, Evaluation}
 }
 @article{Shaheen2010,
   author = {Susan A. Shaheen and Stacey Guzman and Hua Zhang},
@@ -134,3 +205,496 @@ DOI = {10.3390/ijgi10080554}
   URL = {https://doi.org/10.3141/2143-20},
   eprint = {https://doi.org/10.3141/2143-20},
 }
+@article{Li2021,
+  title={The role of public-private partnership in constructing the smart transportation city: a case of the bike sharing platform},
+  author={Li, Lin and Park, Philip and Yang, Sung-Byung},
+  journal={Asia Pacific Journal of Tourism Research},
+  volume={26},
+  number={4},
+  pages={428--439},
+  year={2021},
+  publisher={Taylor \& Francis}
+}
+@article{Cao2022,
+  title={Government and private company collaboration in the governance of shared mobility schemes: A case study of dockless bike-sharing schemes in Sydney, Australia},
+  author={Cao, Jun and Prior, Jason and Giurco, Damien},
+  journal={Sustainability},
+  volume={14},
+  number={20},
+  pages={13141},
+  year={2022},
+  publisher={MDPI}
+}
+@misc{BiciMAD2025,
+  title        = {BiciMAD - Información Básica},
+  author       = {{Ayuntamiento de Madrid}},
+  year         = {2025},
+  url          = {https://www.madrid.es/portales/munimadrid/es/Inicio/Movilidad-y-transportes/Oficina-de-la-bici/Madrid-en-bici/BiciMAD/BiciMAD-Informacion-Basica/?vgnextoid=f9e0bf505b814810VgnVCM2000001f4a900aRCRD&vgnextchannel=980526c17bf76410VgnVCM2000000c205a0aRCRD},
+  note         = {Accessed: 2025-09-14}
+}
+@misc{BicingPedalem2017,
+  author       = {{La Vanguardia}},
+  title        = {Así es el nuevo Bicing de Colau},
+  year         = {2017},
+  url          = {https://www.lavanguardia.com/local/barcelona/20171202/433355750662/asi-es-nuevo-bicing-colau.html},
+  note         = {Accessed: 2025-09-14}
+}
+
+###################################################
+################ P2 - History ####################
+###################################################
+
+@book{Shirky2008,
+  author    = {Clay Shirky},
+  title     = {Here Comes Everybody: The Power of Organizing Without Organizations},
+  publisher = {Penguin},
+  year      = {2008},
+  pages     = {282--283}
+}
+@article{DeMaio2009,
+  title={Bike-sharing: History, impacts, models of provision, and future},
+  author={DeMaio, Paul},
+  journal={Journal of public transportation},
+  volume={12},
+  number={4},
+  pages={41--56},
+  year={2009},
+  publisher={Elsevier}
+}
+@article{Fishman2016,
+  author = {Elliot Fishman},
+  title = {Bikeshare: A Review of Recent Literature},
+  journal = {Transport Reviews},
+  volume = {36},
+  number = {1},
+  pages = {92--113},
+  year = {2016},
+  publisher = {Routledge},
+  doi = {10.1080/01441647.2015.1033036},
+  URL = {https://doi.org/10.1080/01441647.2015.1033036},
+  eprint = {https://doi.org/10.1080/01441647.2015.1033036}
+}
+@article{Chen2020,
+  author = {Zheyan Chen and Dea van Lierop and Dick Ettema},
+  title = {Dockless bike-sharing systems: what are the implications?},
+  journal = {Transport Reviews},
+  volume = {40},
+  number = {3},
+  pages = {333--353},
+  year = {2020},
+  publisher = {Routledge},
+  doi = {10.1080/01441647.2019.1710306}
+}
+@article{Meireles2013,
+  AUTHOR = {Meireles, Ricardo and Silva, Jose and Teixeira, Alexandre and Ribeiro, Bernardo},
+  TITLE = {An E.Bike Design for the Fourth Generation Bike-Sharing Services},
+  JOURNAL = {World Electric Vehicle Journal},
+  VOLUME = {6},
+  YEAR = {2013},
+  NUMBER = {1},
+  PAGES = {58--63},
+  URL = {https://www.mdpi.com/2032-6653/6/1/58},
+  ISSN = {2032-6653},
+  DOI = {10.3390/wevj6010058}
+}
+@online{Garrigues2017,
+  author       = {Arnaud Garrigues},
+  title        = {Les petits secrets du Vélib' 2},
+  year         = {2017},
+  url          = {https://www.lagazettedescommunes.com/505188/les-petits-secrets-du-velib-2/},
+  note         = {Accessed: 2025-09-14},
+  publisher    = {La Gazette des Communes}
+}
+@online{Bicing2025,
+  author       = {{Ajuntament de Barcelona}},
+  title        = {Bicing, el servei de bicicleta compartida de Barcelona},
+  year         = {2025},
+  url          = {https://www.bicing.barcelona/},
+  note         = {Accessed: 2025-09-14}
+}
+@article{Zheng2020,
+  title={The Development, Characteristics and Impact of Bike Sharing Systems: a literature review},
+  author={Lingwei Zheng and Yan Li},
+  journal={International Review for Spatial Planning and Sustainable Development},
+  volume={8},
+  number={2},
+  pages={37-52},
+  year={2020},
+  doi={10.14246/irspsd.8.2_37}
+}
+@article{Xu2024,
+  title={Does bike-sharing reduce traffic congestion? Evidence from three mega-cities in China},
+  author={Xu, Xiaoxia and Zuo, Wenbin},
+  journal={Plos one},
+  volume={19},
+  number={8},
+  pages={e0306317},
+  year={2024},
+  publisher={Public Library of Science San Francisco, CA USA}
+}
+@article{Vallez2021,
+  title={Challenges and opportunities in dock-based bike-sharing rebalancing: A systematic review},
+  author={Vallez, Carlos M and Castro, Mario and Contreras, David},
+  journal={Sustainability},
+  volume={13},
+  number={4},
+  pages={1829},
+  year={2021},
+  publisher={MDPI}
+}
+@article{Guidon2019,
+  title={Electric bicycle-sharing: A new competitor in the urban transportation market? An empirical analysis of transaction data},
+  author={Guidon, Sergio and Becker, Henrik and Dediu, Horace and Axhausen, Kay W},
+  journal={Transportation research record},
+  volume={2673},
+  number={4},
+  pages={15--26},
+  year={2019},
+  publisher={SAGE Publications Sage CA: Los Angeles, CA}
+}
+@article{Chen2018,
+  title={Fifth-generation bike-sharing systems: examples from Poland and China},
+  author={Chen, Feng and Turo{\'n}, Katarzyna and K{\l}os, Marcin and Czech, Piotr and Pamu{\l}a, Wies{\l}aw and Sierpi{\'n}ski, Grzegorz},
+  journal={Zeszyty Naukowe. Transport/Politechnika {\'S}l{\k{a}}ska},
+  year={2018}
+}
+@article{Wang2019,
+  title={Rethinking the utility of public bicycles: The development and challenges of station-less bike sharing in China},
+  author={Wang, Jiaoe and Huang, Jie and Dunford, Michael},
+  journal={Sustainability},
+  volume={11},
+  number={6},
+  pages={1539},
+  year={2019},
+  publisher={MDPI}
+}
+@techreport{MeddinWorldMapReport2022,
+  author       = {O'Brien, Oliver and DeMaio, Paul and Rabello, Renata and Chou, Steve and Benicchio, Thiago},
+  title        = {The Meddin bike-sharing world map report},
+  year         = {2022},
+  institution  = {Meddin Bike-Sharing World Map},
+  url          = {https://bikesharingworldmap.com/reports/bswm_mid2022report.pdf},
+  note         = {Accessed: 2023-10-03}
+}
+@misc{MeddinWorldMap2025,
+  author       = {Paul DeMaio and Russell Meddin and Oliver O'Brien and Renata Rabello and Steve Chou and Thiago Benicchio},
+  title        = {{The Meddin Bike-Sharing Worl Map}},
+  year         = {2025},
+  note         = {Created by Paul DeMaio in 2007, curated by Russell Meddin (2009--2020), and now co-curated by Oliver O'Brien et al.},
+  url          = {https://world.bikesharemap.com/},
+  howpublished = {\url{https://world.bikesharemap.com/}},
+  urldate      = {2025-09-10}
+}
+
+
+###################################################
+################ P2 - Impacts ####################
+###################################################
+
+# Mobility
+@article{Cheng2022,
+  author  = {Lu Cheng and Zhifu Mi and D’Maris Coffman and Jing Meng and Dining Liu and Dongfeng Chang},
+  title   = {The Role of Bike Sharing in Promoting Transport Resilience},
+  journal = {Networks and Spatial Economics},
+  year    = {2022},
+  volume  = {22},
+  number  = {3},
+  pages   = {567--585},
+  doi     = {10.1007/s11067-021-09518-9},
+  url     = {https://doi.org/10.1007/s11067-021-09518-9},
+  issn    = {1572-9427}
+}
+@Article{Qiu2018,
+  AUTHOR = {Qiu, Lu-Yi and He, Ling-Yun},
+  TITLE = {Bike Sharing and the Economy, the Environment, and Health-Related Externalities},
+  JOURNAL = {Sustainability},
+  VOLUME = {10},
+  YEAR = {2018},
+  NUMBER = {4},
+  ARTICLE-NUMBER = {1145},
+  URL = {https://www.mdpi.com/2071-1050/10/4/1145},
+  ISSN = {2071-1050},
+  DOI = {10.3390/su10041145}
+}
+@article{Waldner2025,
+  author    = {Waldner, Felix and Balke, Georg and Rech, Felix and Lellep, Martin},
+  title     = {Data-driven insights into (E-)bike-sharing: mining a large-scale dataset on usage and urban characteristics: descriptive analysis and performance modeling},
+  journal   = {Transportation},
+  year      = {2025},
+  doi       = {10.1007/s11116-025-10661-2},
+  url       = {https://doi.org/10.1007/s11116-025-10661-2},
+  issn      = {1572-9435},
+}
+
+@article{Murphy2015,
+  author = {Enda Murphy and Joe Usher},
+  title = {The Role of Bicycle-sharing in the City: Analysis of the Irish Experience},
+  journal = {International Journal of Sustainable Transportation},
+  volume = {9},
+  number = {2},
+  pages = {116--125},
+  year = {2015},
+  publisher = {Taylor \& Francis},
+  doi = {10.1080/15568318.2012.748855},
+  URL = {https://doi.org/10.1080/15568318.2012.748855},
+  eprint = {https://doi.org/10.1080/15568318.2012.748855}
+}
+@article{Fishman2013,
+  author = {Elliot Fishman and Simon Washington and Narelle Haworth},
+  title = {Bike Share: A Synthesis of the Literature},
+  journal = {Transport Reviews},
+  volume = {33},
+  number = {2},
+  pages = {148--165},
+  year = {2013},
+  publisher = {Routledge},
+  doi = {10.1080/01441647.2013.775612},
+  URL = {https://doi.org/10.1080/01441647.2013.775612},
+  eprint = {https://doi.org/10.1080/01441647.2013.775612}
+}
+@article{Fishman2014,
+  title = {Bike share’s impact on car use: Evidence from the United States, Great Britain, and Australia},
+  journal = {Transportation Research Part D: Transport and Environment},
+  volume = {31},
+  pages = {13-20},
+  year = {2014},
+  issn = {1361-9209},
+  doi = {https://doi.org/10.1016/j.trd.2014.05.013},
+  url = {https://www.sciencedirect.com/science/article/pii/S1361920914000480},
+  author = {Elliot Fishman and Simon Washington and Narelle Haworth},
+  keywords = {Bike share, Car use, City, Bicycle, Sustainable, Transport},
+}
+@article{Bachand-Marleau2012,
+  title={Better understanding of factors influencing likelihood of using shared bicycle systems and frequency of use},
+  author={Bachand-Marleau, Julie and Lee, Brian HY and El-Geneidy, Ahmed M},
+  journal={Transportation Research Record},
+  volume={2314},
+  number={1},
+  pages={66--71},
+  year={2012},
+  publisher={SAGE Publications Sage CA: Los Angeles, CA}
+}
+@article{Chen2022b, 
+  title={Dockless bike-sharing’s impact on mode substitution and influential factors: Evidence from Beijing, China},
+  volume={15},
+  url={https://www.jtlu.org/index.php/jtlu/article/view/1983},
+  DOI={10.5198/jtlu.2022.1983}, 
+  number={1},
+  journal={Journal of Transport and Land Use},
+  author={Chen, Zheyan and van Lierop, Dea and Ettema, Dick},
+  year={2022},
+  month={Feb.},
+  pages={71–93}
+  }
+@article{Ma2020,
+  title = {Bike-sharing systems’ impact on modal shift: A case study in Delft, the Netherlands},
+  journal = {Journal of Cleaner Production},
+  volume = {259},
+  pages = {120846},
+  year = {2020},
+  issn = {0959-6526},
+  doi = {https://doi.org/10.1016/j.jclepro.2020.120846},
+  url = {https://www.sciencedirect.com/science/article/pii/S0959652620308933},
+  author = {Xinwei Ma and Yufei Yuan and Niels {Van Oort} and Serge Hoogendoorn},
+  keywords = {Dockless bike-sharing, Docked bike-sharing, Bicycle-lease, Modal shift, Commuting, Binary logit model},
+}
+@article{Bosehans2024,
+  title = {Shared mobility - Novel insights on mode substitution patterns, trip and user characteristics},
+  journal = {Journal of Cycling and Micromobility Research},
+  volume = {2},
+  pages = {100029},
+  year = {2024},
+  issn = {2950-1059},
+  doi = {https://doi.org/10.1016/j.jcmr.2024.100029},
+  url = {https://www.sciencedirect.com/science/article/pii/S2950105924000202},
+  author = {Gustav Bösehans and Margaret Carol Bell and Dilum Dissanayake},
+  keywords = {Active travel, Shared mobility, Electric mobility, Travel behaviour, Mode substitution, Quantitative data analysis},
+}
+@article{Becker2018,
+  title={Exploring the potential of free cargo-bikesharing for sustainable mobility},
+  author={Becker, Sophia and Rudolf, Clemens},
+  journal={Gaia-ecological perspectives for science and society},
+  volume={27},
+  number={1},
+  pages={156--164},
+  year={2018},
+  publisher={oekom verlag}
+}
+@article{Hamilton2018,
+  title = {Bicycle infrastructure and traffic congestion: Evidence from DC's Capital Bikeshare},
+  journal = {Journal of Environmental Economics and Management},
+  volume = {87},
+  pages = {72-93},
+  year = {2018},
+  issn = {0095-0696},
+  doi = {https://doi.org/10.1016/j.jeem.2017.03.007},
+  url = {https://www.sciencedirect.com/science/article/pii/S0095069616300420},
+  author = {Timothy L. Hamilton and Casey J. Wichman},
+  keywords = {Traffic congestion, Public transportation, Bicycle-sharing, Pollution, Automobile externalities}
+}
+@article{Wang2017,
+  title = {Bike-sharing systems and congestion: Evidence from US cities},
+  journal = {Journal of Transport Geography},
+  volume = {65},
+  pages = {147-154},
+  year = {2017},
+  issn = {0966-6923},
+  doi = {https://doi.org/10.1016/j.jtrangeo.2017.10.022},
+  url = {https://www.sciencedirect.com/science/article/pii/S0966692317302715},
+  author = {Mingshu Wang and Xiaolu Zhou},
+  keywords = {Bike-sharing systems, Congestion, Difference-in-differences, Fixed effects model, United States},
+}
+@techreport{Pelechrinis2016,
+  author       = {Pelechrinis, Konstantinos and Li, Beibei and Qian, Sean},
+  title        = {Bike Sharing and Car Trips in the City: The Case of Healthy Ride Pittsburgh},
+  institution  = {SSRN},
+  year         = {2016},
+  month        = oct,
+  doi          = {10.2139/ssrn.2853543},
+  url          = {https://ssrn.com/abstract=2853543}
+}
+@article{Basu2021,
+  title = {Planning car-lite neighborhoods: Does bikesharing reduce auto-dependence?},
+  journal = {Transportation Research Part D: Transport and Environment},
+  volume = {92},
+  pages = {102721},
+  year = {2021},
+  issn = {1361-9209},
+  doi = {https://doi.org/10.1016/j.trd.2021.102721},
+  url = {https://www.sciencedirect.com/science/article/pii/S1361920921000262},
+  author = {Rounaq Basu and Joseph Ferreira},
+  keywords = {Bikesharing, Difference-in-differences, Spatial autocorrelation, Vehicle ownership, Vehicle miles traveled, Vehicle emissions},
+}
+@article{Yang2022,
+title = {Understanding the impacts of public transit disruptions on bikeshare schemes and cycling behaviours using spatiotemporal and graph-based analysis: A case study of four London Tube strikes},
+journal = {Journal of Transport Geography},
+volume = {98},
+pages = {103255},
+year = {2022},
+issn = {0966-6923},
+doi = {https://doi.org/10.1016/j.jtrangeo.2021.103255},
+url = {https://www.sciencedirect.com/science/article/pii/S0966692321003082},
+author = {Yuanxuan Yang and Roger Beecham and Alison Heppenstall and Andy Turner and Alexis Comber},
+keywords = {Bike-sharing, Transportation, Urban analytics, Graph theory},
+}
+@techreport{NACTO2020,
+  author       = {{NACTO}},
+  title        = {Shared Micromobility in the U.S.: 2019},
+  year         = {2020},
+  institution  = {National Association of City Transportation Officials},
+  url          = {https://nacto.org/wp-content/uploads/2020bikesharesnapshot.pdf},
+  note         = {Accessed: 2025-09-16}
+}
+@Article{Araujo2025,
+AUTHOR = {de Araújo, Kayck and Lima, Luciana and Dias, Mariana Andreotti and Costa, Daniel G. and Silva, Ivanovitch},
+TITLE = {On the Use of a Bike-Sharing System in Extreme Weather Events: The Case of Porto Alegre, Rio Grande do Sul, Brazil},
+JOURNAL = {Sustainability},
+VOLUME = {17},
+YEAR = {2025},
+NUMBER = {5},
+ARTICLE-NUMBER = {2291},
+URL = {https://www.mdpi.com/2071-1050/17/5/2291},
+ISSN = {2071-1050},
+DOI = {10.3390/su17052291}
+}
+@article{Teixeira2024,
+  author = {João Filipe Teixeira and Cecília Silva and Frederico Moura e Sá},
+  title ={Potential of Bike Sharing During Disruptive Public Health Crises: A Review of COVID-19 Impacts},
+  journal = {Transportation Research Record},
+  volume = {2678},
+  number = {12},
+  pages = {480-492},
+  year = {2024},
+  doi = {10.1177/03611981231160537},
+  URL = {https://doi.org/10.1177/03611981231160537},
+  eprint = {https://doi.org/10.1177/03611981231160537}
+}
+@article{Grau-Escolano2024,
+  author    = {Grau-Escolano, Jordi and Bassolas, Aleix and Vicens, Juli{\`a}},
+  title     = {Cycling into the workshop: e-bike and m-bike mobility patterns for predictive maintenance in Barcelona’s bike-sharing system},
+  journal   = {EPJ Data Science},
+  year      = {2024},
+  volume    = {13},
+  number    = {48},
+  doi       = {10.1140/epjds/s13688-024-00486-x},
+  url       = {https://doi.org/10.1140/epjds/s13688-024-00486-x}
+}
+
+# Environmental impacts
+@article{Rojas-Rueda2011,
+  title={The health risks and benefits of cycling in urban environments compared with car use: health impact assessment study},
+  author={Rojas-Rueda, David and De Nazelle, Audrey and Tainio, Marko and Nieuwenhuijsen, Mark J},
+  journal={Bmj},
+  volume={343},
+  year={2011},
+  publisher={British Medical Journal Publishing Group}
+}
+@article{Zhang2018,
+  title = {Environmental benefits of bike sharing: A big data-based analysis},
+  journal = {Applied Energy},
+  volume = {220},
+  pages = {296-301},
+  year = {2018},
+  issn = {0306-2619},
+  doi = {https://doi.org/10.1016/j.apenergy.2018.03.101},
+  url = {https://www.sciencedirect.com/science/article/pii/S0306261918304392},
+  author = {Yongping Zhang and Zhifu Mi},
+  keywords = {Bike sharing, Sharing economy, Energy consumption, Carbon emissions, Air pollution, Big data},
+}
+@article{Chen2022c,
+  title={An environmental benefit analysis of bike sharing in New York City},
+  author={Chen, Yan and Zhang, Yongping and Coffman, D'Maris and Mi, Zhifu},
+  journal={Cities},
+  volume={121},
+  pages={103475},
+  year={2022},
+  publisher={Elsevier}
+}
+@article{Kou2020,
+  title = {Quantifying greenhouse gas emissions reduction from bike share systems: a model considering real-world trips and transportation mode choice patterns},
+  journal = {Resources, Conservation and Recycling},
+  volume = {153},
+  pages = {104534},
+  year = {2020},
+  issn = {0921-3449},
+  doi = {https://doi.org/10.1016/j.resconrec.2019.104534},
+  url = {https://www.sciencedirect.com/science/article/pii/S0921344919304409},
+  author = {Zhaoyu Kou and Xi Wang and Shun Fung (Anthony) Chiu and Hua Cai},
+  keywords = {Bike share, Environmental benefit, Mode replacement, Greenhouse gas reduction, Shared economy},
+}
+
+@Article{Felipe-Falgas2022,
+AUTHOR = {Felipe-Falgas, Pol and Madrid-Lopez, Cristina and Marquet, Oriol},
+TITLE = {Assessing Environmental Performance of Micromobility Using LCA and Self-Reported Modal Change: The Case of Shared E-Bikes, E-Scooters, and E-Mopeds in Barcelona},
+JOURNAL = {Sustainability},
+VOLUME = {14},
+YEAR = {2022},
+NUMBER = {7},
+ARTICLE-NUMBER = {4139},
+URL = {https://www.mdpi.com/2071-1050/14/7/4139},
+ISSN = {2071-1050},
+DOI = {10.3390/su14074139}
+}
+@book{LCA2006a,
+  title={Environmental management: life cycle assessment; Principles and Framework},
+  author={International Organization for Standardization},
+  year={2006},
+  publisher={ISO}
+}
+@article{LCA2006b,
+  title={Environmental management-Life cycle assessment-Requirements and guidelines},
+  author={Standard, Indian},
+  journal={London: ISO},
+  year={2006}
+}
+@incollection{Sun2022,
+  title={Environmental impact of free-floating bike sharing: from life cycle perspective},
+  author={Sun, Shouheng and Ertz, Myriam},
+  booktitle={Handbook of solid waste management: sustainability through circular economy},
+  pages={2255--2280},
+  year={2022},
+  publisher={Springer}
+}
+
+
+
