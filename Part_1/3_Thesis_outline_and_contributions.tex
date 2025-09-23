@@ -1,10 +1,76 @@
-\section{Thesis Outline and Contributions}
+\section{Thesis outline and contributions}
 \label{sec:thesis_outline_and_contributions}
 
+\subsection{Thesis outline}
+
+This thesis is organized into five parts:
+
+\textbf{Part 1: Introduction.}
+This part establishes the context and motivation for applying \ac{ai} techniques to docked \ac{bss}. It defines the research objectives and provides an overview of the thesis structure and core contributions.
+
+\textbf{Part 2: Background.}
+This part provides the conceptual and scientific foundations of the thesis, structured around four main chapters. First, it introduces the broader context of vehicle-sharing and focuses on \acp{bss}, covering their typologies, historical evolution, impacts, usage patterns, the integration of \ac{ai} into these systems, and the current main challenges and opportunities for \acp{bss}. Second, it presents a literature review on existing station placement strategies. Third, it examines the state of the art in mobility modeling and battery prediction for \ac{e-b} fleets. Finally, it reviews existing approaches to \ac{pm}, focusing on failure modeling techniques such as survival analysis and machine learning.
+
+\textbf{Part 3: Data-driven station planning in Barcelona.}
+This part begins by introducing the city of Barcelona as the case study for this research, outlining its existing \ac{bss} network, urban characteristics, and data availability. Building on this context, it then presents a flexible framework for optimizing the spatial placement of docking stations. The method combines a modular multi-criteria scoring system with network-based and topography-adjusted accessibility metrics, and applies a genetic algorithm to generate optimized station configurations that align with diverse planning objectives while respecting spatial and operational constraints.
+
+\textbf{Part 4: Predictive operations in \textit{Bicing}.}  
+Building on the operational data from Barcelona’s \ac{bss}, \textit{Bicing}, this part explores how predictive models can support more efficient system management. Two complementary applications are presented. First, a joint prediction framework is proposed to estimate \acp{e-b} locations and battery levels by combining a Markov-based mobility model with a physics-informed energy consumption model. Second, \ac{pm} models are developed to estimate failure risks in both \acp{m-b} and \acp{e-b}, using survival analysis techniques and interpretable features derived from historical usage and repair data.
+
+\textbf{Part 5: Conclusion.}
+The final part summarizes the contributions of the thesis and reflects on their implications for both researchers and BSS practitioners.
 
 
+\subsection{Contributions}
 
+The main contributions of this thesis, all rooted in the context of docked \acp{bss}, are as follows.
 
+\begin{enumerate}  
+    \item A flexible and modular data-driven framework for station planning that enables fine-grained spatial analysis and supports multi-criteria evaluation of candidate sites. The method integrates network-based accessibility metrics computed on directed, topography-aware street networks to reflect real-world cycling conditions. It also supports the incremental expansion and reconfiguration of existing station networks, allowing planners to explore trade-offs between competing objectives in a realistic and adaptable way.
+
+    \item An approach for jointly predicting \acp{e-b} locations and battery levels in \acp{bss} fleets, combining a Markov-based mobility model with a physics-informed energy consumption model.
+
+    \item A predictive maintenance strategy for \acp{bss}, based on interpretable survival models that estimate component-level failure risks for both \acp{m-b} and \acp{e-b}.
+
+    \item Demonstration of all proposed methods through real-world applications in Barcelona and its \ac{bss} system, \textit{Bicing}, showing how \ac{ai} techniques can be operationalized to support decision-making in \acp{bss}.
+
+\end{enumerate}
+
+\subsubsection{List of publications}
+The thesis is based on the following peer-reviewed articles:
+
+% Add extra vertical space before Journal papers
+\vspace{1em}
+\textbf{Journal papers}
+\begin{itemize}
+    \item{\textbf{Grau-Escolano, J.}, Vicens, J., \& Duran, D. (2025).
+    A flexible and network-aware framework for bike-sharing station placement: a case study in Barcelona. Transportation Research Part C: Emerging Technologies (\textcolor{red}{under review}).}
+    \item{Bassolas, A., \textbf{Grau-Escolano, J.} \& Vicens, J. Spatiotemporal variability and prediction of e-bike battery levels in bike-sharing systems. Sci Rep 15, 7171 (2025). https://doi.org/10.1038/s41598-025-88952-y}
+    \item{\textbf{Grau-Escolano, J.}, Bassolas, A. \& Vicens, J. Cycling into the workshop: e-bike and m-bike mobility patterns for predictive maintenance in Barcelona’s bike-sharing system. EPJ Data Sci. 13, 48 (2024). https://doi.org/10.1140/epjds/s13688-024-00486-x}
+\end{itemize}
+
+\vspace{1em}
+\textbf{Oral presentations}
+\begin{itemize}
+    \item{\textcolor{red}{Mediterranean School of Complex Systems}}
+    \item {\textcolor{red}{Annual Forum of the Doctoral School of EIT Urban Mobility}}
+\end{itemize}
+\textcolor{red}{TO-DO: Buscar detalls presentacions orals}
+
+\vspace{1em}
+\textbf{Posters}
+\begin{itemize}
+    \item {\textcolor{red}{Annual Forum of the Doctoral School of EIT Urban Mobility}}
+    \item {\textcolor{red}{UOC complex systems day}}
+\end{itemize}
+\textcolor{red}{TO-DO: Buscar detalls posters}
+
+\vspace{1em}
+\textbf{Other contributions outside of the main scope of the thesis}
+\begin{itemize}
+    \item \textcolor{red}{Tourism demand forecasting}
+\end{itemize}
+\textcolor{red}{TO-DO: Buscar detalls altres contribucions}
 
 
 
