@@ -63,3 +63,8 @@
 *.out.ps
 *.synctex(busy)
 *.loa
+*.glsdefs
+*.ini
+
+# Plots and images folder
+0_plots/*
