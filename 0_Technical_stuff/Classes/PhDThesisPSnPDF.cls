@@ -791,7 +791,7 @@ wish to left align your text}
   Custom margin is chosen, but geometry package is not loaded. Please load the
   `geometry' package in the preamble.}}}
 \else
-\setFancyHdr % Apply fancy header settings otherwise apply it in preamble
+% \setFancyHdr % Apply fancy header settings otherwise apply it in preamble
 \fi
 
 % **************** Clear Header Style on the Last Empty Odd pages **************
