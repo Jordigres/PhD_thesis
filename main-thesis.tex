@@ -1,7 +1,7 @@
 % ******************************* PhD Thesis Template **************************
 % Please have a look at the README.md file for info on how to use the template
 
-\documentclass[a4paper,11pt,times,numbered,print,oneside]{0_Technical_stuff/Classes/PhDThesisPSnPDF}
+\documentclass[a4paper,11pt,times,numbered,print,twoside]{0_Technical_stuff/Classes/PhDThesisPSnPDF}
 
 
 % ******************************************************************************
@@ -17,7 +17,6 @@
 
 \usepackage[toc]{glossaries}
 \makeglossaries
-
 
 
 % ******************************************************************************
@@ -109,7 +108,7 @@
 \ifdefineAbstract
  \pagestyle{empty}
  \includeonly{
-  1_Precontent/declaration, 1_Precontent/acknowledgement, 
+  1_Precontent/declaration, 1_Precontent/acknowledgement, 1_Precontent/glossary,
   1_Precontent/abstract_english, 1_Precontent/abstract_catalan, 1_Precontent/abstract_spanish}
 \fi
 
@@ -120,7 +119,7 @@
 % To use choose `chapter' option in the document class
 
 \ifdefineChapter
- \includeonly{Section1/chapter1}
+  \includeonly{Part_2/1_Bike-sharing_systems}
 \fi
 
 % ****************************************************************
@@ -172,7 +171,7 @@
 %------------ List of Abbreviations---------------------
 \include{1_Precontent/abbreviations}
 
-%------------ List of Glossary---------------------
+% %------------ List of Glossary---------------------
 \include{1_Precontent/glossary}
 
 % \printnomencl[space] space can be set as 2em between symbol and description
@@ -186,6 +185,11 @@
 \include{Part_1/2_Motivation_and_objectives}
 \include{Part_1/3_Thesis_outline_and_contributions}
 
+\include{Part_2/1__Bike-sharing_systems}
+\include{Part_2/2__Station_placement}
+\include{Part_2/3__Failure_forecasting_in_maintenance_operations}
+\include{Part_2/4__Mobility_and_battery_modelling}
+
 % ********************************** Back Matter *******************************
 % Backmatter should be commented out, if you are using appendices after References
 %\backmatter
@@ -197,9 +201,9 @@
 % Bibliography style previews: http://nodonn.tipido.net/bibstyle.php
 % Reference styles: http://sites.stat.psu.edu/~surajit/present/bib.htm
 
-\bibliographystyle{apalike}
+% \bibliographystyle{IEEEtran}
 % \bibliographystyle{abbrv}
-%\bibliographystyle{plainnat} % use this to have URLs listed in References
+\bibliographystyle{plainnat} % use this to have URLs listed in References
 \cleardoublepage
 \bibliography{references} % Path to your References.bib file
 
