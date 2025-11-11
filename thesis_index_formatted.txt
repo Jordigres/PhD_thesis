@@ -93,6 +93,6 @@ Publication: Bassolas et al. 2025
 PART 5: CONCLUSIONS
 ================================================================================
 
-Chapter 11: Conclusions
-
-Chapter 12: Future directions
+Chapter 11: Conclusions and future directions
+Genèric, pot millorar X aspectes. I propers next steps?
+A qui impacta?
