@@ -1,0 +1,66 @@
+\section{Methods}
+
+\subsection{Mathematical formulation of the battery consumption}
+
+The battery levels of the Bicing e-bikes are modelled with a method based on the fundamental laws of motion. The instantaneous power consumed while riding is derived from the need to overcome three main forces opposing the motion: gravity resistance ($F_g$), rolling resistance ($F_r$), and aerodynamic drag ($F_a$) \cite{burani2022algorithm, steyn2014comparison}.
+
+The gravity resistance $F_g$ is given by:
+\begin{equation}
+F_g=g \cdot m \cdot \sin(arctan(s)),
+\end{equation}
+where $g$ is the gravitational acceleration, $m$ is the combined mass of the rider and bike, and $s$ represents the slope. Similarly to \cite{burani2022algorithm}, $F_g=0$ when $F_g\leq 0$.
+
+Rolling resistance $F_r$ is given by:
+\begin{equation}
+F_r={C_{rr}} \cdot g \cdot m  \cdot \cos(arctan(s)),
+\end{equation}
+where $C_{rr}$ is the rolling resistance coefficient.
+
+Finally, the aerodynamic drag $F_a$ is given by:
+\begin{equation}
+F_a=0.5 \cdot C_d \cdot A \cdot \rho \cdot (v+w)^{2},
+\end{equation}
+where $C_d$ denotes the drag coefficient, $A$ is the frontal area, $\rho$ is the air density, and $v$ and $w$ are the bike and wind speeds, respectively. 
+
+The instantaneous power consumed is then given by:
+\begin{equation}
+P(t)=vF,
+\end{equation}
+Assuming no energy losses during the process, the total power consumed over a trajectory of duration $t$ is given by $tv(F_g+F_r+F_a)$. As the instantaneous speed information is unavailable, the speed is approximated by dividing the total distance travelled by the trip time. Consequently, the energy consumed in a trip is given by $d_{ij}(F_g+F_r+F_a)$, where the distance travelled is approximated using the OpenRouteService API \cite{openrouteservice}, which recommends bicycle routes based on OpenStreetMap data \cite{OpenStreetMap}. To convert power consumed into a battery percentage, and taking into account that the e-bikes only provide support to the rider when pedalling, a constant $K_{\rm trip}$ has been added by multiplying the whole equation $K_{\rm trip}d_{ij}(F_g+F_r+F_a)$.
+
+On the other hand, the rate of battery recharge during rest periods is modelled as:
+\begin{equation}
+\Delta B_{\rm rest}=\frac{K_{\rm rest}t_{\rm rest}}{60}, \label{charge}
+\end{equation}
+
+where $K_{\rm rest}$ represents the charging constant, and $t_{\rm rest}$ is the rest time. The inverse of $K_{\rm rest}$ corresponds to the time required to fully charge a bike from $0\%$ to $100\%$. The division by $60$ is included to express $K_{\rm rest}$ in units of $min^{-1}$. All variables are represented in the International System of Units.
+
+\subsection{Optimisation of the battery consumption function}
+
+The battery consumption during a trip can be approximated by an expression that groups the relevant constants. This expression is written as:
+
+\begin{equation}
+\Delta B_{\rm trip}=K_{\rm trip} d_{ij}(K_a sin(arctan(s))+ K_b cos(arctan(s)) + K_c v^2), \label{consumption}
+\end{equation}
+
+where
+
+\begin{align*}
+& K_a=g \cdot m, \\
+& K_b={C_{rr}} \cdot g \cdot m, \\
+& K_c=0.5 \cdot C_d \cdot A \cdot \rho.
+\end{align*}
+
+Although the constant $K_{\rm trip}$ is not strictly required mathematically, it allows us to explore feasible values for $K_a$, $K_b$, $K_c$. Apart from $g$, the constants involved in the computation of $K_a$, $K_b$, and $K_c$ are unknown and may vary depending on factors such as rider characteristics, weather conditions, bike status, and terrain type. Therefore, an optimisation process is necessary to determine the optimal values of $K_a$, $K_b$, and $K_c$ that enable accurate battery consumption predictions, even when the constants of every trip are not known precisely.
+
+To perform the optimisation, a different range of values is considered for each constant. The mass $m$ is assumed to range between 79 kg and 119 kg, considering the bike's weight of 29 kg. Based on previous studies \cite{steyn2014comparison, bertucci2013evaluation}, the rolling resistance coefficient can range between $0.001$ and $0.003$, the drag coefficient between $0.6$ and $0.8$, and the effective area between $0.4$ and $0.6$. The air density $\rho$ is fixed at $1.225kg/m^3$, corresponding to a temperature of $15^{\circ}C$ at sea level. Given these constants' value ranges, the following limits are defined for the hyper-parameter optimisation: $K_a = [774.2, 1166.2]$, $K_b = [0.7742, 3.4986]$, and $K_c = [0.147, 0.294]$. The range for $K_{\rm rest}$ is set between $[0.002083, 0.055]$, corresponding to charging times from 480 to 180 minutes, respectively. The range for $K_{\rm trip}$ is set between $[1 \cdot 10^{-8},1]$.
+
+The Optuna framework was utilised for hyper-parameter optimisation, using 75\% of the three-week 30-minute dataset for training and 25\% for validation. The optimal values obtained were:
+
+\begin{align*}
+& K_a = 911.139 \\
+& K_b = 3.497 \\
+& K_c = 0.292 \\
+& K_d =1.644 \cdot 10^{-6} \\
+& K_{\rm rest} = 480
+\end{align*}
