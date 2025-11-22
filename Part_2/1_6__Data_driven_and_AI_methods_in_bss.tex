@@ -1,5 +1,97 @@
-\section{Data-driven and \ac{ai} methods in bike-sharing systems}
+\section[Data-driven and AI methods in BSSs]{Data-driven and \ac{ai} methods in \acp{bss}}
 \label{sec:data-driven_and_ai_methods_in_bss}
+
+\subsection[Data landascape for BSSs]{Data landascape for \acp{bss}}
+
+Since the advent of third-generation \acp{bss}, these schemes have generated large volumes of data capturing multiple dimensions of system activity, including performance and operational indicators, as well as user behavior. These rich data ecosystems provide the basis for data-driven and \ac{ai}-based decision-making, supported by increasingly sophisticated analytical tools capable of describing, predicting, and optimizing the complex dynamics of these systems.
+
+A key source of information is trip-level mobility data, which typically include the origin and destination stations of each ride, timestamps marking the start and end of the journey, and a unique bicycle identifier~\cite{FaghihImani2017, ZaltzAustwick2013}. In services that operate with user accounts, anonymised user identifiers may also be available, enabling longitudinal analyses of individual behaviour while preserving privacy~\cite{FaghihImani2017}. These records support a broad spectrum of operational and analytical tasks, such as identifying temporal cycles of use, characterising behavioural differences among rider groups, and monitoring how demand varies across the network. In some deployments, trip data are further enriched with GPS trajectories, which provide the full sequence of points describing the travelled path~\cite{Talavera_Garcia2021}. When available, these traces greatly expand the analytical possibilities for both operational insight and academic enquiry by allowing researchers to study how individuals navigate the street network and how infrastructure influences route choice. Furthermore, most docked \acp{bss} record station occupancy in real time or at short regular intervals~\cite{FaghihImani2014, CortezOrdonez2024}. These data provide continuous visibility into bike and dock availability, enabling operators to detect saturation or depletion risks, prioritize rebalancing efforts, and identify stations exhibiting abnormal behaviour.
+
+An additional source of information is maintenance operations data, which document repairs, component replacements, and other interventions performed on the fleet. These records are generally not publicly available, as they relate to internal operational processes and may contain sensitive information about system performance. Nevertheless, operators systematically collect them. Evidence of this is that planning guidelines explicitly recommend maintaining detailed maintenance logs to support effective system management~\cite{Yanocha2018}, and several studies have analysed such datasets when operators have made them accessible for research purposes~\cite{deBrito2022, Gregoire2018}. Maintenance data are highly valuable, as they can reveal recurrent failure patterns, inform maintenance strategies, and help optimize workshop operations and spare-parts procurement.
+
+The progressive electrification of fleets has also introduced new battery and sensor datasets, including state-of-charge measurements, voltage and current readings, temperature values, and charging events~\cite{Waldner2025}. These indicators are mainly collected to give operators direct visibility into the energy status of the fleet, allowing them to ensure that sufficient charge is available across the network and prioritize bikes that require recharging or swapping. At the analytical level, such data make it possible to study energy consumption patterns, assess how terrain or user behaviour shapes battery depletion, predict low-charge events, identify anomalous trends indicative of degradation, and develop more efficient charge management and allocation strategies.
+
+Beyond system-generated data, \acp{bss} research uses a wide range of exogenous data. Contextual data such as weather conditions, public events, and seasonality strongly shape travel behaviour~\cite{Bean2021, Julio2022, Wang2021, Park2022}, while built-environment and socioeconomic layers, including land-use patterns, population density, employment distribution, and proximity to public transport, provide essential information on the spatial determinants of demand~\cite{FaghihImani2014, FaghihImani2016, MateoBabiano2016, FaghihImani2017, Sun2018, FaghihImani2017Empirical}. In addition, infrastructure planning, accessibility analyses, and routing algorithms routinely draw on street-network data, typically derived from \ac{osm}~\cite{Li2020, Zochowska2021} or released by public administrations~\cite{GarciaPalomares2012}. Integrating these external datasets has become standard practice in data-driven \ac{bss} research.
+
+
+
+\subsection[Modelling approaches in data-driven BSS research]{Modelling approaches in data-driven \acp{bss} research}
+
+Researchers have used different types of computational models to analyze and improve \acp{bss}. These methods help to understand system behavior, make predictions, and support better decisions. This section reviews the main methodological families adopted in the literature, providing a high-level overview of each and outlining the most commonly used techniques. The discussion is organized around four broad categories: statistical models, machine learning methods, deep learning architectures, and optimisation and operations research techniques.
+
+    \subsubsection{Statistical models}
+
+        \paragraph{Regression models}
+
+        Regression models form the foundation of many BSS studies. In general, a regression model expresses a response (dependent variable) as a function of one or more explanatory variables. Common types include linear regression (for continuous responses), logistic regression (for binary outcomes), and Poisson regression (for count data). These models assume a specific relationship (often linear or log-linear) between predictors and the outcome, allowing researchers to estimate the influence of factors like weather, built environment, or time-of-day on various BSS metrics. 
+        
+        Regression models are valued for their clarity. Coefficients directly indicate the direction and magnitude of factor effects
+
+        Linear and logistic regressions are relatively easy to implement and require fewer data to fit than complex machine learning models. They often serve as a baseline model in BSS studies due to their low computational requirements and well-established theory.
+
+        Multiple regression can incorporate many predictor variables (weather, land use, demographics, etc.) allowing a multivariate understanding of bike-share demand. This aligns well with the multi-faceted nature of urban ridership influences.
+
+        A core drawback is the assumption of a (usually) linear relationship in parameters. True bike-share responses can be non-linear (e.g. marginal effect of temperature might grow sharply beyond a threshold). Without introducing polynomial or interaction terms, linear models may miss such nuances. They also assume additive effects, whereas in reality factors can interact (e.g. rainfall effect might depend on temperature).
+
+        Residual Correlation: If applied to time-series data (e.g. daily trips), simple regressions often exhibit autocorrelated residuals – violating independence assumptions and undermining forecasts. For instance, an OLS model of daily bike counts would likely have serially correlated errors because yesterday’s ridership influences today’s. This calls for specialized models (time-series methods discussed later) or adding lagged terms to the regression.
+
+        Pure regression models do not inherently adapt to changing dynamics. They are typically fitted on historical data and used for estimation or what-if analysis. They might need refitting as system dynamics evolve (e.g. after a network expansion or a shock like COVID-19). In contrast, state-space or time-series models can update more readily with new data.
+
+        Most regression models used in bike-sharing system research follow a common structure. Let $Y$ denote the response variable (e.g., trip count, station availability, user category), and let $\mathbf{X} = (X_1, X_2, \dots, X_p)$ represent a vector of $p$ predictor variables such as weather, time-of-day, land use, or socio-demographics. The general form of a regression model is:
+
+        \begin{equation}
+            g\left( \mathbb{E}[Y \mid \mathbf{X}] \right) = \beta_0 + \beta_1 X_1 + \beta_2 X_2 + \dots + \beta_p X_p,
+        \end{equation}
+
+        where $\beta_0$ is the intercept, $\beta_j$ are the model coefficients, and $g(\cdot)$ is a link function that maps the expected value of $Y$ to the linear predictor.
+
+        Common instances include:
+
+        \begin{itemize}
+            \item \textbf{Linear regression} (continuous $Y$):
+            \begin{equation}
+                \mathbb{E}[Y \mid \mathbf{X}] = \beta_0 + \sum_{j=1}^p \beta_j X_j \quad \text{(identity link)}
+            \end{equation}
+            
+            \item \textbf{Logistic regression} (binary $Y$):
+            \begin{equation}
+                \log\left(\frac{\mathbb{P}(Y = 1 \mid \mathbf{X})}{1 - \mathbb{P}(Y = 1 \mid \mathbf{X})}\right) = \beta_0 + \sum_{j=1}^p \beta_j X_j \quad \text{(logit link)}
+            \end{equation}
+            
+            \item \textbf{Poisson regression} (count $Y$):
+            \begin{equation}
+                \log\left(\mathbb{E}[Y \mid \mathbf{X}]\right) = \beta_0 + \sum_{j=1}^p \beta_j X_j \quad \text{(log link)}
+            \end{equation}
+        \end{itemize}
+
+        This general framework extends naturally to generalized linear models (GLMs), where the choice of link function $g(\cdot)$ and distribution of $Y$ (e.g., normal, binomial, Poisson, negative binomial) are tailored to the characteristics of the response variable.
+
+
+        \paragraph{Generalized linear models and extensions}
+
+        Generalized Linear Models (GLMs) extend traditional regression to accommodate a variety of response distributions (exponential family) via a link function. This family includes logistic and Poisson regression as special cases, but also encompasses models like Negative Binomial regression, Gamma regression, and more. In BSS studies, GLMs became widely used as researchers encountered data that defied the assumptions of simple linear models. By choosing an appropriate distribution and link (log-link for counts, logit for probabilities, etc.), GLMs provide a more statistically robust framework for bike-share data.
+
+        GLMs also include zero-inflated and hurdle models, which are tailored for data with excess zeros – relevant for stations or time periods with no rentals or returns. A zero-inflated Poisson (ZIP) or hurdle model can separately model the occurrence of zero-demand periods and the positive counts. While not as commonly reported as NB models, these have been employed in cases where many stations see sporadic use.
+
+        Another important GLM subcategory in BSS context is the use of Generalized Linear Mixed Models (GLMMs), which incorporate random effects to handle correlated data (spatial or temporal). For example, to analyze the impact of an intervention on bike usage, one might use a mixed-effects NB model with random intercepts per station (to account for inherent station-level differences). Mixed-effects GLMs gained popularity because they account for repeated measures and clustering.
+
+        Spatially, a mixed model can include neighborhood-level random effects to account for spatial correlation in usage (nearby stations experiencing similar demand shocks). These GLMM approaches remain within the GLM family but relax the independence assumption, which is important given bike-share data often have grouped structure (many observations per station, or multiple days per city).
+
+
+    \subsubsection[ML methods]{\ac{ml} methods}
+
+    \subsubsection[DL methods]{\ac{dl} methods}
+
+    \subsubsection{Optimization techniques}
+
+    \subsection[Main fields of application]{Main fields of application}
+
+
+
+
+
+% Literally copied from Arias-Molinares2021 Exploring micromobility services:...
+% Some authors have explored users’ demographics (LDA Consulting, 2012; Wang et al., 2018), others have visualised their dynamics identifying trends (Borgnat et al., 2013; Romanillos, 2018; Zaltz Austwick et al., 2013), usage rates, demand models and the location of bases (García-Palomares et al., 2012; Goodman \& Cheshire, 2014; Rojas-Rueda et al., 2011).
 
 % Segons Zhang2018: Hi ha literatura de rebalancing, demand determinants, ells proposen environment, i bike lanes. Tenen una mini litearture review.
 
@@ -15,3 +107,5 @@
 
 % Sources of data (trip data, GPS, weather, calendar).
 %Park2022 -> mira BSS utilitzation i air pollution.
+
+% Sobre estudis de docks: Mining bicycle sharing data for generating insights into sustainable transport systems
