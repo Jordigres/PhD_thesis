@@ -104,7 +104,11 @@
 
 % ******************************************************************************
 % % Format pages for PART
-\usepackage{xcolor}
+% Load xcolor to replace the old color package from the class file
+% xcolor automatically replaces color when loaded, but we ensure compatibility
+% \usepackage{xcolor}
+\usepackage[usenames,dvipsnames]{xcolor}
+\definecolor{RED}{rgb}{1,0,0} % Define RED as an alias for red in case something uses uppercase
 \usepackage{etoc}
 % Packages for PART and EPIGRAPH
 \usepackage{epigraph}
