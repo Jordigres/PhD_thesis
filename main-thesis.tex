@@ -181,14 +181,47 @@
 % ******************************** Main Matter *********************************
 \mainmatter
 
+% ################## Part 1 ##################
+\graphicspath{{Figures}}
+\epigraphhead[550]{\textcolor{red}{"This is an awesome quote"}
+\par\hfill\textsc{\textcolor{red}{― Random Person}}}
+\part{Introduction}
+% \cleardoublepage
+\label{ch:intro}
 \include{Part_1/1_Context}
 \include{Part_1/2_Motivation_and_objectives}
 \include{Part_1/3_Thesis_outline_and_contributions}
 
+% ################## Part 2 ##################
+\epigraphhead[550]{"We need our industrial culture and we need our big companies to get behind the Cycling Economy."
+\par\hfill\textsc{― Manfred Neun}}
+\part{Background}
 \include{Part_2/1__Bike-sharing_systems}
 \include{Part_2/2__Station_placement}
-\include{Part_2/3__Failure_forecasting_in_maintenance_operations}
-\include{Part_2/4__Mobility_and_battery_modelling}
+\include{Part_2/3__Mobility_and_battery_modelling}
+\include{Part_2/4__Failure_forecasting_in_maintenance_operations}
+
+% ################## Part 3 ##################
+\epigraphhead[550]{\textcolor{red}{"This is ALSO an awesome quote."}
+\par\hfill\textsc{\textcolor{red}{― Random Person's Brother}}}
+\part{Data-driven station planning in Barcelona} 
+\label{pt:data-driven-station-planning}
+\include{Part_3/0__Introduction}
+\include{Part_3/1__Use_case_Barcelona}
+\include{Part_3/2__Paper}
+
+% ################## Part 4 ##################
+\epigraphhead[550]{\textcolor{red}{"This is YET ANOTHER awesome quote."}
+\par\hfill\textsc{\textcolor{red}{― Random Person's Cousin}}}
+\part{\textcolor{red}{\textit{Bicing} operations}}
+\label{part:bicing}
+\include{Part_4/1_Use_case_Bicing}
+\include{Part_4/2__Batteries}
+
+
+
+
+
 
 % ********************************** Back Matter *******************************
 % Backmatter should be commented out, if you are using appendices after References
@@ -205,8 +238,15 @@
 % \bibliographystyle{abbrv}
 \bibliographystyle{plainnat} % use this to have URLs listed in References
 \cleardoublepage
-\bibliography{references} % Path to your References.bib file
-
+\bibliography{ % Path to your References.bib file
+  references/ref_PART1, 
+  references/ref_PART2_1_definition_and_history,
+  references/ref_PART2_2_users_and_mobility,
+  references/ref_PART2_3_impacts,
+  references/ref_PART2_4_ai,
+  references/ref_PART3,
+  references/ref_PART4_bateries
+}
 
 % If you would like to use BibLaTeX for your references, pass `custombib' as
 % an option in the document class. The location of 'reference.bib' should be
