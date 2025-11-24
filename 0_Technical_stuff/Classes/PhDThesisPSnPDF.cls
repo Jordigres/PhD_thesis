@@ -356,18 +356,9 @@ supported!}
 \setkeys{Gin}{draft=true}
 \fi
 
-% If Draft Mode is active
-\ifsetDraft
-% Disable figures in `draftmode'\
-\setkeys{Gin}{draft=false}
-
-% Line numbering (can be switched off)
+% Line numbering (can be switched off) - Load package outside draft block to avoid \@LN errors
 \ifPHD@lineno
 \RequirePackage[switch,pagewise,mathlines]{lineno}
-\renewcommand{\frontmatter}{\nolinenumbers}
-\renewcommand{\mainmatter}{\linenumbers}
-\renewcommand{\backmatter}{\linenumbers}
-
 % Fix display lineno issue in mathmode
 \newcommand*\patchAmsMathEnvironmentForLineno[1]{%
   \expandafter\let\csname old#1\expandafter\endcsname\csname #1\endcsname
@@ -390,8 +381,24 @@ supported!}
 \patchBothAmsMathEnvironmentsForLineno{gather}%
 \patchBothAmsMathEnvironmentsForLineno{multline}%
 }
+\fi % End \ifPHD@lineno
 
-\fi % End \ifPDH@lineno
+% If Draft Mode is active
+\ifsetDraft
+% Disable figures in `draftmode'\
+\setkeys{Gin}{draft=true}
+
+% Activate line numbering in draft mode
+\ifPHD@lineno
+% Save original definitions before redefining
+\let\PHD@frontmatter\frontmatter
+\let\PHD@mainmatter\mainmatter
+\let\PHD@backmatter\backmatter
+% Redefine to preserve original functionality and add line numbering
+\renewcommand{\frontmatter}{\PHD@frontmatter\nolinenumbers}
+\renewcommand{\mainmatter}{\PHD@mainmatter\linenumbers}
+\renewcommand{\backmatter}{\PHD@backmatter\linenumbers}
+\fi % End \ifPHD@lineno
 
 % Creates a Watermark Draft at the specified location.
 % The settings can be tweaked in the preamble
@@ -416,36 +423,6 @@ supported!}
 \textcolor[gray]{\draftGrayScale}{%
 {\drafttext}\space-\space{\draftVersion}\hspace{\stretch{1}}{\PHD@daytime}
 \hspace*{\fill}}}
-
-% Adding watermark in draft mode with time stamp
-\RequirePackage{everypage}
-\RequirePackage[absolute]{textpos}
-% Default values for draft watermark
-\newcommand\draftposition{top}
-\newcommand\draftnodeanchor{1in+\voffset-\topmargin}
-\AddEverypageHook{%
-\begin{textblock*}{\paperwidth}[0.,2.5](0\paperwidth,\draftnodeanchor)
-\DraftContent
-\end{textblock*}
-}
-
-% Conditional evaluation to position the draft water mark  (top / bottom)
-\renewcommand\SetDraftWMPosition[1]{%
-  \renewcommand\draftposition{#1}
-  \ifthenelse{\equal{\draftposition}{bottom}}
-             {\renewcommand\draftnodeanchor{\paperheight-\voffset}} %Bottom
-             {\ifthenelse{\equal{\draftposition}{top}}
-               {\renewcommand\draftnodeanchor{1in+\voffset-\topmargin}} %Top
-               {\ClassWarning{PDThesisPSnPDF}{Unrecognised draft position
-                   using default value of top}
-                 \renewcommand\draftnodeanchor{1in+\voffset-\topmargin}}} %Top
-
-  \AddEverypageHook{%
-    \begin{textblock*}{\paperwidth}[0.,2.5](0\paperwidth,\draftnodeanchor)
-      \DraftContent
-    \end{textblock*}
-  }
-}
 
 % If NOT Draft Mode
 \else 
@@ -572,7 +549,7 @@ supported!}
 \widowpenalty=10000
 
 % If building with PDFLaTeX, use microtype spacing adjustments
-\RequirePackage[final]{microtype}
+\RequirePackage[final,expansion=false]{microtype}
 
 %******************************* Print / Online ********************************
 % Defines a print / online version to define page-layout and hyperrefering
