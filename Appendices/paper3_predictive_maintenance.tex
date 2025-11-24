@@ -1,0 +1,222 @@
+\chapter{Predicting Failures in \ac{bss} Maintenance Operations}
+\label{app_paper3:predictive_maintenance}
+    
+\section{Data exploration}
+\label{app_paper3:section_data_exploration}
+
+
+\setcounter{figure}{0}
+\setcounter{table}{0}
+\renewcommand{\thefigure}{A\arabic{figure}}
+\renewcommand{\thetable}{A\arabic{table}}
+
+    \begin{figure}[h!]
+        \includegraphics[width=0.9\textwidth]{0_plots/paper3/appendices/_panel_sup_1.pdf}
+        \caption{\textbf{Data overview.} (A) Time series of daily trip counts. The green line depicts all trips, the blue line represent the subset of trips completed on m-bikes, and the orange lines represent the subset of trips conducted on e-bikes. (B) Quantitative analysis of MOs with counts and percentages across all categories. (C) Distribution of MOs within subcategories. (D) Time series of daily MO counts.}
+        \label{fig:supp:data_section}
+    \end{figure}
+    
+    
+    \begin{table}[h]
+        \centering
+        \caption{Number of reparations for the MOs with more than 10,000 repairs.}
+        \label{tab:most_frequent_reparations}
+        \begin{tabular}{lccc}
+            \hline
+            Reparation type & Count \\ 
+            \hline         
+            Brake pad change           & 47,438  \\ 
+            Brake tension adjustment   & 37,892  \\
+            Front wheel tube change    & 22,712  \\
+            Wheel spoke change         & 17,359  \\ 
+            Various frame repairs      & 16,600  \\ 
+            Various wheel repairs      & 15,282  \\ 
+            Rear wheel tube change     & 14,566  \\ 
+            Chain change               & 13,001  \\ 
+            Rear brake pad adjustment  & 12,871  \\ 
+            \hline
+        \end{tabular}
+        \end{table}
+
+        \clearpage
+
+
+\section{Mobility analysis}
+\label{app_paper3:section_mobility_analysis}
+\setcounter{figure}{0}
+\setcounter{table}{0}
+\renewcommand{\thefigure}{B\arabic{figure}}
+\renewcommand{\thetable}{B\arabic{table}}
+
+    \begin{figure}[h]
+        \centering
+        \includegraphics[width=0.7\textwidth]{0_plots/paper3/appendices/_panel_sup_2.pdf}
+        \caption{\textbf{Analysis of e-bike trip flow percentages in 2022.} The map highlights the differences in incoming and outgoing trip percentages for e-bikes, noting that these differences are the inverse of those observed for m-bikes. Each dot represents a station of the BSS. The dot size reflects the station’s altitude, with larger dots indicating higher altitudes, and the dot color signifies differences in trip flow percentages.}
+        \label{fig:sup:map_electric}
+    \end{figure}
+    
+    \clearpage
+
+
+\section{Maintenance operations analysis}
+\label{app_paper3:section_maintenance_operations_analysis}
+\setcounter{figure}{0}
+\setcounter{table}{0}
+\renewcommand{\thefigure}{C\arabic{figure}}
+\renewcommand{\thetable}{C\arabic{table}}
+
+    \begin{table}[h]
+        \centering
+        \caption{\textbf{Count of MOs and MO units.} The first three rows contains the MO count for all bikes and categorized by bike model. The fourth row, the total count of MO units. Since each bike has one more MO unit than its number of repairs, the amount of MOs for a bike part is less than its total number of MO units. The fifth row displays the count of MO units after excluding left-censored units, units without associated trips, and units where the bike model changes. The sixth and seventh rows categorize the remaining MO units into m-bike and e-bike MO units, and the last two rows, into right-censored and uncensored MO units.}
+        \label{tab:MO_units_cleaning}
+        \begin{tabular}{lccc}
+            \hline
+            & Brake pads & Wheel spokes & Chains \\
+            \hline
+            MOs & 47,513 & 17,377 & 13,019 \\
+            M-bike MOs & 14,809 & 516 & 9,433 \\
+            E-bike MOs & 32,704 & 16,961 & 3,586 \\
+            \hline
+            MO units & 53,103 & 23,941 & 19,682 \\
+            Clean MO units & 45,267 & 16,947 & 11,954 \\
+            \hline
+            M-bike MO units & 12,771 & 384 & 8,219 \\
+            E-bike MO units & 32,496 & 16,563 & 3,735 \\
+            \hline
+            Uncensored MO units & 38,432 & 14,208 & 6,023 \\
+            Right-censored MO units & 6,835 & 2,739 & 5,931 \\
+            \hline
+    \end{tabular}
+    
+    \end{table}
+    
+    \begin{table}[h]
+        \centering
+            \caption{\textbf{Mean number of reparations and standard deviations (in parentheses) for the repair typologies within the target MO units.} A statistical comparison of means is conducted using the Welch t-test in cases of unequal variances and the t-test in cases of equal variances. Only the repair typologies included as model inputs are presented in the table.}
+        \label{tab:other_mos_mean}
+        \begin{tabular}{@{}lccc@{}}
+        \hline
+            &  m-bike & e-bike & p-val\\
+        \hline
+        \textbf{Brake pads MO units}\\
+            brake tension adjustment & 0.84 (1.08) & 0.65 (0.99) & 0.000 \\
+            front cover change &  0.03 (0.18) &  0.03 (0.16) & 0.000 \\
+            frontal tube change &  0.71 (0.97) &  0.26 (0.59) & 0.000\\
+            rear tube change &  0.13 (0.46) &  0.23 (0.68) & 0.000\\
+        \hline
+        \textbf{Wheel spokes MO units}\\
+            brake tension adjustment & 1.00 (1.39) & 0.96 (1.42) & 0.000 \\
+            front cover change & 0.00 (0.00) & 0.03 (0.18) & 0.000 \\
+            front tube change & 0.68 (0.94) & 0.34 (0.82) & 0.000 \\
+            rear tube change & 0.10 & 0.35 (0.94) & 0.000 \\
+        \hline
+        \textbf{Chains MO units}\\
+            brake tension adjustment & 1.26 (1.28) & 3.48 (3.00) & 0.000\\
+            front cover change & 0.04 (0.19) & 0.10 (0.32) & 0.000 \\
+            front tube change & 1.01 (1.19) & 1.28 (1.64) & 0.000 \\
+            rear tube change & 0.21 ( 0.57) & 1.19 (1.94) & 0.000 \\
+        \hline
+        \end{tabular}
+    \end{table}
+
+    \clearpage
+
+
+\section{Accuracy measures}
+\label{app_paper3:section_accuracy_measures}
+    To compare the accuracy of the predictive models, three metrics have been used:
+    \begin{itemize}
+    \item Root Mean Square Error (\textbf{RMSE}): is a non-proportional metric with the same units as the target variable that accentuates the effect of the time-steps with big forecasting error.
+    \item Mean Absolute Percentage Error (\textbf{MAPE}): is a proportional metric in percentage units that represents the average absolute deviation between the predicted and the actual values.
+    \item Determination coefficient (\textbf{R\textsuperscript{2}}): represents the proportion of the variance in a dependent variable (actual values) that is predictable from the independent variables (predicted values). It ranges from 0 to 1, where 0 indicates that the model does not explain any variance in the data, and 1 indicates that the model perfectly fits the data.
+    \end{itemize}
+    
+    All of them are described in the following equations, where $y$ is the actual days that a bike part survives, $\hat{y}$ is the forecasted, and $n$ is the amount of MO units for a particular bike part:
+    
+    
+    $$ RMSE = \sqrt{\frac{1}{n}\sum_{i=1}^{n}(y_i - \hat{y}_i)^2} $$
+    
+    
+    $$ R^2 = 1 - \frac{\sum_{i=1}^{n}(y_i - \hat{y}_i)^2}{\sum_{i=1}^{n}(y_i - \bar{y})^2} $$
+    
+    
+    $$ MAPE = \frac{1}{n} \sum_{i=1}^{n} \left| \frac{y_i - \hat{y}_i}{y_i} \right| \times 100 $$
+    
+    To sum up, RMSE and MAPE interpretation is very straightforward; the lower, the better.  However $R^{2}$ works in the contrary direction since higher values, correspond to better predictions.
+    
+    \clearpage
+
+
+\section{Model training}
+\label{app_paper3:section_model_training}
+\setcounter{figure}{0}
+\setcounter{table}{0}
+\renewcommand{\thefigure}{E\arabic{figure}}
+\renewcommand{\thetable}{E\arabic{table}}
+
+    \begin{figure}[h!]
+        \centering
+        \includegraphics[width=0.9\textwidth]{0_plots/paper3/appendices/_panel_sup_3.pdf}
+        \caption{\textbf{Training and test sets distributions for the survival time.} Survival distributions for the brake pads (top), wheel spokes (middle) and chains (bottom) MOs. The training set encompasses both the training and validation data sets.}
+        \label{fig:sup:train_test_distributions}
+    \end{figure}
+    
+    \begin{table}[h!]
+        \centering
+        \caption{\textbf{Predictions accuracy metrics on the training dataset.} Forecasts were generated using exclusively uncensored MO units. The training set includes both the training and validation datasets.}
+        \label{tab:sup:prediction_results_train}
+        \begin{tabular}{llccc}
+        \hline
+        & models & brake pads & wheel spokes & chains \\
+        \hline
+        RMSE & CPH & 62.60 & 93.32 & 101.60 \\
+        & MTLR & 33.50 & 27.32 & 63.21 \\
+        & CSF & 35.48 & 37.08 & 103.77 \\
+        & DeepSurv & \textbf{27.46} & \textbf{17.87} & \textbf{40.62} \\
+        \hline
+        R\textsuperscript{2} & CPH & 0.61 & -0.32 & 0.59 \\
+        & MTLR & 0.89 & 0.89 & 0.84 \\
+        & CSF & 0.87 & 0.79 & 0.57 \\
+        & DeepSurv & \textbf{0.92} & \textbf{0.95} & \textbf{0.93} \\
+        \hline
+        MAPE & CPH  & 55.40 & 73.11 & 158.80 \\
+        & MTLR & 36.54 & 38.53 & 60.28 \\
+        & CSF & 83.15 & 106.50 & 147.76 \\
+        & DeepSurv & \textbf{26.87} & \textbf{18.76} & \textbf{26.48} \\
+        \hline
+        \end{tabular}
+    \end{table}
+
+
+\clearpage
+
+
+\section{Models interpretability}
+\label{app_paper3:section_models_interpretability}
+\setcounter{figure}{0}
+\setcounter{table}{0}
+\renewcommand{\thefigure}{F\arabic{figure}}
+\renewcommand{\thetable}{F\arabic{table}}
+
+    \begin{figure}[h!]
+        \centering
+        \includegraphics[width=0.9\textwidth]{0_plots/paper3/appendices/_panel_sup_4.png}
+        \caption{\textbf{Partial dependence plots for the break pads DeepSurv model.} Partial dependence values are computed with a subsample of 10,000 observations. The plots show that cumulative distance is the most influential variable, with longer distances associated with longer lifespans. Bike model and average speed also play significant roles; e-bikes and higher average speeds correlate with shorter lifespans. Additionally, higher average temperatures are linked to quicker part failures, although their impact is less pronounced.}
+        \label{fig:sup:PDP_brakes}
+    \end{figure}
+
+    \begin{figure}[h!]
+        \centering
+        \includegraphics[width=0.9\textwidth]{0_plots/paper3/appendices/_panel_sup_5.png}
+        \caption{\textbf{Partial dependence plots for the wheel spokes DeepSurv model.} Partial dependence values are computed with a subsample of 10,000 observations. The plots show that cumulative distance is the most influential variable, with longer distances associated with longer lifespans. Bike model and average speed also play significant roles; e-bikes and higher average speeds correlate with shorter lifespans. Additionally, higher average temperatures are linked to quicker part failures, although their impact is less pronounced.}
+        \label{fig:sup:PDP_spokes}
+    \end{figure}
+
+    \begin{figure}[h!]
+        \centering
+        \includegraphics[width=0.9\textwidth]{0_plots/paper3/appendices/_panel_sup_6.png}
+        \caption{\textbf{Partial dependence plots for the chains DeepSurv model.} Partial dependence values are computed with a subsample of 10,000 observations. The plots show that cumulative distance is the most influential variable, with longer distances associated with longer lifespans. Bike model and average speed also play significant roles; e-bikes and higher average speeds correlate with shorter lifespans. Average temperature and pressure variables show that moderate values tend to prolong lifespan, whereas extremes at either end appear to accelerate failures.}
+        \label{fig:sup:PDP_chains}
+    \end{figure}
+
+    \clearpage
