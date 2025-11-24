@@ -14,17 +14,17 @@ This section begins with the presentation of the Barcelona case study and the de
             
             $$ G = (V, E) $$
             
-        where $V$ is the set of nodes, with each node $v \in V$ representing street intersections or endpoints; and $E$ is the set of directed edges, where each edge $e \in E$ corresponds to a street link connecting two nodes (Table~\ref{table:notation}). The procedure used to clean and unify this directed graph, removing isolated components and ensuring full bidirectional reachability, is described in Appendix B. The resulting, fully connected bicycle network is shown in Figure~\ref{fig:osm_network}.
+        where $V$ is the set of nodes, with each node $v \in V$ representing street intersections or endpoints; and $E$ is the set of directed edges, where each edge $e \in E$ corresponds to a street link connecting two nodes (Table~\ref{table:notation}). The procedure used to clean and unify this directed graph, removing isolated components and ensuring full bidirectional reachability, is described in Appendix~\ref{app_paper1:graph_cleaning}. The resulting, fully connected bicycle network is shown in Figure~\ref{fig:osm_network}.
 
-        \item \textbf{Locally relevant variables:} alongside the bicycle network, a set of locally relevant variables was collected to characterize each node \(i\in V\). These variables come from the open‐data providers and fall into four categories: socioeconomic (population and income from INE, 2022; education, nationality, household size, vehicle ownership, and unemployment from ODB, 2022–2024), public transport (metro, tram, and bus stops from OSM, accessed 2024), built environment (bike lanes and POIs from OSM, accessed 2024), and topographic (elevation values from OTD, accessed 2024). Table~\ref{table:local_factors_nodes} summarizes each variable’s preprocessing, and full source details appear in Appendix C.  
+        \item \textbf{Locally relevant variables:} alongside the bicycle network, a set of locally relevant variables was collected to characterize each node \(i\in V\). These variables come from the open‐data providers and fall into four categories: socioeconomic (population and income from INE, 2022; education, nationality, household size, vehicle ownership, and unemployment from ODB, 2022–2024), public transport (metro, tram, and bus stops from OSM, accessed 2024), built environment (bike lanes and POIs from OSM, accessed 2024), and topographic (elevation values from OTD, accessed 2024). Table~\ref{table:local_factors_nodes} summarizes each variable’s preprocessing, and full source details appear in Appendix~\ref{app_paper1:data_sources}.  
 
     \end{itemize}
 
     
     \begin{figure}[!htbp]
         \centering
-        \includegraphics[width=0.65\linewidth]{0_plots/paper1/bike_graph.png}
-        \caption{\textbf{Barcelona’s OSM bike network after cleaning}. See Appendix~B for details on the cleaning procedure.}
+        \includegraphics[width=0.65\linewidth]{0_plots/paper1/main/bike_graph.png}
+        \caption{\textbf{Barcelona’s OSM bike network after cleaning}. See Appendix~\ref{app_paper1:graph_cleaning} for details on the cleaning procedure.}
         \label{fig:osm_network}
     \end{figure}
 
@@ -99,7 +99,7 @@ This section begins with the presentation of the Barcelona case study and the de
 
         where \(V_{\mathrm{norm},f}^i\) represents the normalized value of factor \(f\) within a buffer of radius \(Y\) meters around node \(i\), and \(W_f\) is the user-defined weight for that factor. By adjusting the weights \(W_f\), planners can shift emphasis among competing objectives, while the buffer radius \(Y\) determines the spatial extent of each node’s local context.
 
-        Table~\ref{table:local_factors_nodes} enumerates the local factors considered in this study. These are meant as examples of factors commonly considered in BSS planning rather than a fixed set: any spatial attribute such as land‐use mix, crime rates, ridership, or parking availability can be incorporated by first measuring its value within a specified buffer around each candidate node and then assigning a weight to each spatial attribute. In this study, absolute totals are used (e.g., the number of residents or the count of amenities within the buffer), so that higher underlying values translate directly into higher node scores. Relative indicators, such as per-capita or per-area measures, could also be incorporated, but they express values in relation to a denominator rather than absolute magnitude, which can lead to different interpretations across planning scenarios. Regardless of the choice, all variables are normalized to ensure comparability. Details on the normalization procedures and before/after distributions for these variables are provided in Appendix~F. Once the normalized scores have been computed, the BSS utility for a given set of stations is determined by the following formula:
+        Table~\ref{table:local_factors_nodes} enumerates the local factors considered in this study. These are meant as examples of factors commonly considered in BSS planning rather than a fixed set: any spatial attribute such as land‐use mix, crime rates, ridership, or parking availability can be incorporated by first measuring its value within a specified buffer around each candidate node and then assigning a weight to each spatial attribute. In this study, absolute totals are used (e.g., the number of residents or the count of amenities within the buffer), so that higher underlying values translate directly into higher node scores. Relative indicators, such as per-capita or per-area measures, could also be incorporated, but they express values in relation to a denominator rather than absolute magnitude, which can lead to different interpretations across planning scenarios. Regardless of the choice, all variables are normalized to ensure comparability. Details on the normalization procedures and before/after distributions for these variables are provided in Appendix~\ref{app_paper1:normalization}. Once the normalized scores have been computed, the BSS utility for a given set of stations is determined by the following formula:
 
             \begin{equation}\label{eq:BSS_utility_no_metrics}
                     U_{BSS} = \max \sum_{i\in V} x_i \cdot U_i
@@ -109,7 +109,7 @@ This section begins with the presentation of the Barcelona case study and the de
 
         \begin{table}[!htbp]
             \centering
-            \caption{\textbf{Local factors considered for BSS station placement}. Data sources are detailed in Appendix~C.}
+            \caption{\textbf{Local factors considered for BSS station placement}. Data sources are detailed in Appendix~\ref{app_paper1:data_sources}.}
             \label{table:local_factors_nodes}
             \scriptsize
             \renewcommand{\arraystretch}{1.2}
@@ -118,7 +118,7 @@ This section begins with the presentation of the Barcelona case study and the de
                 \textbf{Category} & \textbf{Variable} & \textbf{Preprocessing and aggregation within radius \(Y\)} \\
                 \midrule
                 Socioeconomics & Population 
-                    & Section-level counts apportioned to residential building footprints (area-share, see Appendix~E); building-level counts summed within \(Y\), with partial overlaps weighted by intersecting area.\\
+                    & Section-level counts apportioned to residential building footprints (area-share, see Appendix~\ref{app_paper1:pop_distribution}); building-level counts summed within \(Y\), with partial overlaps weighted by intersecting area.\\
                 & Sex 
                     & Male and female counts per section allocated to buildings and aggregated to nodes using the same method as population. \\
                 & Age 
@@ -194,7 +194,7 @@ This section begins with the presentation of the Barcelona case study and the de
 
         \begin{figure}[!htbp]
             \centering
-            \includegraphics[width=0.8\linewidth]{0_plots/paper1/Barcelona_graph_metric_bounds.png}
+            \includegraphics[width=0.8\linewidth]{0_plots/paper1/main/Barcelona_graph_metric_bounds.png}
             \caption{\textbf{Normalization bounds for proximity and accessibility metrics on Barcelona’s bike network with \(k=50\) stations}. Stations are shown in red, and the city boundary is outlined in grey.
             \textbf{(A)} Maximum proximity (\(\mathrm{Pro}_{\max}\)), representing the worst‐case proximity of stations.  
             \textbf{(B)} Minimum accessibility (\(\mathrm{Acc}_{\min}\)), representing the best‐case coverage of all nodes.  
