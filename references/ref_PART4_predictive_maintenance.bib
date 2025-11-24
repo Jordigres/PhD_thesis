@@ -1,0 +1,503 @@
+######################################################
+############# Introduction ####
+######################################################
+@article{Chardon2016,
+  title={Bike-share rebalancing strategies, patterns, and purpose},
+  author={De Chardon, Cyrille M{\'e}dard and Caruso, Geoffrey and Thomas, Isabelle},
+  journal={Journal of transport geography},
+  volume={55},
+  pages={22--39},
+  year={2016},
+  publisher={Elsevier}
+}
+@article{Kon2021,
+  doi = {10.1007/s12469-020-00259-5},
+  url = {https://doi.org/10.1007/s12469-020-00259-5},
+  year = {2021},
+  month = mar,
+  publisher = {Springer Science and Business Media {LLC}},
+  volume = {14},
+  number = {3},
+  pages = {545--581},
+  author = {Fabio Kon and {\'{E}}derson C{\'{a}}ssio Ferreira and Higor Amario de Souza and F{\'{a}}bio Duarte and Paolo Santi and Carlo Ratti},
+  title = {Abstracting mobility flows from bike-sharing systems},
+  journal = {Public Transport}
+}
+@article{Cho1991,
+  title = {A survey of maintenance models for multi-unit systems},
+  journal = {European Journal of Operational Research},
+  volume = {51},
+  number = {1},
+  pages = {1-23},
+  year = {1991},
+  issn = {0377-2217},
+  doi = {https://doi.org/10.1016/0377-2217(91)90141-H},
+  url = {https://www.sciencedirect.com/science/article/pii/037722179190141H},
+  author = {Danny I. Cho and Mahmut Parlar},
+  keywords = {Maintenance, planning, inventory, reliability, replacement}
+}
+@article{Reinertsen1996,
+  title={Residual life of technical systems ; diagnosis, prediction and life extension},
+  author={Rune Reinertsen},
+  journal={Reliability Engineering \& System Safety},
+  year={1996},
+  volume={54},
+  pages={23-34},
+  url={https://api.semanticscholar.org/CorpusID:111061491}
+}
+
+
+######################################################
+################### Background ###################
+######################################################
+# BSS mobility 
+@article{Jensen2010,
+  title = {Characterizing the speed and paths of shared bicycle use in Lyon},
+  journal = {Transportation Research Part D: Transport and Environment},
+  volume = {15},
+  number = {8},
+  pages = {522-524},
+  year = {2010},
+  issn = {1361-9209},
+  doi = {https://doi.org/10.1016/j.trd.2010.07.002},
+  url = {https://www.sciencedirect.com/science/article/pii/S136192091000101X},
+  author = {Pablo Jensen and Jean-Baptiste Rouquier and Nicolas Ovtracht and Céline Robardet},
+}
+@inproceedings{Ciancia2015,
+  author={Ciancia, Vincenzo and Latella, Diego and Massink, Mieke and Pakauskas, Rytis},
+  booktitle={2015 IEEE International Conference on Self-Adaptive and Self-Organizing Systems Workshops}, 
+  title={Exploring Spatio-temporal Properties of Bike-Sharing Systems}, 
+  year={2015},
+  volume={},
+  number={},
+  pages={74-79},
+  doi={10.1109/SASOW.2015.17}
+}
+@article{Borgnat2011,
+  title={Shared Bicycles in a City: a Signal Processing and Data Analysis Perspective},
+  author={Pierre Borgnat and Patrice Abry and Patrick Flandrin and C{\'e}line Robardet and Jean-Baptiste Rouquier and Eric Fleury},
+  journal={Adv. Complex Syst.},
+  year={2011},
+  volume={14},
+  pages={415-438},
+  url={https://api.semanticscholar.org/CorpusID:215764245}
+}
+@article{Oliveira2016,
+  title = {Visual analysis of bike-sharing systems},
+  volume = {60},
+  ISSN = {0097-8493},
+  url = {http://dx.doi.org/10.1016/j.cag.2016.08.005},
+  DOI = {10.1016/j.cag.2016.08.005},
+  journal = {Computers \&; Graphics},
+  publisher = {Elsevier BV},
+  author = {Oliveira,  Guilherme N. and Sotomayor,  Jose L. and Torchelsen,  Rafael P. and Silva,  Cláudio T. and Comba,  João L.D.},
+  year = {2016},
+  month = nov,
+  pages = {119–129}
+}
+@article{Zhu2015,
+  title={Do people use the shortest path? An empirical test of Wardrop’s first principle},
+  author={Zhu, Shanjiang and Levinson, David},
+  journal={PloS one},
+  volume={10},
+  number={8},
+  pages={e0134322},
+  year={2015},
+  publisher={Public Library of Science San Francisco, CA USA}
+}
+@article{Lu2018,
+  title={Understanding bike share cyclist route choice using GPS data: Comparing dominant routes and shortest paths},
+  author={Lu, Wei and Scott, Darren M and Dalumpines, Ron},
+  journal={Journal of transport geography},
+  volume={71},
+  pages={172--181},
+  year={2018},
+  publisher={Elsevier}
+}
+@article{Klein2023,
+  title={What triggers selective daily mobility among older adults? A study comparing trip and environmental characteristics between observed path and shortest path},
+  author={Sylvain Klein and Ruben Brondeel and Basile Chaix and Olivier Klein and Benoit Thierry and Yan Kestens and Philippe Gerber and Camille Perchoux},
+  journal={Health \& Place},
+  volume={79},
+  pages={102730},
+  year={2023},
+  issn = {1353-8292},
+  doi = {https://doi.org/10.1016/j.healthplace.2021.102730},
+}
+@article{Zhao2014,
+  title = {Ridership and effectiveness of bikesharing: The effects of urban features and system characteristics on daily use and turnover rate of public bikes in China},
+  journal = {Transport Policy},
+  volume = {35},
+  pages = {253-264},
+  year = {2014},
+  issn = {0967-070X},
+  doi = {https://doi.org/10.1016/j.tranpol.2014.06.008},
+  url = {https://www.sciencedirect.com/science/article/pii/S0967070X14001292},
+  author = {Jinbao Zhao and Wei Deng and Yan Song},
+}
+@article{DuranRodas2019,
+  title={Built environment factors affecting bike sharing ridership: data-driven approach for multiple cities},
+  author={Duran-Rodas, David and Chaniotakis, Emmanouil and Antoniou, Constantinos},
+  journal={Transportation research record},
+  volume={2673},
+  number={12},
+  pages={55--68},
+  year={2019},
+  publisher={SAGE Publications Sage CA: Los Angeles, CA}
+}
+@article{Sarkar2015,
+  title={Comparing cities’ cycling patterns using online shared bicycle maps},
+  author={Sarkar, Advait and Lathia, Neal and Mascolo, Cecilia},
+  journal={Transportation},
+  volume={42},
+  pages={541--559},
+  year={2015},
+  publisher={Springer}
+}
+@INPROCEEDINGS{Moncayo2016,
+  author={Moncayo-Martínez, L. A. and Ramirez-Nafarrate, A.},
+  booktitle={2016 IEEE International Conference on Industrial Engineering and Engineering Management (IEEM)}, 
+  title={Visualization of the mobility patterns in the bike-sharing transport systems in Mexico City}, 
+  year={2016},
+  volume={},
+  number={},
+  pages={1851-1855},
+  doi={10.1109/IEEM.2016.7798198}
+}
+@article{OBrien2014,
+  title={Mining bicycle sharing data for generating insights into sustainable transport systems},
+  author={O’brien, Oliver and Cheshire, James and Batty, Michael},
+  journal={Journal of Transport Geography},
+  volume={34},
+  pages={262--273},
+  year={2014},
+  publisher={Elsevier}
+}
+@article{Yang2019,
+  title = {A spatiotemporal and graph-based analysis of dockless bike sharing patterns to understand urban flows over the last mile},
+  journal = {Computers, Environment and Urban Systems},
+  volume = {77},
+  pages = {101361},
+  year = {2019},
+  issn = {0198-9715},
+  doi = {https://doi.org/10.1016/j.compenvurbsys.2019.101361},
+  url = {https://www.sciencedirect.com/science/article/pii/S0198971519301516},
+  author = {Yuanxuan Yang and Alison Heppenstall and Andy Turner and Alexis Comber},
+  keywords = {Dockless bikes, Urban dynamics, Spatial analysis, Graph structure, Transportation}
+}
+@article{Noussan2019,
+  AUTHOR = {Noussan, Michel and Carioni, Giovanni and Sanvito, Francesco Davide and Colombo, Emanuela},
+  TITLE = {Urban Mobility Demand Profiles: Time Series for Cars and Bike-Sharing Use as a Resource for Transport and Energy Modeling},
+  JOURNAL = {Data},
+  VOLUME = {4},
+  YEAR = {2019},
+  NUMBER = {3},
+  ARTICLE-NUMBER = {108},
+  URL = {https://www.mdpi.com/2306-5729/4/3/108},
+  ISSN = {2306-5729},
+  DOI = {10.3390/data4030108}
+}
+@article{Mckenzie2019,
+  title = {Spatiotemporal comparative analysis of scooter-share and bike-share usage patterns in Washington,  D.C.},
+  volume = {78},
+  ISSN = {0966-6923},
+  url = {http://dx.doi.org/10.1016/j.jtrangeo.2019.05.007},
+  DOI = {10.1016/j.jtrangeo.2019.05.007},
+  journal = {Journal of Transport Geography},
+  publisher = {Elsevier BV},
+  author = {McKenzie,  Grant},
+  year = {2019},
+  month = jun,
+  pages = {19–28}
+}
+@article{Froehlich2008,
+  title={Measuring the pulse of the city through shared bicycle programs},
+  author={Froehlich, Jon and Neumann, Joachim and Oliver, Nuria},
+  journal={Proc. of UrbanSense08},
+  pages={16--20},
+  year={2008}
+}
+@inproceedings{Froehlich2009,
+  title={Sensing and predicting the pulse of the city through shared bicycling},
+  author={Froehlich, Jon Edward and Neumann, Joachim and Oliver, Nuria},
+  booktitle={Twenty-first international joint conference on artificial intelligence},
+  year={2009}
+}
+@article{Kaltenbrunner2010,
+  title={Urban cycles and mobility patterns: Exploring and predicting trends in a bicycle-based public transport system},
+  author={Kaltenbrunner, Andreas and Meza, Rodrigo and Grivolla, Jens and Codina, Joan and Banchs, Rafael},
+  journal={Pervasive and Mobile Computing},
+  volume={6},
+  number={4},
+  pages={455--466},
+  year={2010},
+  publisher={Elsevier}
+}
+@article{Bustamante2022,
+title = {Riding the wave: Predicting the use of the bike-sharing system in Barcelona before and during COVID-19},
+journal = {Sustainable Cities and Society},
+volume = {83},
+pages = {103929},
+year = {2022},
+issn = {2210-6707},
+doi = {https://doi.org/10.1016/j.scs.2022.103929},
+url = {https://www.sciencedirect.com/science/article/pii/S2210670722002517},
+author = {Xavier Bustamante and Ryan Federo and Xavier Fernández-i-Marin},
+keywords = {Bike-sharing system, Bicing Barcelona, COVID-19, Probabilistic machine learning, Quasi-experimental research, Sustainability, Tactical urbanism},
+}
+
+
+# Predictive maintenance
+@article{Ran2019,
+  title={A Survey of Predictive Maintenance: Systems, Purposes and Approaches},
+  author={Yongyi Ran and Xiaoxia Zhou and Pengfeng Lin and Yonggang Wen and Ruilong Deng},
+  journal={ArXiv},
+  year={2019},
+  volume={abs/1912.07383},
+  url={https://api.semanticscholar.org/CorpusID:209376485}
+}
+@article{Wang2017_paradigm,
+  title = "A new paradigm of cloud-based predictive maintenance for intelligent manufacturing",
+  author = "Wang, Jinjiang and Zhang, Laibin and Duan, Lixiang and Gao, Robert X",
+  journal = "J. Intell. Manuf.",
+  publisher = "Springer Science and Business Media LLC",
+  volume =  28,
+  number =  5,
+  pages = "1125--1137",
+  month =  jun,
+  year =  2017,
+  language = "en"
+}
+@article{Yang2022_prognostic,
+  title = {Prognostic modeling of predictive maintenance with survival analysis for mobile work equipment},
+  volume = {12},
+  ISSN = {2045-2322},
+  url = {http://dx.doi.org/10.1038/s41598-022-12572-z},
+  DOI = {10.1038/s41598-022-12572-z},
+  number = {1},
+  journal = {Scientific Reports},
+  publisher = {Springer Science and Business Media LLC},
+  author = {Yang,  Zhen and Kanniainen,  Juho and Krogerus,  Tomi and Emmert-Streib,  Frank},
+  year = {2022},
+  month = may 
+}
+@article{Cox1972,
+  title={Regression models and life-tables},
+  author={Cox, David R},
+  journal={Journal of the Royal Statistical Society: Series B (Methodological)},
+  volume={34},
+  number={2},
+  pages={187--202},
+  year={1972},
+  publisher={Wiley Online Library}
+} 
+@article{Leung1997,
+  title={Censoring issues in survival analysis},
+  author={Leung, Kwan-Moon and Elashoff, Robert M and Afifi, Abdelmonem A},
+  journal={Annual review of public health},
+  volume={18},
+  number={1},
+  pages={83--104},
+  year={1997},
+  publisher={Annual Reviews 4139 El Camino Way, PO Box 10139, Palo Alto, CA 94303-0139, USA}
+}
+@article{Gijbels2010,
+  title={Censored data},
+  author={Gijbels, Ir{\`e}ne},
+  journal={Wiley Interdisciplinary Reviews: Computational Statistics},
+  volume={2},
+  number={2},
+  pages={178--188},
+  year={2010},
+  publisher={Wiley Online Library}
+}
+@article{Wang2019_ml_review,
+  title={Machine learning for survival analysis: A survey},
+  author={Wang, Ping and Li, Yan and Reddy, Chandan K},
+  journal={ACM Computing Surveys (CSUR)},
+  volume={51},
+  number={6},
+  pages={1--36},
+  year={2019},
+  publisher={ACM New York, NY, USA}
+}
+@inproceedings{Reddy2015,
+  title={A Review of Clinical Prediction Models},
+  author={Chandan K. Reddy and Yan Li},
+  booktitle={Healthcare Data Analytics},
+  year={2015},
+  url={https://api.semanticscholar.org/CorpusID:263581756}
+}
+@book{Modarres2016,
+  title = "Reliability engineering and risk analysis",
+  author = "Modarres, Mohammad and Kaminskiy, Mark P and Krivtsov, Vasiliy",
+  publisher = "CRC Press",
+  month     =  nov,
+  year      =  2016,
+  address = "Third edition. | Boca Raton: Taylor \& Francis, a CRC title,"
+}
+@inproceedings{Li2016,
+  title={Project success prediction in crowdfunding environments},
+  booktitle={Proceedings of the Ninth {ACM} International Conference on Web Search and Data Mining},
+  author={Li, Yan and Rakesh, Vineeth and Reddy, Chandan K},
+  publisher = {ACM},
+  month = {February},
+  year = {2016},
+  address = {New York, NY, USA},
+}
+@inproceedings{Ameri2016,
+  author = {Ameri, Sattar and Fard, Mahtab J. and Chinnam, Ratna B. and Reddy, Chandan K.},
+  title = {Survival Analysis based Framework for Early Prediction of Student Dropouts},
+  year = {2016},
+  isbn = {9781450340731},
+  publisher = {Association for Computing Machinery},
+  address = {New York, NY, USA},
+  url = {https://doi.org/10.1145/2983323.2983351},
+  doi = {10.1145/2983323.2983351}
+}
+
+@article{Furrer2022,
+  title="Driving Customer Equity: How Customer Lifetime Value Is Reshaping Corporate Strategy",
+  volume = {13},
+  ISSN = {0956-4233},
+  url = {http://dx.doi.org/10.1108/ijsim.2002.13.1.107.1},
+  DOI = {10.1108/ijsim.2002.13.1.107.1},
+  number = {1},
+  author="Furrer, Olivier",
+  journal = {International Journal of Service Industry Management},
+  publisher = {Emerald},
+  year = {2002},
+  month = mar,
+  pages = {107–111}
+}
+@article{Kiefer1988,
+  title = {Economic Duration Data and Hazard Functions},
+  author = {Kiefer, Nicholas},
+  year = {1988},
+  journal = {Journal of Economic Literature},
+  volume = {26},
+  number = {2},
+  pages = {646-79},
+  url = {https://EconPapers.repec.org/RePEc:aea:jeclit:v:26:y:1988:i:2:p:646-79}
+}
+@misc{MountainBike2019,
+  author = {Carter, Colby and Letcher, Adam and Calvillo, Jesse and Evans, Luke},
+  title = {Rumble: Mountain bike predictive analytics from your smartphone},
+  howpublished = {Capstone project, {\em UC Berkeley School of Information}},
+  year = {2019},
+  url = {https://www.ischool.berkeley.edu/projects/2019/rumble-mountain-bike-predictive-analytics-your-smartphone},
+  institution = {University of California, Berkeley}
+}
+@misc{Predictivemaintenancebike2018,
+  author       = {Jan, Gr\'e{g}oire},
+  title        = {Predictive maintenance of bicycles},
+  howpublished = {Online blog post, Data \& Science},
+  year         = {2018},
+  month        = {Nov},
+  note         = {Accessed: 2025-11-24},
+  url          = {https://gregoirejan.github.io/project/maintenancebike/}
+}
+@inproceedings{Matkovic2021,
+  author={Matkovic, Viktor and Waltereit, Marian and Weis, Torben},
+  booktitle={2021 IEEE International Conference on Pervasive Computing and Communications Workshops and other Affiliated Events (PerCom Workshops)}, 
+  title={Towards Predictive Safety Maintenance for IoT Equipped Bikes},
+  year={2021},
+  pages={320-323},
+  doi={10.1109/PerComWorkshops51409.2021.9430996}
+}
+
+
+######################################################
+############# Methodology ####
+######################################################
+% Data
+@misc{OpenRouteService_2023,
+  author       = {{GIScience Research Group and HeiGIT}},
+  title        = {OpenRouteService},
+  year         = {2023},
+  publisher    = {GitHub},
+  howpublished = {\url{https://github.com/GIScience/openrouteservice}},
+  note         = {Accessed: 2023-11-13}
+}
+@misc{OpenStreetMap_2023,
+  author = {{OpenStreetMap contributors}},
+  title = {OpenStreetMap},
+  year = {2025},
+  howpublished = {\url{https://www.openstreetmap.org}},
+  note = {Accessed: 2023-11-13}
+}
+@misc{OpenTopoData_2023,
+    author = {Andrew Nisbet},
+    title = {OpenTopoData},
+    year = {2023},
+    note = {GitHub},
+    url = {https://github.com/ajnisbet/opentopodata},
+    urldate = {2023-11-13}
+}
+
+% Models
+@software{Lifelines2021,
+  author       = {Davidson-Pilon, Cameron and Kalderstam, Jonas and Jacobson, Noah and Reed, Sean and Kuhn, Ben and Zivich, Paul and Williamson, Mike and Datta, Deepyaman and Fiore‐Gartland, Andrew and Parij, Alex and Wilson, Daniel and Moneda, Luis and Moncada-Torres, Arturo and Stark, Kyle and Gadgil, Harsh and Noorbakhsh, Javad and Begun, Matthew and Kumar, Ravin and Hussey, Sean and Seabold, Skipper},
+  title        = {{CamDavidsonPilon/lifelines: 0.26.0}},
+  year         = {2021},
+  version      = {0.26.0},
+  doi          = {10.5281/zenodo.4816284},
+  publisher    = {Zenodo},
+  url          = {https://zenodo.org/records/4816284}
+}
+@article{Stensrud2020,
+  title={Why test for proportional hazards?},
+  author={Stensrud, Mats J and Hern{\'a}n, Miguel A},
+  journal={Jama},
+  volume={323},
+  number={14},
+  pages={1401--1402},
+  year={2020},
+  publisher={American Medical Association}
+}
+@misc{lifelines_ph_assumption,
+  author= {{Lifelines documentation}},
+  title = {Do I need to care about the proportional hazard assumption?},
+  url =  {https://lifelines.readthedocs.io/en/latest/jupyter_notebooks/Proportional%20hazard%20assumption.html#Do-I-need-to-care-about-the-proportional-hazard-assumption?},
+  note = {Accessed: 2010-09-30}
+}
+@article{Yu2021,
+  title={Learning patient-specific cancer survival distributions as a sequence of dependent regressors},
+  author={Yu, Chun-Nam and Greiner, Russell and Lin, Hsiu-Chin and Baracos, Vickie},
+  journal={Advances in neural information processing systems},
+  volume={24},
+  year={2011}
+}
+@misc{pysurvival,
+  author = {Stephane Fotso and others},
+  title = {{PySurvival}: Open source package for Survival Analysis modeling},
+  year = {2019--},
+  url = "https://www.pysurvival.io/"
+}
+@article{Wright2017,
+  title={Unbiased split variable selection for random survival forests using maximally selected rank statistics},
+  author={Wright, Marvin N and Dankowski, Theresa and Ziegler, Andreas},
+  journal={Statistics in medicine},
+  volume={36},
+  number={8},
+  pages={1272--1284},
+  year={2017},
+  publisher={Wiley Online Library}
+}
+@article{Katzman2018,
+  title={DeepSurv: personalized treatment recommender system using a Cox proportional hazards deep neural network},
+  author={Katzman, Jared L and Shaham, Uri and Cloninger, Alexander and Bates, Jonathan and Jiang, Tingting and Kluger, Yuval},
+  journal={BMC medical research methodology},
+  volume={18},
+  number={1},
+  pages={1--12},
+  year={2018},
+  publisher={BioMed Central}
+}
+@inproceedings{Optuna2019,
+  title={Optuna: A Next-generation Hyperparameter Optimization Framework},
+  author={Akiba, Takuya and Sano, Shotaro and Yanase, Toshihiko and Ohta, Takeru and Koyama, Masanori},
+  booktitle={Proceedings of the 25th {ACM} {SIGKDD} International Conference on Knowledge Discovery and Data Mining},
+  year={2019}
+}
+
