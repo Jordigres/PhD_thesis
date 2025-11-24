@@ -119,7 +119,7 @@
 % To use choose `chapter' option in the document class
 
 \ifdefineChapter
-  \includeonly{Part_2/1_Bike-sharing_systems}
+  \includeonly{Part_2/2__Station_placement}
 \fi
 
 % ****************************************************************
@@ -177,50 +177,60 @@
 % \printnomencl[space] space can be set as 2em between symbol and description
 %\printnomencl[3em]
 
-
 % ******************************** Main Matter *********************************
 \mainmatter
 
-% ################## Part 1 ##################
+% ################## Part 1 INTRODUCTION ##################
 \graphicspath{{Figures}}
-\epigraphhead[550]{\textcolor{red}{"This is an awesome quote"}
-\par\hfill\textsc{\textcolor{red}{― Random Person}}}
+\epigraphhead[550]{
+  \textit{``A journey of a thousand miles begins with a single step.''}\\
+  [0.5em]\begin{flushright}\textbf{Lao Tzu}\\
+  [-0.3em]\textit{Chinese philosopher}\end{flushright}}
 \part{Introduction}
 % \cleardoublepage
-\label{ch:intro}
 \include{Part_1/1_Context}
 \include{Part_1/2_Motivation_and_objectives}
 \include{Part_1/3_Thesis_outline_and_contributions}
 
-% ################## Part 2 ##################
-\epigraphhead[550]{"We need our industrial culture and we need our big companies to get behind the Cycling Economy."
-\par\hfill\textsc{― Manfred Neun}}
+% ################## Part 2 BACKGROUND ##################
+\epigraphhead[550]{
+  \textit{``Bicycling is a big part of the future. It has to be. There's something wrong with a society that drives a car to workout in a gym.''}\\
+  [0.5em]\begin{flushright}\textbf{Bill Nye}\\
+  [-0.3em]\textit{American science educator}\end{flushright}}
 \part{Background}
 \include{Part_2/1__Bike-sharing_systems}
 \include{Part_2/2__Station_placement}
 \include{Part_2/3__Mobility_and_battery_modelling}
 \include{Part_2/4__Failure_forecasting_in_maintenance_operations}
 
-% ################## Part 3 ##################
-\epigraphhead[550]{\textcolor{red}{"This is ALSO an awesome quote."}
-\par\hfill\textsc{\textcolor{red}{― Random Person's Brother}}}
-\part{Data-driven station planning in Barcelona} 
+% ################## Part 3 BCN STATION PLANNING ##################
+\epigraphhead[550]{
+  \textit{``Life is like riding a bicycle. To keep your balance, you must keep moving.''}\\
+  [0.5em]\begin{flushright}\textbf{Albert Einstein}\\
+  [-0.3em]\textit{German theoretical physicist}\end{flushright}}
+\part[Designing BSS Station Networks in Barcelona]{Designing \ac{bss} Station Networks in Barcelona} 
 \label{pt:data-driven-station-planning}
-\include{Part_3/0__Introduction}
 \include{Part_3/1__Use_case_Barcelona}
 \include{Part_3/2__Paper}
 
-% ################## Part 4 ##################
-\epigraphhead[550]{\textcolor{red}{"This is YET ANOTHER awesome quote."}
-\par\hfill\textsc{\textcolor{red}{― Random Person's Cousin}}}
-\part{\textcolor{red}{\textit{Bicing} operations}}
+% ################## Part 4 BICING PREDICTIVE OPERATIONS ##################
+\epigraphhead[550]{
+  \textit{``Trying to predict the future is like trying to drive down a country road at night with no lights while looking out the back window.''}\\
+  [0.5em]\begin{flushright}\textbf{Peter Drucker}\\
+  [-0.3em]\textit{Austrian-American management consultant and philosopher}\end{flushright}}
+\part{Predictive Operations for \textit{Bicing}}
 \label{part:bicing}
 \include{Part_4/1_Use_case_Bicing}
 \include{Part_4/2__Batteries}
+\include{Part_4/3__Predictive_maintenance}
 
-
-
-
+% ################## Part 5 CONCLUSIONS ##################
+\epigraphhead[550]{
+  \textit{``You are one ride away from a good mood.''}\\
+  [0.5em]\begin{flushright}\textbf{Sarah Bentley}\\
+  [-0.3em]\textit{Common cycling saying}\end{flushright}}
+\part{Conclusion and Future Directions}
+\include{Part_5/1_Conclusions_and_future_directions}
 
 
 % ********************************** Back Matter *******************************
@@ -244,8 +254,9 @@
   references/ref_PART2_2_users_and_mobility,
   references/ref_PART2_3_impacts,
   references/ref_PART2_4_ai,
-  references/ref_PART3,
-  references/ref_PART4_bateries
+  references/ref_PART3_stations,
+  references/ref_PART4_batteries,
+  references/ref_PART4_predictive_maintenance
 }
 
 % If you would like to use BibLaTeX for your references, pass `custombib' as
@@ -261,10 +272,9 @@
 % ********************************** Appendices ********************************
 
 \begin{appendices} % Using appendices environment for more functunality
-
- \include{Appendices/appendix1}
- \include{Appendices/appendix2}
-
+  \include{Appendices/paper1_stations}
+  \include{Appendices/paper2_batteries}
+  \include{Appendices/paper3_predictive_maintenance}
 \end{appendices}
 
 % *************************************** Index ********************************
