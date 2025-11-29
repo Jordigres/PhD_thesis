@@ -44,7 +44,7 @@ The raw battery data of two bikes is presented in Figure \ref{fig:raw}. This dat
 \label{app_paper2:data_analysis}
 
 
-    \subsection*{Battery levels across time for each neighbourhood}
+    \subsection{Battery levels across time for each neighbourhood}
     \label{app_paper2:subsection_battery_levels_across_time}
 
         \begin{figure}[H]
@@ -54,7 +54,7 @@ The raw battery data of two bikes is presented in Figure \ref{fig:raw}. This dat
             \label{fig:avg_battery_neighborhood_heatmap}
         \end{figure}
 
-    \subsection*{Details of Battery Levels by Neighbourhood}
+    \subsection{Details of Battery Levels by Neighbourhood}
     \label{app_paper2:details_of_battery_levels_by_neighbourhood}
 
         More detailed insights into battery levels at the neighbourhood level, including the name of each neighbourhood and the average battery level of the stations within them, are provided in Table~\ref{tab:battery_levels}. Figure \ref{fig:map_with_district_numbers} illustrates the battery levels across various neighbourhoods in Barcelona.
@@ -160,10 +160,10 @@ The raw battery data of two bikes is presented in Figure \ref{fig:raw}. This dat
         \end{longtable}
         }
 
-    \subsection*{Choice of number of clusters}
+    \subsection{Choice of number of clusters}
     \label{app_paper2:subsection_choice_of_number_of_clusters}
 
-        To determine the optimal number of clusters for the k-means clustering analysis, two commonly used methods have been used: the Elbow Method and the Silhouette Method (Figure~\ref{fig:find_k}). The Elbow Method helps identify the point where the within-cluster sum of squares (inertia) begins to decrease at a slower rate, indicating the optimal number of clusters. The Silhouette Method measures the quality of the clustering by calculating the average silhouette score for different numbers of clusters.
+        To determine the optimal number of clusters for the k-means clustering analysis, two commonly used methods have been used: the Elbow Method and the Silhouette Method (Figure~\ref{app_paper2:fig:find_k}). The Elbow Method helps identify the point where the within-cluster sum of squares (inertia) begins to decrease at a slower rate, indicating the optimal number of clusters. The Silhouette Method measures the quality of the clustering by calculating the average silhouette score for different numbers of clusters.
 
         \begin{figure}[H]
             \centering
@@ -174,12 +174,12 @@ The raw battery data of two bikes is presented in Figure \ref{fig:raw}. This dat
 
         Based on these analyses, 4 clusters were chosen for the k-means clustering. This choice balances the trade-off between minimising within-cluster variance (as indicated by the Elbow Method) and maximising cluster separation (as indicated by the Silhouette Method).
 
-    \subsection*{Collinearity between inter-event time and distance index}
+    \subsection{Collinearity between inter-event time and distance index}
     \label{app_paper2:subsection_collinearity}
 
         To ensure that no significant collinearity exists between the inter-event time and the distance index, both the correlation matrix and the Variance Inflation Factor (VIF) for each variable in the regression model were examined.
 
-        Figure~\ref{fig:correlation_matrix} illustrates the correlation values among average battery level, inter-event time, and distance index. The correlation between inter-event time and distance index is 0.77, indicating a moderate relationship. At first glance, this might suggest potential collinearity between these two variables.
+        Figure~\ref{app_paper2:fig:correlation_matrix} illustrates the correlation values among average battery level, inter-event time, and distance index. The correlation between inter-event time and distance index is 0.77, indicating a moderate relationship. At first glance, this might suggest potential collinearity between these two variables.
 
         \begin{figure}[H]
             \centering
@@ -213,10 +213,10 @@ The raw battery data of two bikes is presented in Figure \ref{fig:raw}. This dat
 \section{Battery validation and elevation data}
 \label{app_paper2:section_battery_validation_and_elevation_data}
 
-    \subsection*{Elevation data}
+    \subsection{Elevation data}
     \label{app_paper2:subsection_elevation_data}
 
-        Battery consumption is highly impacted by the altitude difference between the origin and destination stations of a trip. The altitude of each station in the BSS of Barcelona is provided in Figure \ref{fig:elevation}.
+        Battery consumption is highly impacted by the altitude difference between the origin and destination stations of a trip. The altitude of each station in the BSS of Barcelona is provided in Figure \ref{app_paper2:fig:elevation}.
         A clear division between the station near the sea and those in the northern region is observed. In some cases, the disparity between stations is steep, with differences in altitude greater than 100 metres.
 
         \begin{figure}[!htbp]
@@ -228,10 +228,10 @@ The raw battery data of two bikes is presented in Figure \ref{fig:raw}. This dat
         \clearpage
 
 
-    \subsection*{Linear battery function}
-    \label{app_paper2:linear_battery_function}
+    \subsection{Linear battery function}
+    \label{app_paper2:subsection_linear_battery_function}
 
-        In Figure \ref{fig:8hour_validation}, the correlation between the predicted and observed battery levels in the 8-hour dataset is shown.
+        In Figure \ref{app_paper2:fig:8hour_validation}, the correlation between the predicted and observed battery levels in the 8-hour dataset is shown.
 
         \begin{figure}[!htbp]
           \begin{center}
@@ -241,7 +241,7 @@ The raw battery data of two bikes is presented in Figure \ref{fig:raw}. This dat
         \end{figure}
 
 
-    \subsection*{Nonlinear battery function}
+    \subsection{Nonlinear battery function}
     \label{app_paper2:subsection_nonlinear_charging_function}
     
         In this section, a nonlinear charging function is implemented in the battery modeling framework, replacing the linear function shown in the main manuscript. To approximate the behavior of batteries, which could charge faster at lower battery levels compared to higher levels, a sigmoid-like function
