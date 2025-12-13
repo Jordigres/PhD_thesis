@@ -1,4 +1,52 @@
 \chapter{Bicing as a case study}
-\label{sec:bicing_case_study}
+\label{ch:use_case_bicing}
 
-Launched in 2007, Bicing BSS operates in the city of Barcelona, Spain, with strategically located stations across the city that serve as docking points for bicycles. Over the years, Bicing has experienced multiple expansions, and, as of December 2022, it included nearly 260,000 unique users, approximately 7,000 bikes, and 519 permanent stations with between 12 and 54 docking points. One distinctive feature of this BSS is the presence of two types of bikes since 2019: e-bikes and m-bikes, with the presence of batteries that allow motorized assistance up to 25 km/h on e-bikes being the main difference between them. Each station is designed to accommodate both e-bikes and m-bikes, and all dockers allow docking for both types of bikes. The number of e- and m-bikes have evolved over time. In 2019, e-bikes represented only 15\% of a fleet that comprised 6,700 bikes. Since then, there has been a gradual shift, with 2,000 m-bikes being upgraded to e-bikes, and additional e-bikes being introduced. As a result, in December 2022, e-bikes account for 47\% of the expanded fleet. The usage of these bikes is associated with an annual payment and, additionally, with fees that are typically based on the duration of the rental. Moreover, e-bikes are associated with a small initial cost for each ride.
+\section{History and evolution}
+
+Barcelona’s public docked \ac{bss}, known as \textit{Bicing}, was launched in March 2007 to support the city’s sustainable mobility goals and encourage shifts away from private motorized transport~\cite{Winslow2019}. Implemented with an initial fleet of around 1,500 bicycles and 94 stations, and operated by \textit{Clear Channel}, the system quickly became one of the first large-scale \acp{bss} in Europe. Its rapid success was evident from the fact that, by the end of its first year, \textit{Bicing} had already reached 80,000 subscribers, which was more than six times the number originally anticipated~\cite{Winkels2007}. Moreover, the system’s influence extended beyond its own operations and contributed to a broader cultural shift toward cycling in the city, as reflected in an 82\% increase in bicycle trips in 2007 compared with the previous year~\cite{Winslow2019}. Following its successful debut, \textit{Bicing} expanded progressively over the subsequent years. The system grew outward from the initial downtown stations to cover most flat neighborhoods, reaching 420 docking stations and 6,000 bicycles by 2014~\cite{Winslow2019}. 
+
+A major turning point came in late 2018, when the City Council awarded a new ten-year operating contract to \textit{Pedalem Barcelona}—a joint venture formed by the municipal services company \textit{B:SM (Barcelona de Serveis Municipals)}, \textit{Ferrovial-Cespa}, and \textit{PBSC Urban Solutions}~\cite{ElPais2017}. Under this new contract, the system underwent a comprehensive overhaul in 2019. Key changes included an updated tariff structure, upgraded docking stations, and the introduction of a feature enabling users to reserve bicycles a few minutes in advance. The fleet was also renewed and expanded to around 6,700 bicycles, with the introduction of \acp{e-b} that were capable of pedal assistance up to 25~km/h, making up about 15\% of the bikes initially. Accordingly, stations were modified so that both \acp{e-b} and \acp{m-b} could be accommodated. Moreover, in the following years, the system continued to expand and electrify its fleet. By December 2022, \acp{e-b} made up 47\% of a nearly 7,000-bike fleet. By 2025, the total fleet rose to 8,000 bicycles, with 62\% being \acp{e-b}. The network also increased in coverage, now comprising 557 stations (Figure~\ref{fig:bicing_stations_map}).
+
+\begin{figure}[!hpt]
+    \centering
+    \includegraphics[width=0.8\textwidth]{0_plots/bicing/bicing_stations_map.jpg}
+    \caption[Map of \textit{Bicing} stations]{
+        \textbf{\textit{Bicing} stations in 2025.} The black lines delineate the districts of Barcelona.
+    }
+    \label{fig:bicing_stations_map}
+\end{figure}
+
+
+\section{System design and pricing}
+
+Operating 24 hours a day, seven days a week, \textit{Bicing} functions as a classic docked \ac{bss} (Figure~\ref{fig:bicing_bike_and_station}). Each station consists of a row of docking points where bicycles are locked and can be picked up or returned. Individual stations accommodate between 12 and 54 docking points, and high-demand locations may include multiple stations in close proximity. Since 2019, all docking stations also serve as charging hubs for \acp{e-b}, enabling batteries to recharge automatically when docked.
+
+\begin{figure}[!hpt]
+    \centering
+    \begin{minipage}[b]{0.48\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{0_plots/bicing/bike.jpg}
+    \end{minipage}
+    \hfill
+    \begin{minipage}[b]{0.48\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{0_plots/bicing/station.jpg}
+    \end{minipage}
+    \caption[\textit{Bicing} stations and bikes]{
+        \textbf{\textit{Bicing} bikes and stations.} Images obtained from the official \textit{Bicing} website~\cite{BicingOfficial} (left) and the journal \textit{El Jardí}~\cite{ElJardi2024} (right).
+    }
+    \label{fig:bicing_bike_and_station}
+\end{figure}
+
+Users must be registered members to check out a bicycle, and casual rentals for tourists are not available by design~\cite{Winslow2019}. This policy is intended to protect local bike-rental businesses and ensure that the system primarily serves residents rather than visitors. Upon subscribing, users receive a contactless card and access credentials for the city’s \textit{SMOU} mobility app, which allows them to unlock and lock bicycles, locate nearby stations, check real-time availability, and reserve a bike up to five minutes in advance. 
+
+Access to the system requires an annual membership, with fees ranging from 35 to 50\texteuro, depending on the chosen plan. The 50\texteuro{} option offers a flat-rate membership that includes unlimited 30-minute trips on \acp{m-b}, while the 35\texteuro{} option is designed for occasional riders through a pay-per-use model. Both plans apply incremental time-based fees for longer rentals to incentivize short trips. In addition, \acp{e-b} carry a small per-ride cost even within the first 30 minutes.
+
+
+
+
+
+
+
+
+
