@@ -1,4 +1,4 @@
-\chapter{Predicting Failures in \ac{bss} Maintenance Operations}
+\chapter[Predicting Failures in MOs]{Predicting Failures in \acp{mos}}
 \label{app_paper3:predictive_maintenance}
     
 \section{Data exploration}
@@ -7,23 +7,31 @@
 
 \setcounter{figure}{0}
 \setcounter{table}{0}
-\renewcommand{\thefigure}{A\arabic{figure}}
-\renewcommand{\thetable}{A\arabic{table}}
+\renewcommand{\thefigure}{C.1.\arabic{figure}}
+\renewcommand{\thetable}{C.1.\arabic{table}}
 
-    \begin{figure}[h!]
+    \begin{figure}[ht!]
         \includegraphics[width=0.9\textwidth]{0_plots/paper3/appendices/_panel_sup_1.pdf}
-        \caption{\textbf{Data overview.} (A) Time series of daily trip counts. The green line depicts all trips, the blue line represent the subset of trips completed on m-bikes, and the orange lines represent the subset of trips conducted on e-bikes. (B) Quantitative analysis of MOs with counts and percentages across all categories. (C) Distribution of MOs within subcategories. (D) Time series of daily MO counts.}
+        \caption[Overview of trip and maintenance data]{
+            \textbf{Overview of trip and maintenance data.} 
+            \textbf{(A)} Time series of daily trip counts. The green line depicts all trips, the blue line represent the subset of trips completed on \acp{m-b}, and the orange lines represent the subset of trips conducted on \acp{e-b}. 
+            \textbf{(B)} Quantitative analysis of \acp{mo} with counts and percentages across all categories. 
+            \textbf{(C)} Distribution of \acp{mo} within subcategories. 
+            \textbf{(D)} Time series of daily \ac{mo} counts.
+        }
         \label{fig:supp:data_section}
     \end{figure}
     
     
-    \begin{table}[h]
+    \begin{table}[ht!]
         \centering
-        \caption{Number of reparations for the MOs with more than 10,000 repairs.}
+        \caption[Reparations counts for the MOs with more than 10,000 repairs]{
+            \textbf{Reparations counts for the \acp{mo} with more than 10,000 repairs.}
+        }
         \label{tab:most_frequent_reparations}
         \begin{tabular}{lccc}
             \hline
-            Reparation type & Count \\ 
+            \textbf{Reparation type} & \textbf{Count} \\ 
             \hline         
             Brake pad change           & 47,438  \\ 
             Brake tension adjustment   & 37,892  \\
@@ -45,13 +53,15 @@
 \label{app_paper3:section_mobility_analysis}
 \setcounter{figure}{0}
 \setcounter{table}{0}
-\renewcommand{\thefigure}{B\arabic{figure}}
-\renewcommand{\thetable}{B\arabic{table}}
+\renewcommand{\thefigure}{C.2.\arabic{figure}}
+\renewcommand{\thetable}{C.2.\arabic{table}}
 
-    \begin{figure}[h]
+    \begin{figure}[ht!]
         \centering
         \includegraphics[width=0.7\textwidth]{0_plots/paper3/appendices/_panel_sup_2.pdf}
-        \caption{\textbf{Analysis of e-bike trip flow percentages in 2022.} The map highlights the differences in incoming and outgoing trip percentages for e-bikes, noting that these differences are the inverse of those observed for m-bikes. Each dot represents a station of the BSS. The dot size reflects the station’s altitude, with larger dots indicating higher altitudes, and the dot color signifies differences in trip flow percentages.}
+        \caption[Spatial analysis of e-bike trip flow percentages in 2022]{
+            \textbf{Spatial analysis of \ac{e-b} trip flow percentages in 2022.} The map highlights the differences in incoming and outgoing trip percentages for \ac{e-b}, noting that these differences are the inverse of those observed for \ac{m-b}. Each dot represents a station of the \ac{bss}. The dot size reflects the station’s altitude, with larger dots indicating higher altitudes, and the dot color signifies differences in trip flow percentages.
+        }
         \label{fig:sup:map_electric}
     \end{figure}
     
@@ -62,16 +72,19 @@
 \label{app_paper3:section_maintenance_operations_analysis}
 \setcounter{figure}{0}
 \setcounter{table}{0}
-\renewcommand{\thefigure}{C\arabic{figure}}
-\renewcommand{\thetable}{C\arabic{table}}
+\renewcommand{\thefigure}{C.3.\arabic{figure}}
+\renewcommand{\thetable}{C.3.\arabic{table}}
 
-    \begin{table}[h]
+    \begin{table}[ht!]
         \centering
-        \caption{\textbf{Count of MOs and MO units.} The first three rows contains the MO count for all bikes and categorized by bike model. The fourth row, the total count of MO units. Since each bike has one more MO unit than its number of repairs, the amount of MOs for a bike part is less than its total number of MO units. The fifth row displays the count of MO units after excluding left-censored units, units without associated trips, and units where the bike model changes. The sixth and seventh rows categorize the remaining MO units into m-bike and e-bike MO units, and the last two rows, into right-censored and uncensored MO units.}
+        \caption[Count of MOs and MO units]{
+            \textbf{Count of \acp{mo} and \ac{mo} units.} 
+            The first three rows contains the \ac{mo} count for all bikes and categorized by bike model. The fourth row, the total count of \ac{mo} units. Since each bike has one more \ac{mo} unit than its number of repairs, the amount of \acp{mo} for a bike part is less than its total number of \ac{mo} units. The fifth row displays the count of \ac{mo} units after excluding left-censored units, units without associated trips, and units where the bike model changes. The sixth and seventh rows categorize the remaining \ac{mo} units into \ac{m-b} and \ac{e-b} \ac{mo} units, and the last two rows, into right-censored and uncensored \ac{mo} units.
+        }
         \label{tab:MO_units_cleaning}
         \begin{tabular}{lccc}
             \hline
-            & Brake pads & Wheel spokes & Chains \\
+            & \textbf{Brake pads} & \textbf{Wheel spokes} & \textbf{Chains} \\
             \hline
             MOs & 47,513 & 17,377 & 13,019 \\
             M-bike MOs & 14,809 & 516 & 9,433 \\
@@ -90,13 +103,19 @@
     
     \end{table}
     
-    \begin{table}[h]
+    \begin{table}[ht!]
         \centering
-            \caption{\textbf{Mean number of reparations and standard deviations (in parentheses) for the repair typologies within the target MO units.} A statistical comparison of means is conducted using the Welch t-test in cases of unequal variances and the t-test in cases of equal variances. Only the repair typologies included as model inputs are presented in the table.}
+        \caption[Descriptive statistics for repair typologies]{
+            \textbf{Descriptive statistics for repair typologies.}
+            The table shows, for each repair typology, the average (with standard deviation in parentheses) number of times it has been performed within a single \ac{mo} unit. This reflects the frequency of each type of repair performed between two consecutive maintenance operations of the main part. A statistical comparison of 
+            means is conducted using the Welch t-test in cases of unequal variances and the 
+            t-test in cases of equal variances. Only the repair typologies included as model 
+            inputs are presented in the table.
+        }
         \label{tab:other_mos_mean}
         \begin{tabular}{@{}lccc@{}}
         \hline
-            &  m-bike & e-bike & p-val\\
+            &  \textbf{m-bike} & \textbf{e-bike} & \textbf{p-val} \\
         \hline
         \textbf{Brake pads MO units}\\
             brake tension adjustment & 0.84 (1.08) & 0.65 (0.99) & 0.000 \\
@@ -131,7 +150,7 @@
     \item Determination coefficient (\textbf{R\textsuperscript{2}}): represents the proportion of the variance in a dependent variable (actual values) that is predictable from the independent variables (predicted values). It ranges from 0 to 1, where 0 indicates that the model does not explain any variance in the data, and 1 indicates that the model perfectly fits the data.
     \end{itemize}
     
-    All of them are described in the following equations, where $y$ is the actual days that a bike part survives, $\hat{y}$ is the forecasted, and $n$ is the amount of MO units for a particular bike part:
+    All of them are described in the following equations, where $y$ is the actual days that a bike part survives, $\hat{y}$ is the forecasted, and $n$ is the amount of \ac{mo} units for a particular bike part:
     
     
     $$ RMSE = \sqrt{\frac{1}{n}\sum_{i=1}^{n}(y_i - \hat{y}_i)^2} $$
@@ -151,19 +170,25 @@
 \label{app_paper3:section_model_training}
 \setcounter{figure}{0}
 \setcounter{table}{0}
-\renewcommand{\thefigure}{E\arabic{figure}}
-\renewcommand{\thetable}{E\arabic{table}}
+\renewcommand{\thefigure}{C.4.\arabic{figure}}
+\renewcommand{\thetable}{C.4.\arabic{table}}
 
-    \begin{figure}[h!]
+    \begin{figure}[ht!]
         \centering
         \includegraphics[width=0.9\textwidth]{0_plots/paper3/appendices/_panel_sup_3.pdf}
-        \caption{\textbf{Training and test sets distributions for the survival time.} Survival distributions for the brake pads (top), wheel spokes (middle) and chains (bottom) MOs. The training set encompasses both the training and validation data sets.}
+        \caption[Distributions of survival time for the training and test sets]{
+            \textbf{Distributions of survival time for the training and test sets.} 
+            \textbf{(Top)} Survival distributions for the brake pads, \textbf{(Middle)} wheel spokes and \textbf{(Bottom)} chains \acp{mo}. The training set encompasses both the training and validation data sets.
+        }
         \label{fig:sup:train_test_distributions}
     \end{figure}
     
-    \begin{table}[h!]
+    \begin{table}[ht!]
         \centering
-        \caption{\textbf{Predictions accuracy metrics on the training dataset.} Forecasts were generated using exclusively uncensored MO units. The training set includes both the training and validation datasets.}
+        \caption[Prediction accuracy on the training dataset]{
+            \textbf{Prediction accuracy on the training dataset.} 
+            Forecasts were generated using exclusively uncensored \ac{mo} units. The training set includes both the training and validation datasets.
+        }
         \label{tab:sup:prediction_results_train}
         \begin{tabular}{llccc}
         \hline
@@ -195,27 +220,34 @@
 \label{app_paper3:section_models_interpretability}
 \setcounter{figure}{0}
 \setcounter{table}{0}
-\renewcommand{\thefigure}{F\arabic{figure}}
-\renewcommand{\thetable}{F\arabic{table}}
+\renewcommand{\thefigure}{C.5.\arabic{figure}}
+\renewcommand{\thetable}{C.5.\arabic{table}}
 
-    \begin{figure}[h!]
+    \begin{figure}[ht!]
         \centering
         \includegraphics[width=0.9\textwidth]{0_plots/paper3/appendices/_panel_sup_4.png}
-        \caption{\textbf{Partial dependence plots for the break pads DeepSurv model.} Partial dependence values are computed with a subsample of 10,000 observations. The plots show that cumulative distance is the most influential variable, with longer distances associated with longer lifespans. Bike model and average speed also play significant roles; e-bikes and higher average speeds correlate with shorter lifespans. Additionally, higher average temperatures are linked to quicker part failures, although their impact is less pronounced.}
+        \caption[Partial dependence plots for the break pads DeepSurv model]{
+            \textbf{Partial dependence plots for the break pads \ac{deepsurv} model.} 
+            Partial dependence values are computed with a subsample of 10,000 observations. The plots show that cumulative distance is the most influential variable, with longer distances associated with longer lifespans. Bike model and average speed also play significant roles; \acp{e-b} and higher average speeds correlate with shorter lifespans. Additionally, higher average temperatures are linked to quicker part failures, although their impact is less pronounced.
+        }
         \label{fig:sup:PDP_brakes}
     \end{figure}
 
-    \begin{figure}[h!]
+    \begin{figure}[ht!]
         \centering
         \includegraphics[width=0.9\textwidth]{0_plots/paper3/appendices/_panel_sup_5.png}
-        \caption{\textbf{Partial dependence plots for the wheel spokes DeepSurv model.} Partial dependence values are computed with a subsample of 10,000 observations. The plots show that cumulative distance is the most influential variable, with longer distances associated with longer lifespans. Bike model and average speed also play significant roles; e-bikes and higher average speeds correlate with shorter lifespans. Additionally, higher average temperatures are linked to quicker part failures, although their impact is less pronounced.}
+        \caption[Partial dependence plots for the wheel spokes DeepSurv model]{
+            \textbf{Partial dependence plots for the wheel spokes \ac{deepsurv} model.} Partial dependence values are computed with a subsample of 10,000 observations. The plots show that cumulative distance is the most influential variable, with longer distances associated with longer lifespans. Bike model and average speed also play significant roles; \acp{e-b} and higher average speeds correlate with shorter lifespans. Additionally, higher average temperatures are linked to quicker part failures, although their impact is less pronounced.
+        }
         \label{fig:sup:PDP_spokes}
     \end{figure}
 
-    \begin{figure}[h!]
+    \begin{figure}[ht!]
         \centering
         \includegraphics[width=0.9\textwidth]{0_plots/paper3/appendices/_panel_sup_6.png}
-        \caption{\textbf{Partial dependence plots for the chains DeepSurv model.} Partial dependence values are computed with a subsample of 10,000 observations. The plots show that cumulative distance is the most influential variable, with longer distances associated with longer lifespans. Bike model and average speed also play significant roles; e-bikes and higher average speeds correlate with shorter lifespans. Average temperature and pressure variables show that moderate values tend to prolong lifespan, whereas extremes at either end appear to accelerate failures.}
+        \caption[Partial dependence plots for the chains DeepSurv model]{
+            \textbf{Partial dependence plots for the chains \ac{deepsurv} model.} Partial dependence values are computed with a subsample of 10,000 observations. The plots show that cumulative distance is the most influential variable, with longer distances associated with longer lifespans. Bike model and average speed also play significant roles; \acp{e-b} and higher average speeds correlate with shorter lifespans. Average temperature and pressure variables show that moderate values tend to prolong lifespan, whereas extremes at either end appear to accelerate failures.
+        }
         \label{fig:sup:PDP_chains}
     \end{figure}
 

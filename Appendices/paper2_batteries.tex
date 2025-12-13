@@ -1,39 +1,48 @@
-\chapter{Modelling \ac{bss} Fleet Mobility and Battery Status}
+\chapter[Modeling BSS Fleet Mobility and Battery Status]{Modeling \ac{bss} Fleet Mobility and Battery Status}
 \label{app_paper2:batteries}
-
 
 \section{Data description}
 \label{app_paper2:data_description}
 
+\setcounter{figure}{0}
+\setcounter{table}{0}
+\renewcommand{\thefigure}{B.1.\arabic{figure}}
+\renewcommand{\thetable}{B.1.\arabic{table}}
 
-
-The first dataset comprises battery levels recorded every 8 hours, containing data on 2,748 bikes from July 20th to December 31st, 2022 (spanning 164 days). Battery levels are recorded exclusively when bikes are docked at stations, resulting in 1.48 million data points. The dataset fields are datetime in second granularity, bike identifier, station, status (operative or inoperative for various maintenance reasons), and battery metrics such as voltage, temperature, current, and battery level (from 0 to 1). After excluding records with missing values and filtering for those labelled as ‘operative’, the dataset was narrowed to 671,251 rows. Additionally, for the modelling phase, only data points with a subsequent data point for the same bike 8 hours later were utilised. The details are provided in Figure \ref{fig:8hour}.
+The first dataset comprises battery levels recorded every 8 hours, containing data on 2,748 bikes from July 20th to December 31st, 2022 (spanning 164 days). Battery levels are recorded exclusively when bikes are docked at stations, resulting in 1.48 million data points. The dataset fields are datetime in second granularity, bike identifier, station, status (operative or inoperative for various maintenance reasons), and battery metrics such as voltage, temperature, current, and battery level (from 0 to 1). After excluding records with missing values and filtering for those labelled as ‘operative’, the dataset was narrowed to 671,251 rows. Additionally, for the modeling phase, only data points with a subsequent data point for the same bike 8 hours later were used. The details are provided in Figure \ref{fig:8hour}.
 
 \begin{figure}[!htbp]
-  \begin{center}
+  \centering
   \includegraphics[width=0.95\textwidth]{0_plots/paper2/appendices/8_hours_dataset.png}
-  \end{center}
-  \caption[8 hours dataset data description]{\textbf{8-hour dataset data description.} \textbf{a.} Distribution of data points per bike. \textbf{b.} Distribution of battery levels across the dataset.} 
+  \caption[Description of the 8-hour battery dataset]{
+    \textbf{Description of the 8-hour battery dataset.} 
+    \textbf{(A)} Distribution of data points per bike. 
+    \textbf{(B)} Distribution of battery levels across the dataset.
+    } 
   \label{fig:8hour}
 \end{figure}
 
 The second dataset contains battery level snapshots taken every 30 minutes for 3,004 bikes, totalling 2.71 million data points from March 29th to April 18th, 2023 (spanning 20 days). Similarly, this dataset includes the same fields, with battery level information available only when bikes are docked. After data cleaning and selecting the bikes with an ‘operative’ status, 1.87 million data points remained. For analysis, only data points with a subsequent reading for the same bike 8 hours later were used. The details are provided in Figure \ref{fig:30min}. 
 
 \begin{figure}[!htbp]
-  \begin{center}
+  \centering
   \includegraphics[width=0.95\textwidth]{0_plots/paper2/appendices/30_min_dataset.png}
-  \end{center}
-  \caption[30 minutes dataset description]{\textbf{30-minute dataset description.} \textbf{a.} Distribution of data points per bike. \textbf{b.} Distribution of battery levels across the dataset.} 
+  \caption[Description of the 30-minutes battery dataset]{
+    \textbf{Description of the 30-minutes battery dataset.} 
+    \textbf{(A)} Distribution of data points per bike. 
+    \textbf{(B)} Distribution of battery levels across the dataset.} 
   \label{fig:30min}
 \end{figure}
 
-The raw battery data of two bikes is presented in Figure \ref{fig:raw}. This dataset consists of 30-minute snapshots, where red dots indicate actual battery readings, and black dots represent spurious samples. Spurious samples occur when the bike is in transit, as no data is recorded while the bike is undocked. The figure illustrates the battery level and the status of a given bike, indicating whether it is in use or docked. For example, in Figure \ref{fig:raw}\textbf{a}, the activity of bike 4664 during a journey on 12 April 2023 is observed. On this day, the bike undertook 26 trips, with 7 occurring between 07:30 and 09:30. A total of 33 snapshots were captured while the bike was docked, whereas 12 snapshots were recorded during the bike’s usage. However, the snapshots from the in-transit period of all bikes were excluded from the analysis and modelling. Similarly, comparable patterns are observed for bike 7992 (Figure \ref{fig:raw}\textbf{b}). Notably, the battery was charging overnight in a linear fashion. Towards the end of the day, the battery level dropped to zero. During this period, no charging data was recorded, possibly due to a technical issue. This data was preprocessed therefore all spurious data was cleaned and validated to ensure the quality and reliability of the dataset used for model fitting.
+The raw battery data of two bikes is presented in Figure \ref{fig:raw}. This dataset consists of 30-minute snapshots, where red dots indicate actual battery readings, and black dots represent spurious samples. Spurious samples occur when the bike is in transit, as no data is recorded while the bike is undocked. The figure illustrates the battery level and the status of a given bike, indicating whether it is in use or docked. For example, in Figure \ref{fig:raw}A, the activity of bike 4664 during a journey on 12 April 2023 is observed. On this day, the bike undertook 26 trips, with 7 occurring between 07:30 and 09:30. A total of 33 snapshots were captured while the bike was docked, whereas 12 snapshots were recorded during the bike’s usage. However, the snapshots from the in-transit period of all bikes were excluded from the analysis and modeling. Similarly, comparable patterns are observed for bike 7992 (Figure \ref{fig:raw}B). Notably, the battery was charging overnight in a linear fashion. Towards the end of the day, the battery level dropped to zero. During this period, no charging data was recorded, possibly due to a technical issue. This data was preprocessed therefore all spurious data was cleaned and validated to ensure the quality and reliability of the dataset used for model fitting.
 
 \begin{figure}[!htbp]
-  \begin{center}
+  \centering
   \includegraphics[width=0.95\textwidth]{0_plots/paper2/appendices/batteries_by_bike.png}
-  \end{center}
-  \caption[30 minutes raw dataset description]{\textbf{30 minutes raw dataset description.} The battery time series on 12 April 2023 are provided in \textbf{a} and \textbf{b} for bikes with IDs $4664$ and $7992$, respectively. The lined dots correspond to the lectures of battery level (left axes) colored according to their code. The red dots correspond to lectures with code AT\_STATION when the bicycle is at the station and in black the lectures with code IN\_USE. In grey (right axes), the status of the bike according to the trip dataset is provided, with a value of $0$ indicating the bike is resting and $1$ indicating it is travelling.} 
+  \caption[Illustrative raw 30-minute battery data for two bikes over a single day]{
+    \textbf{Illustrative raw 30-minute battery data for two bikes over a single day.}
+    The battery time series on 12 April 2023 are provided in \textbf{(A)} and \textbf{(B)} for bikes with IDs $4664$ and $7992$, respectively. The lined dots correspond to the lectures of battery level (left axes) colored according to their code. The red dots correspond to lectures with code AT\_STATION when the bicycle is at the station and in black the lectures with code IN\_USE. In gray (right axes), the status of the bike according to the trip dataset is provided, with a value of $0$ indicating the bike is resting and $1$ indicating it is travelling.
+  } 
   \label{fig:raw}
 \end{figure}
 
@@ -43,34 +52,64 @@ The raw battery data of two bikes is presented in Figure \ref{fig:raw}. This dat
 \section{Data analysis}
 \label{app_paper2:data_analysis}
 
+\setcounter{figure}{0}
+\setcounter{table}{0}
+\renewcommand{\thefigure}{B.2.\arabic{figure}}
+\renewcommand{\thetable}{B.2.\arabic{table}}
+
 
     \subsection{Battery levels across time for each neighbourhood}
     \label{app_paper2:subsection_battery_levels_across_time}
 
-        \begin{figure}[H]
+    \setcounter{figure}{0}
+    \setcounter{table}{0}
+    \renewcommand{\thefigure}{B.2.1.\arabic{figure}}
+    \renewcommand{\thetable}{B.2.1.\arabic{table}}
+
+    Average battery levels across time by neighbourhood are provided in Figure \ref{fig:avg_battery_neighborhood_heatmap}.
+
+        \begin{figure}[!htbp]
             \centering
-            \includegraphics[width=0.95\textwidth]{0_plots/paper2/appendices/avg_battery_neighborhood_heatmap.png}
-            \caption[Average battery levels across time for each neighbourhood]{\textbf{Average battery levels across time for each neighbourhood.} The x-axis represents time for an average week, while the y-axis lists the neighbourhoods.}
+            \includegraphics[width=0.8\textwidth]{0_plots/paper2/appendices/avg_battery_neighborhood_heatmap.png}
+            \caption[Average battery levels across time by neighbourhood]{
+              \textbf{Average battery levels across time by neighbourhood.} 
+              The x-axis represents time for an average week, while the y-axis lists the neighbourhoods.
+            }
             \label{fig:avg_battery_neighborhood_heatmap}
         \end{figure}
 
-    \subsection{Details of Battery Levels by Neighbourhood}
+    \clearpage
+    
+    
+    
+    \subsection{Average battery levels by neighbourhood}
     \label{app_paper2:details_of_battery_levels_by_neighbourhood}
+
+    \setcounter{figure}{0}
+    \setcounter{table}{0}
+    \renewcommand{\thefigure}{B.2.2.\arabic{figure}}
+    \renewcommand{\thetable}{B.2.2.\arabic{table}}
 
         More detailed insights into battery levels at the neighbourhood level, including the name of each neighbourhood and the average battery level of the stations within them, are provided in Table~\ref{tab:battery_levels}. Figure \ref{fig:map_with_district_numbers} illustrates the battery levels across various neighbourhoods in Barcelona.
 
         \begin{figure}[!htbp]
-          \begin{center}
-          \includegraphics[width=0.9\textwidth]{0_plots/paper2/appendices/map_with_district_numbers.png}
-        \end{center}
-          \caption[Battery level]{\textbf{Battery level by neighbourhood.} Average of battery levels for the station located in the neighbourhoods.} \label{fig:map_with_district_numbers}
+          \centering
+          \includegraphics[width=0.85\textwidth]{0_plots/paper2/appendices/map_with_district_numbers.png}
+          \caption[Average battery level across neighbourhoods]{
+            \textbf{Average battery level across neighbourhoods.} 
+            Average of battery levels for the stations located in each neighbourhood.
+          }
+          \label{fig:map_with_district_numbers}
         \end{figure}
+        \clearpage
 
         {\footnotesize
         \begin{longtable}{rrllr}
-          \caption{\textbf{Battery Levels by Neighbourhood.} The five highest battery levels are highlighted in bold black, while the five lowest battery levels are highlighted in italic.}
+          \caption[Average battery levels by neighborhood]{
+            \textbf{Average battery levels by neighbourhood.} The five highest battery levels are highlighted in bold black, while the five lowest battery levels are highlighted in italic.
+          }
           \label{tab:battery_levels} \\
-          
+
           \toprule
           \textbf{Rank} & \textbf{ID} & \textbf{Neighbourhood} & \textbf{District} & \textbf{Avg. Battery Level} \\
           \midrule
@@ -160,31 +199,47 @@ The raw battery data of two bikes is presented in Figure \ref{fig:raw}. This dat
         \end{longtable}
         }
 
-    \subsection{Choice of number of clusters}
+    \subsection{Choosing the optimal number of clusters}
     \label{app_paper2:subsection_choice_of_number_of_clusters}
+
+    \setcounter{figure}{0}
+    \setcounter{table}{0}
+    \renewcommand{\thefigure}{B.2.3.\arabic{figure}}
+    \renewcommand{\thetable}{B.2.3.\arabic{table}}
 
         To determine the optimal number of clusters for the k-means clustering analysis, two commonly used methods have been used: the Elbow Method and the Silhouette Method (Figure~\ref{app_paper2:fig:find_k}). The Elbow Method helps identify the point where the within-cluster sum of squares (inertia) begins to decrease at a slower rate, indicating the optimal number of clusters. The Silhouette Method measures the quality of the clustering by calculating the average silhouette score for different numbers of clusters.
 
-        \begin{figure}[H]
+        \begin{figure}[!htbp]
             \centering
             \includegraphics[width=0.9\textwidth]{0_plots/paper2/appendices/find_k.png}
-            \caption[Determining the optimal number of clusters]{\textbf{Determining the optimal number of clusters.} \textbf{a.} Elbow Method for optimal k. \textbf{b.} Silhouette Method  for optimal k.}
+            \caption[Selection of the optimal number of temporal battery dynamics clusters]{
+              \textbf{Selection of the optimal number of temporal battery clusters.} 
+              \textbf{(A)} Elbow Method for optimal k. 
+              \textbf{(B)} Silhouette Method for optimal k.  
+            }
             \label{app_paper2:fig:find_k}
         \end{figure}
 
-        Based on these analyses, 4 clusters were chosen for the k-means clustering. This choice balances the trade-off between minimising within-cluster variance (as indicated by the Elbow Method) and maximising cluster separation (as indicated by the Silhouette Method).
+        Based on these analyses, 4 clusters were chosen for the k-means clustering. This choice balances the trade-off between minimizing within-cluster variance (as indicated by the Elbow Method) and maximizing cluster separation (as indicated by the Silhouette Method).
 
     \subsection{Collinearity between inter-event time and distance index}
     \label{app_paper2:subsection_collinearity}
+
+    \setcounter{figure}{0}
+    \setcounter{table}{0}
+    \renewcommand{\thefigure}{B.2.4.\arabic{figure}}
+    \renewcommand{\thetable}{B.2.4.\arabic{table}}
 
         To ensure that no significant collinearity exists between the inter-event time and the distance index, both the correlation matrix and the Variance Inflation Factor (VIF) for each variable in the regression model were examined.
 
         Figure~\ref{app_paper2:fig:correlation_matrix} illustrates the correlation values among average battery level, inter-event time, and distance index. The correlation between inter-event time and distance index is 0.77, indicating a moderate relationship. At first glance, this might suggest potential collinearity between these two variables.
 
-        \begin{figure}[H]
+        \begin{figure}[!htbp]
             \centering
             \includegraphics[width=0.6\textwidth]{0_plots/paper2/appendices/correlation_matrix.png}
-            \caption[Correlation matrix for battery level, inter-event time, and distance index]{\textbf{Correlation matrix for battery level, inter-event time, and distance index.}}
+            \caption[Correlation matrix for battery level, inter-event time, and distance index]{
+              \textbf{Correlation matrix for battery level, inter-event time, and distance index.}
+            }
             \label{app_paper2:fig:correlation_matrix}
         \end{figure}
 
@@ -192,9 +247,11 @@ The raw battery data of two bikes is presented in Figure \ref{fig:raw}. This dat
 
         The table below summarises the VIF values for the variables:
 
-        \begin{table}[H]
+        \begin{table}[!htbp]
             \centering
-            \caption{\textbf{Variance Inflation Factor (VIF) values for the variables in the regression model.}}
+            \caption[Variance inflation factor values for the variables in the regression model]{
+              \textbf{Variance Inflation Factor (VIF) values for the variables in the regression model.}
+            }
             \label{app_paper2:tab:vif}
             \begin{tabular}{lc}
                 \toprule
@@ -213,17 +270,29 @@ The raw battery data of two bikes is presented in Figure \ref{fig:raw}. This dat
 \section{Battery validation and elevation data}
 \label{app_paper2:section_battery_validation_and_elevation_data}
 
+\setcounter{figure}{0}
+\setcounter{table}{0}
+\renewcommand{\thefigure}{B.3.\arabic{figure}}
+\renewcommand{\thetable}{B.3.\arabic{table}}
+
     \subsection{Elevation data}
     \label{app_paper2:subsection_elevation_data}
 
-        Battery consumption is highly impacted by the altitude difference between the origin and destination stations of a trip. The altitude of each station in the BSS of Barcelona is provided in Figure \ref{app_paper2:fig:elevation}.
+    \setcounter{figure}{0}
+    \setcounter{table}{0}
+    \renewcommand{\thefigure}{B.3.1.\arabic{figure}}
+    \renewcommand{\thetable}{B.3.1.\arabic{table}}
+
+        Battery consumption is highly impacted by the altitude difference between the origin and destination stations of a trip. The altitude of each station in the \ac{bss} of Barcelona is provided in Figure \ref{app_paper2:fig:elevation}.
         A clear division between the station near the sea and those in the northern region is observed. In some cases, the disparity between stations is steep, with differences in altitude greater than 100 metres.
 
         \begin{figure}[!htbp]
-          \begin{center}
+          \centering
           \includegraphics[width=0.9\textwidth]{0_plots/paper2/appendices/elevation.pdf}
-          \end{center}
-          \caption[Station altitude]{\textbf{Station altitude.} Altitude of the Bicing stations.} \label{app_paper2:fig:elevation}
+          \caption[Spatial distribution of altitudes of \textit{Bicing} stations]{
+            \textbf{Spatial distribution of altitudes of \textit{Bicing} stations.}
+          }
+          \label{app_paper2:fig:elevation}
         \end{figure}
         \clearpage
 
@@ -231,62 +300,94 @@ The raw battery data of two bikes is presented in Figure \ref{fig:raw}. This dat
     \subsection{Linear battery function}
     \label{app_paper2:subsection_linear_battery_function}
 
+    \setcounter{figure}{0}
+    \setcounter{table}{0}
+    \renewcommand{\thefigure}{B.3.2.\arabic{figure}}
+    \renewcommand{\thetable}{B.3.2.\arabic{table}}
+
         In Figure \ref{app_paper2:fig:8hour_validation}, the correlation between the predicted and observed battery levels in the 8-hour dataset is shown.
 
         \begin{figure}[!htbp]
-          \begin{center}
+          \centering
           \includegraphics[width=0.9\textwidth]{0_plots/paper2/appendices/8hbattery_prediction.png}
-        \end{center}
-          \caption[Battery model fit in the 8-hour dataset]{\textbf{Battery model fit in the 8-hour dataset.} \textbf{a.} Observed battery level as a function of the predicted values. \textbf{b.} Battery change observed as a function of the predicted values. The Root Mean Squared Error (RMSE) is $0.036$. The linear fit between both is shown in grey.} \label{app_paper2:fig:8hour_validation}
+          \caption[Battery model fit using the 8-hour battery dataset]{
+            \textbf{Battery model fit using the 8-hour battery dataset.} 
+            \textbf{(A)} Observed battery level as a function of the predicted values.
+            \textbf{(B)} Battery change observed as a function of the predicted values. The RMSE is $0.036$. The linear fit between both is shown in gray.
+          }
+          \label{app_paper2:fig:8hour_validation}
         \end{figure}
 
 
     \subsection{Nonlinear battery function}
     \label{app_paper2:subsection_nonlinear_charging_function}
-    
+
+    \setcounter{figure}{0}
+    \setcounter{table}{0}
+    \renewcommand{\thefigure}{B.3.3.\arabic{figure}}
+    \renewcommand{\thetable}{B.3.3.\arabic{table}}
+
         In this section, a nonlinear charging function is implemented in the battery modeling framework, replacing the linear function shown in the main manuscript. To approximate the behavior of batteries, which could charge faster at lower battery levels compared to higher levels, a sigmoid-like function
 
         \begin{equation}
           \sigma(x) = \frac{1}{1 + e^{-kx}}
           \end{equation}
 
-        has been addapted to account for different total charging times. The parameter that is optimized, in addition to the total charging time, is $k$, which  allows to tune the curvature of the function. Fig.\ref{fig:sigmoid} presents examples for different values of $k$ and total charging times.
+        has been addapted to account for different total charging times. The parameter that is optimized, in addition to the total charging time, is $k$, which  allows to tune the curvature of the function. Figure~\ref{fig:sigmoid} presents examples for different values of $k$ and total charging times.
 
         \begin{figure}[!htbp]
-          \begin{center}
-        \includegraphics[width=0.4\textwidth]{0_plots/paper2/appendices/sigmoid_function.png}
-        \end{center}
-          \caption[Sigmoid function]{\textbf{Sigmoids to assess the nonlinear charging of bikes.} Examples of charging curves from 0\% to 100\% for different values of $k$ and maximum charging times.} \label{fig:sigmoid}
+          \centering
+          \includegraphics[width=0.6\textwidth]{0_plots/paper2/appendices/sigmoid_function.png}
+          \caption[Illustration of the sigmoid battery charging function]{
+            \textbf{Illustration of the sigmoid battery charging function.} 
+            Battery charging behavior from 0\% to 100\% for various values of $k$ and different maximum charging times.
+          }
+          \label{fig:sigmoid}
         \end{figure}
 
-        The same framework used for the linear functions was extended by adding the parameter $k$ within the range $[0.1, 10]$. The value obtained thanks to the optimization process was $0.66$, which closely approximates linear charging (Fig. \ref{fig:optimal_sigmoid}.)
+        The same framework used for the linear functions was extended by adding the parameter $k$ within the range $[0.1, 10]$. The value obtained with the optimization process was $0.66$, which closely approximates linear charging (Figure~\ref{fig:optimal_sigmoid}.)
 
         \begin{figure}[!htbp]
-          \begin{center}
-        \includegraphics[width=0.4\textwidth]{0_plots/paper2/appendices/nonlinear_function.png}
-        \end{center}
-          \caption[Optimal sigmoid function]{\textbf{Optimal nonlinear charging function.} Charging curve from 0\% to 100\% for the optimal nonlinear function, which has $k = 0.66$.} \label{fig:optimal_sigmoid}
+          \centering
+        \includegraphics[width=0.6\textwidth]{0_plots/paper2/appendices/nonlinear_function.png}
+          \caption[Estimated optimal nonlinear function for battery charging]{
+            \textbf{Estimated optimal nonlinear function for battery charging.} 
+            Battery charging behavior from 0\% to 100\% for the optimal nonlinear function, which has $k = 0.66$.
+          }
+          \label{fig:optimal_sigmoid}
         \end{figure}
 
-        The correlation between the actual and predicted battery levels is shown in Fig. \ref{fig:sigmoid_validation}. As observed, the correlation values are very similar to those obtained with the linear function, which is expected since the optimal function detected is almost linear.
+        The correlation between the actual and predicted battery levels is shown in Figure~\ref{fig:sigmoid_validation}. As observed, the correlation values are very similar to those obtained with the linear function, which is expected since the optimal function detected is almost linear.
 
         \begin{figure}[!htbp]
-          \begin{center}
+          \centering
         \includegraphics[width=0.8\textwidth]{0_plots/paper2/appendices/battery_prediction_nonlinear.pdf}
-        \end{center}
-          \caption{\textbf{Battery model predictions for the validation set of the 30-minute dataset using the nonlinear function.} \textbf{a.} Observed battery level as a function of the predicted values using the nonlinear function. \textbf{b.} Battery variation observed as a function of the predicted values using the nonlinear function. Each point corresponds to one battery-level observation. The linear fit is shown in grey.} \label{fig:sigmoid_validation}
+          \caption[Battery model predictions using the optimal nonlinear function on the 30-minute battery validation dataset]{
+            \textbf{Battery model predictions using the optimal nonlinear function on the 30-minute battery validation dataset.} 
+            \textbf{(A)} Observed battery level as a function of the predicted values using the nonlinear function. 
+            \textbf{(B)} Battery variation observed as a function of the predicted values using the nonlinear function. Each point corresponds to one battery-level observation. The linear fit is shown in gray.
+          }
+          \label{fig:sigmoid_validation}
         \end{figure}
 
 
 \section{Initial conditions for battery predictions}
 \label{app_paper2:section_initial_conditions_for_battery_predictions}
 
-The initial conditions of average battery levels and bike availability used in the simulations of the Markov model presented in the main manuscript are shown in Fig. \ref{fig:initial_conditions}.
+\setcounter{figure}{0}
+\setcounter{table}{0}
+\renewcommand{\thefigure}{B.4.\arabic{figure}}
+\renewcommand{\thetable}{B.4.\arabic{table}}
+
+The initial conditions of average battery levels and bike availability used in the simulations of the Markov model presented in the main manuscript are shown in Figure~\ref{fig:initial_conditions}.
 
 \begin{figure}[!htbp]
-  \begin{center}
+  \centering
   \includegraphics[width=0.8\textwidth]{0_plots/paper2/appendices/initial_conditions.pdf}
-  \end{center}
-  \caption[Initial conditions]{\textbf{Initial conditions of battery levels and bike availability for the predictions in the results section.} Average battery levels and bike availability across weekdays at \textbf{a.} 08:00 and \textbf{b.} 18:00. These initial conditions are used in the main manuscript to generate the predictions. } \label{fig:initial_conditions}
+  \caption[Initial conditions for battery-level and bike availability predictions]{
+    \textbf{Initial conditions for battery-level and bike availability predictions.} 
+    Average battery levels and bike availability across weekdays at \textbf{(A)} 08:00 and \textbf{(B)} 18:00. These initial conditions are used in the main manuscript to generate the predictions.
+  }
+  \label{fig:initial_conditions}
 \end{figure}
 

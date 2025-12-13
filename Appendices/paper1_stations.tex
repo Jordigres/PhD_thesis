@@ -1,483 +1,592 @@
 \chapter{Station planning in Barcelona}
 
 \section{Cleaning the directed bike network}
-\label{app_paper1:graph_cleaning}
-\setcounter{figure}{0}
-\setcounter{table}{0} 
+  \label{app_paper1:graph_cleaning}
+  \setcounter{figure}{0}
+  \setcounter{table}{0}
+  \renewcommand{\thefigure}{A.1.\arabic{figure}}
+  \renewcommand{\thetable}{A.1.\arabic{table}}
 
-To ensure the directed bike‐network graph was fully traversable and without isolated components—thereby avoiding infinite shortest‐path distances—the network was systematically analyzed and modified. Each node was first classified by connectivity into one of four types: no edges, only incoming edges, only outgoing edges, or both. There were 0 nodes with no connections (0.00\%), 207 with only incoming edges (1.11\%), and 214 with only outgoing edges (1.14\%), across 557 strongly connected components (Figures~\ref{fig:bad_nodes}  and \ref{fig:component_size_distribution}). The biggest component included 17,957 nodes and the rest of the 556 was composed of less than 50 nodes, over 80\% of components contained fewer than 10 nodes. Visual inspection of the graph showed that most "one‐way" nodes arose when the network was artificially truncated at the city boundary—cutting off return paths—or when private‐access segments (e.g. parking‐lot entrances) created dead ends; only a small fraction were due to \acs{osm} tagging errors (Figure~\ref{fig:bad_nodes}). 
-
-
-\begin{figure}[!htbp]
-    \centering
-    \includegraphics[width=0.65\linewidth]{0_plots/paper1/appendices/bike_graph_bad_nodes.jpg}
-    \caption{\textbf{Nodes without both incoming and outgoing edges}. Red nodes have only incoming edges and blue nodes have only outgoing edges.}
-    \label{fig:bad_nodes}
-\end{figure}
+  To ensure the directed bike‐network graph was fully traversable and without isolated components—thereby avoiding infinite shortest‐path distances—the network was systematically analyzed and modified. Each node was first classified by connectivity into one of four types: no edges, only incoming edges, only outgoing edges, or both. There were 0 nodes with no connections (0.00\%), 207 with only incoming edges (1.11\%), and 214 with only outgoing edges (1.14\%), across 557 strongly connected components (Figures~\ref{fig:bad_nodes}  and \ref{fig:component_size_distribution}). The biggest component included 17,957 nodes and the rest of the 556 was composed of less than 50 nodes, over 80\% of components contained fewer than 10 nodes. Visual inspection of the graph showed that most "one‐way" nodes arose when the network was artificially truncated at the city boundary—cutting off return paths—or when private‐access segments (e.g. parking‐lot entrances) created dead ends; only a small fraction were due to \acs{osm} tagging errors (Figure~\ref{fig:bad_nodes}). 
 
 
-\begin{figure}[!htbp]
-    \centering
-    \includegraphics[width=0.5\linewidth]{0_plots/paper1/appendices/components_distribution.png}
-    \caption{\textbf{Distribution of strongly connected component sizes in the raw directed bike network}. The biggest component of 17,957 nodes is omitted.}
-    \label{fig:component_size_distribution}
-\end{figure}
+  \begin{figure}[!htbp]
+      \centering
+      \includegraphics[width=0.65\linewidth]{0_plots/paper1/appendices/bike_graph_bad_nodes.jpg}
+      \caption[Nodes lacking complete bidirectional connectivity]{
+        \textbf{Nodes lacking complete bidirectional connectivity.} 
+        Red nodes have only incoming edges and blue nodes have only outgoing edges.
+      }
+      \label{fig:bad_nodes}
+  \end{figure}
 
-Each one‐way node was then reconnected by locating its geographically nearest neighbor and adding the missing link—outgoing if it originally lacked outbound edges, incoming if it lacked inbound edges—to restore bidirectional reachability. After this step, the number of strongly connected components fell from 557 to 122. The added edges exhibited very low Euclidean distances (Figure~\ref{fig:new_edges_distances}): reconnections for nodes missing outgoing links averaged 17.6 m ($\sigma$ = 13.8 m) and, for nodes missing incoming links, 20.3 m ($\sigma$ = 15.8 m), with the vast majority of gaps under 30 m, confirming that network repairs bridge only short spatial discontinuities.
 
-\begin{figure}[!htbp]
-    \centering
-    \includegraphics[width=0.8\linewidth]{0_plots/paper1/appendices/bike_graph_missing_edge_distances_distributions.png}
-    \caption{\textbf{Distribution of Euclidean distances between each one‐way node and its nearest neighbor used to restore bidirectional connectivity}. The left panel shows distances for nodes with only incoming edges (new outgoing links), and the right panel for nodes with only outgoing edges (new incoming links). Mean and standard deviation of the new edges' length are indicated on each sub-figure.}
-    \label{fig:new_edges_distances}
-\end{figure}
+  \begin{figure}[!htbp]
+      \centering
+      \includegraphics[width=0.5\linewidth]{0_plots/paper1/appendices/components_distribution.png}
+      \caption[Sizes of strongly connected components in the raw bike network]{
+        \textbf{Sizes of strongly connected components in the raw bike network.} 
+        All components except the largest one of 17,957 nodes are shown.
+      }
+      \label{fig:component_size_distribution}
+  \end{figure}
 
-Any remaining disconnected subgraphs were then unified: for each directed edge crossing between components, its reverse was added (preserving only essential attributes). In total, 172 reverse edges were introduced, resulting in a final graph with one strongly connected component.  
+  Each one‐way node was then reconnected by locating its geographically nearest neighbor and adding the missing link—outgoing if it originally lacked outbound edges, incoming if it lacked inbound edges—to restore bidirectional reachability. After this step, the number of strongly connected components fell from 557 to 122. The added edges exhibited very low Euclidean distances (Figure~\ref{fig:new_edges_distances}): reconnections for nodes missing outgoing links averaged 17.6 m ($\sigma$ = 13.8 m) and, for nodes missing incoming links, 20.3 m ($\sigma$ = 15.8 m), with the vast majority of gaps under 30 m, confirming that network repairs bridge only short spatial discontinuities.
+
+  \begin{figure}[!htbp]
+      \centering
+      \includegraphics[width=0.8\linewidth]{0_plots/paper1/appendices/bike_graph_missing_edge_distances_distributions.png}
+      \caption[Euclidean distances used to restore bidirectional connectivity]{
+        \textbf{Euclidean distances used to restore bidirectional connectivity.}
+        The left panel shows distances for nodes with only incoming edges (new outgoing links), and the right panel for nodes with only outgoing edges (new incoming links). Mean and standard deviation of the new edges' length are indicated on each sub-figure.
+      }
+      \label{fig:new_edges_distances}
+  \end{figure}
+
+  Any remaining disconnected subgraphs were then unified: for each directed edge crossing between components, its reverse was added (preserving only essential attributes). In total, 172 reverse edges were introduced, resulting in a final graph with one strongly connected component.  
 
 
 \section{Data sources}
-\label{app_paper1:data_sources}
+  \label{app_paper1:data_sources}
 
-Data for the local factors in Table~\ref{table:local_factors_nodes} were obtained from four open‐data providers: \ac{ine}, \ac{odb}, \ac{osm}, and \ac{otd}. Below, each source is listed with its relevant variables, geographic coverage, and year of publication.
+  \setcounter{figure}{0}
+  \setcounter{table}{0}
+  \renewcommand{\thefigure}{A.2.\arabic{figure}}
+  \renewcommand{\thetable}{A.2.\arabic{table}}
 
-{ \setlength{\parskip}{0.45\parskip}%
-Socioeconomic:
-\begin{itemize}
-  \item \emph{Population} (\acs{ine}, 2022): counts of people by sex and five‐year age group, at census‐section level for Spain.
-  \item \emph{Income} (\acs{ine}, 2022): average net income per person, at census‐section level for Spain.
-  \item \emph{Education} (\acs{odb}, 2024): population aged 16+ by educational attainment and sex, at census‐section level for Barcelona. Levels: less than primary, primary, lower secondary, upper secondary/post‐secondary, tertiary, and not available.
-  \item \emph{Nationality} (\acs{odb}, 2022): counts by Spanish/EU/other citizenship and sex, at census‐section level for Barcelona.
-  \item \emph{Household size} (\acs{odb}, 2024): average dwelling size (m²) per census section for Barcelona.
-  \item \emph{Vehicle ownership} (\acs{odb}, 2024): motorization index (‰) by vehicle category (cars, mopeds, motorcycles, vans, trucks, others) at the census‐section level for Barcelona.
-  \item \emph{Unemployment} (\acs{odb}, 2024): unemployment rate among population aged 16–64, at neighborhood level for Barcelona.
-\end{itemize}
+  Data for the local factors in Table~\ref{table:local_factors_nodes} were obtained from four open‐data providers: \ac{ine}, \ac{odb}, \ac{osm}, and \ac{otd}. Below, each source is listed with its relevant variables, geographic coverage, and year of publication.
 
-Public Transport:
-\begin{itemize}
-  \item \emph{Metro, tram, and bus} (\acs{osm}, 2025): geographic coordinates for stops and their assigned line names, extracted for the Barcelona area. In the case of the metro the entrances were also obtained. 
-\end{itemize}
+  { \setlength{\parskip}{0.45\parskip}%
+  Socioeconomic:
+  \begin{itemize}
+    \item \emph{Population} (\acs{ine}, 2022): counts of people by sex and five‐year age group, at census‐section level for Spain.
+    \item \emph{Income} (\acs{ine}, 2022): average net income per person, at census‐section level for Spain.
+    \item \emph{Education} (\acs{odb}, 2024): population aged 16+ by educational attainment and sex, at census‐section level for Barcelona. Levels: less than primary, primary, lower secondary, upper secondary/post‐secondary, tertiary, and not available.
+    \item \emph{Nationality} (\acs{odb}, 2022): counts by Spanish/EU/other citizenship and sex, at census‐section level for Barcelona.
+    \item \emph{Household size} (\acs{odb}, 2024): average dwelling size (m²) per census section for Barcelona.
+    \item \emph{Vehicle ownership} (\acs{odb}, 2024): motorization index (‰) by vehicle category (cars, mopeds, motorcycles, vans, trucks, others) at the census‐section level for Barcelona.
+    \item \emph{Unemployment} (\acs{odb}, 2024): unemployment rate among population aged 16–64, at neighborhood level for Barcelona.
+  \end{itemize}
 
-Built Environment:
-\begin{itemize}
-  \item \emph{Bike lanes} (\acs{osm}, 2025): all \acs{osm} ways tagged \texttt{highway=cycleway} in Barcelona.
-  \item \emph{Points of Interest} (\acs{osm}, 2025): \acp{poi} categorized into healthcare, culture, tourism, recreation, sport, economic and retail, industrial, green, civic, worship, and education, based on a 15-minute city review~\cite{Papadopoulos2023}. Additionally, an extra category includes high-traffic locations such as shopping malls, beaches, and large bodies of water. The classification keys and tags are described in the Appendix~\ref{app_paper1:pois}.
-\end{itemize}
+  \ac{pt}:
+  \begin{itemize}
+    \item \emph{Metro, tram, and bus} (\acs{osm}, 2025): geographic coordinates for stops and their assigned line names, extracted for the Barcelona area. In the case of the metro the entrances were also obtained. 
+  \end{itemize}
 
-Topography:
-\begin{itemize}
-  \item \emph{Elevation} (\acs{otd}, 2025): Pointwise elevation values retrieved from Open Topo Data API, covering Barcelona's coordinates.
-\end{itemize}
-}
+  Built Environment:
+  \begin{itemize}
+    \item \emph{Bike lanes} (\acs{osm}, 2025): all \acs{osm} ways tagged \texttt{highway=cycleway} in Barcelona.
+    \item \emph{\acp{poi}} (\acs{osm}, 2025): categorized into healthcare, culture, tourism, recreation, sport, economic and retail, industrial, green, civic, worship, and education, based on a 15-minute city review~\cite{Papadopoulos2023}. Additionally, an extra category includes high-traffic locations such as shopping malls, beaches, and large bodies of water. The classification keys and tags are described in the Appendix~\ref{app_paper1:pois}.
+  \end{itemize}
 
-
-\section{\acs{osm} \acp{poi}}
-\label{app_paper1:pois}
-\setcounter{figure}{0}
-\setcounter{table}{0} 
-
-\acp{poi} were fetched for the study area using OSMnx's \texttt{features\_from\_place} function with a broad set of \acs{osm} tag keys (amenity, building, craft, healthcare, historic, landuse, leisure, natural, office, shop, sport, tourism, water, waterway). After fetching, each geometry was classified into one or more thematic categories via lookups against predefined tag–value lists (Table~\ref{tab:poi_full_classification}). The specific tag values for each category were chosen by visual inspection of an initial sample to ensure both relevance and completeness.
-
-\begin{scriptsize}
-\begin{longtable}{p{0.18\linewidth} p{0.10\linewidth} p{0.65\linewidth}}
-  \caption{\textbf{\acs{osm} \ac{poi} classification}.}
-  \label{tab:poi_full_classification}\\
-  \toprule
-  \textbf{Category} & \textbf{Tag key} & \textbf{Values} \\
-  \midrule
-  \endfirsthead
-
-  \multicolumn{3}{@{}l}{\small\itshape Table \thetable\ continued}\\
-  \toprule
-  \textbf{Category} & \textbf{Tag key} & \textbf{Values} \\
-  \midrule
-  \endhead
-
-  \midrule
-  \multicolumn{3}{r}{\small\itshape Continued on next page}
-  \endfoot
-
-  \bottomrule
-  \endlastfoot
-
-  % Health & Care
-  Health \& Care 
-    & amenity    & pharmacy, clinic, doctors, hospital, dentist, therapist, nursing\_home, childcare, social\_centre, social\_facility \\
-    & building   & hospital \\
-    & healthcare & pharmacy, clinic, podiatrist, doctor, dentist, nurse, physiotherapist, laboratory, hospital, alternative;physiotherapist, nutrition\_counselling, therapist, blood\_bank, rehabilitation, dialysis, audiologist, blood\_donation, counselling \\
-  \addlinespace
-
-  % Culture
-  Culture
-    & historic  & memorial, monument, castle, church, archaeological\_site, wayside\_cross, fort, ruins, archaeological\_site;ruins, heritage, aqueduct \\
-    & amenity   & library, arts\_centre, exhibition\_centre \\
-    & building  & library, museum, chapel, church, cathedral, temple, synagogue \\
-    & tourism   & museum, gallery, artwork \\
-  \addlinespace
-
-  % Tourism
-  Tourism
-    & tourism & hotel, hostel, guest\_house, motel, museum, theme\_park, artwork, viewpoint, picnic\_site, winery, attraction, gallery, zoo, aquarium, information, chalet \\
-    & amenity & attraction, exhibition\_centre, theatre, planetarium \\
-    & building & hotel, museum \\
-  \addlinespace
-
-  % Recreation & Entertainment
-  Recreation \& Entertainment
-    & amenity  & cinema, theatre, casino, nightclub, bar, pub, restaurant, fast\_food, cafe, ice\_cream, hookah\_lounge, karaoke\_box, toy\_library, food\_court, internet\_cafe \\
-    & building & restaurant \\
-    & leisure  & amusement\_arcade, escape\_game, bowling\_alley, adult\_gaming\_centre, tanning\_salon, hackerspace, dance, bandstand, marina, esplai, picnic\_table, skill\_game, flight\_simulator, sunbathing, swimming\_area, nature\_reserve \\
-    & tourism  & theme\_park, zoo, aquarium, artwork, gallery, museum \\
-  \addlinespace
-
-  % Sport
-  Sport
-    & amenity & gym, track, dojo, sports\_centre, stadium, sports\_hall \\
-    & leisure & sports\_centre, swimming\_pool, fitness\_station, bowling\_alley, climbing\_wall, miniature\_golf, horse\_riding \\
-    & sport   & table\_tennis, multi, swimming, fitness, yoga, gymnastics, board\_games, climbing, castells, skating, basketball, badminton, taekwondo, martial\_arts, surfing, skate, snowboard, fencing, bodybuilding, boxing, mixed\_martial\_arts, brazilian\_jiu\_jitsu, muay\_thai, kick\_boxing, sailing, skateboard, running, soccer, karate, exercise, chess, orienteering, equestrian, shooting, pilates, padel, calisthenics, billiards, cycling, roller\_skating, paintball, boules, aikido, kayaking, snooker, beachvolleyball, dog\_agility, tennis, bmx, rugby\_league, ice\_skating, field\_hockey, polo, athletics, motor, long\_jump, pole\_vault, archery, racquet, volleyball, futsal, handball, roller\_hockey, cricket, baseball, softball \\
-  \addlinespace
-
-  % Economic & Retail
-  Economic \& Retail
-    & amenity & marketplace, atm, bank, bureau\_de\_change, money\_transfer \\
-    & office  & insurance, lawyer, estate\_agent, financial, tax\_advisor \\
-    & shop    & convenience, supermarket, florist, bakery, butcher, electronics, furniture, clothing, shoes, pharmacy, bookshop, jewelry, pet, hardware, hairdresser, optician, confectionery, gift, kiosk, mobile\_phone, general, \dots \\
-  \addlinespace
-
-  % Industrial
-  Industrial
-    & landuse  & industrial, depot, warehouse, quarry \\
-    & building & industrial, warehouse, manufacture, factory \\
-  \addlinespace
-
-  % Green & Nature
-  Green \& Nature
-    & landuse & park, forest, meadow, garden, village\_green \\
-    & leisure & park, garden, nature\_reserve \\
-    & natural & forest, beach, garden, wood, grassland, heath, shrubbery \\
-  \addlinespace
-
-  % Civic Institutions
-  Civic Institutions
-    & amenity  & townhall, courthouse, police, prison, fire\_station \\
-    & building & government \\
-    & office   & government \\
-  \addlinespace
-
-  % Worship
-  Worship
-    & amenity  & place\_of\_worship \\
-    & building & church, monastery, synagogue, cathedral, basilica \\
-    & historic & church \\
-    & landuse  & religious \\
-  \addlinespace
-
-  % Education
-  Education
-    & amenity  & school, college, university, language\_school, music\_school, driving\_school, beauty\_school, dancing\_school \\
-    & building & school, university, college \\
-    & office   & educational\_institution \\
-  \addlinespace
-
-  % Super POIs
-  High-traffic \acp{poi}
-    & leisure  & stadium, sports\_centre, sports\_hall, concert\_venue \\
-    & tourism  & theme\_park, zoo, aquarium \\
-    & natural  & beach, coastline \\
-    & landuse  & park \\
-    & building & stadium, sports\_hall, concert\_hall \\
-    & amenity  & events\_venue, exhibition\_centre, conference\_centre \\
-    & shop     & mall, department\_store \\
-    & water    & lake, river \\
-    & waterway & river \\
-\end{longtable}
-\end{scriptsize}
+  Topography:
+  \begin{itemize}
+    \item \emph{Elevation} (\acs{otd}, 2025): Pointwise elevation values retrieved from \ac{otd} API, covering Barcelona's coordinates.
+  \end{itemize}
+  }
 
 
-\section{Distribution area-level counts across residential buildings}
-\label{app_paper1:pop_distribution}
-\setcounter{figure}{0}
-\setcounter{table}{0} 
+\section[OSM POIs]{\acs{osm} \acp{poi}}
+  \label{app_paper1:pois}
+  \setcounter{figure}{0}
+  \setcounter{table}{0}
+  \renewcommand{\thefigure}{A.3.\arabic{figure}}
+  \renewcommand{\thetable}{A.3.\arabic{table}}
 
-In some cases, to assign any count‐based attribute more realistically to the network nodes, they were first moved from the area-level aggregates (e.g. census-sections or neighborhoods) to the building scale. Directly allocating section totals by area would scatter counts into non‐residential places (parks, malls, etc.), producing large misallocations. Instead, for each attribute it was (1) extracted and filtered residential building footprints from \acs{osm}, and then (2) apportioned each section's total count across those footprints. This ensures that all attribute counts reside in actual dwellings before they are subsequently aggregated to the bike‐network nodes. 
+  \acp{poi} were fetched for the study area using OSMnx's \texttt{features\_from\_place} function with a broad set of \acs{osm} tag keys (amenity, building, craft, healthcare, historic, landuse, leisure, natural, office, shop, sport, tourism, water, waterway). After fetching, each geometry was classified into one or more thematic categories via lookups against predefined tag–value lists (Table~\ref{tab:poi_full_classification}). The specific tag values for each category were chosen by visual inspection of an initial sample to ensure both relevance and completeness.
 
-\subsection{Downloading residential building footprints}
+  \begin{scriptsize}
+  \begin{longtable}{p{0.18\linewidth} p{0.10\linewidth} p{0.65\linewidth}}
+    \caption[Classification of the POIs retrieved from OSM]{
+      \textbf{Classification of the \acp{poi} retrieved from \ac{osm}}.
+    }
+    \label{tab:poi_full_classification}\\
+    \toprule
+    \textbf{Category} & \textbf{Tag key} & \textbf{Values} \\
+    \midrule
+    \endfirsthead
 
-Residential building footprints were first retrieved from \acs{osm} via OSMnx's \texttt{features\_from\_place} using a broad set of tags (\texttt{building}, \texttt{building:condition}, \texttt{amenity}, \texttt{man\_made}, \texttt{office}, \texttt{power} and \texttt{shop}).  The raw footprint layer was then filtered according to predefined tag–value lists (Table~\ref{tab:building_tag_filters}): only features whose \texttt{building} tag matched the residential list were retained, and any footprints matching non-residential building, amenity or tourism exclusion lists were removed.  To resolve remaining ambiguities, footprints were retained if either (a) their \texttt{building} tag differed from "yes" and all \texttt{building:condition}, \texttt{amenity}, \texttt{man\_made}, \texttt{office}, \texttt{power} and \texttt{shop} tags were empty, or (b) their \texttt{building} tag equaled "yes" and, in addition to all those tags being empty, their \texttt{name} was also empty.  The resulting residential footprint layer was saved and inspected visually (Figure~\ref{fig:res_buildings}).  
+    \multicolumn{3}{@{}l}{\small\itshape Table \thetable\ continued}\\
+    \toprule
+    \textbf{Category} & \textbf{Tag key} & \textbf{Values} \\
+    \midrule
+    \endhead
 
-\begin{scriptsize}
+    \midrule
+    \multicolumn{3}{r}{\small\itshape Continued on next page}
+    \endfoot
 
-\begin{longtable}{p{0.20\linewidth} p{0.8\linewidth}}
-  \caption{\textbf{\acs{osm} tags used to filter residential vs.\ non-residential features}}
-  \label{tab:building_tag_filters}\\
-  \toprule
-  \textbf{Category} & \textbf{\acs{osm} tag values} \\
-  \midrule
-  \endfirsthead
+    \bottomrule
+    \endlastfoot
 
-  \multicolumn{2}{@{}l}{\small\itshape Table \thetable\ continued}\\
-  \toprule
-  \textbf{Category} & \textbf{\acs{osm} tag values} \\
-  \midrule
-  \endhead
+    % Health & Care
+    Health \& Care 
+      & amenity    & pharmacy, clinic, doctors, hospital, dentist, therapist, nursing\_home, childcare, social\_centre, social\_facility \\
+      & building   & hospital \\
+      & healthcare & pharmacy, clinic, podiatrist, doctor, dentist, nurse, physiotherapist, laboratory, hospital, alternative;physiotherapist, nutrition\_counselling, therapist, blood\_bank, rehabilitation, dialysis, audiologist, blood\_donation, counselling \\
+    \addlinespace
 
-  \midrule
-  \multicolumn{2}{r}{\small\itshape Continued on next page}
-  \endfoot
+    % Culture
+    Culture
+      & historic  & memorial, monument, castle, church, archaeological\_site, wayside\_cross, fort, ruins, archaeological\_site;ruins, heritage, aqueduct \\
+      & amenity   & library, arts\_centre, exhibition\_centre \\
+      & building  & library, museum, chapel, church, cathedral, temple, synagogue \\
+      & tourism   & museum, gallery, artwork \\
+    \addlinespace
 
-  \bottomrule
-  \endlastfoot
+    % Tourism
+    Tourism
+      & tourism & hotel, hostel, guest\_house, motel, museum, theme\_park, artwork, viewpoint, picnic\_site, winery, attraction, gallery, zoo, aquarium, information, chalet \\
+      & amenity & attraction, exhibition\_centre, theatre, planetarium \\
+      & building & hotel, museum \\
+    \addlinespace
 
-  Residential buildings &
-    apartments, barracks, bungalow, cabin, detached, annexe, dormitory, farm, ger, hotel, house, houseboat, residential, semidetached\_house, static\_caravan, terrace, tree\_house, trullo, isolated\_dwelling, yes \\
+    % Recreation & Entertainment
+    Recreation \& Entertainment
+      & amenity  & cinema, theatre, casino, nightclub, bar, pub, restaurant, fast\_food, cafe, ice\_cream, hookah\_lounge, karaoke\_box, toy\_library, food\_court, internet\_cafe \\
+      & building & restaurant \\
+      & leisure  & amusement\_arcade, escape\_game, bowling\_alley, adult\_gaming\_centre, tanning\_salon, hackerspace, dance, bandstand, marina, esplai, picnic\_table, skill\_game, flight\_simulator, sunbathing, swimming\_area, nature\_reserve \\
+      & tourism  & theme\_park, zoo, aquarium, artwork, gallery, museum \\
+    \addlinespace
 
-  \addlinespace
-  Non-residential buildings &
-    commercial, industrial, kiosk, office, retail, supermarket, warehouse, cathedral, chapel, church, temple, kingdom\_hall, monastery, mosque, presbytery, shrine, synagogue, religious, cloister, bakehouse, civic, college, fire\_station, government, hospital, kindergarten, public, school, toilets, train\_station, transportation, university, museum, annex, administrative, library, shelter, sports, market, barn, conservatory, cowshed, farm\_auxiliary, greenhouse, slurry\_tank, stable, sty, grandstand, pavilion, riding\_hall, sports\_hall, sports\_centre, stadium, allotment\_hall, boathouse, hangar, hut, shed, car\_garage, garage, garages, parking, digester, service, tech\_cab, transformer\_tower, water\_tower, storage\_tank, silo, manufacture, air\_shaft, beach\_hut, bunker, castle, construction, container, guardhouse, military, outbuilding, pagoda, quonset\_hut, roof, ruins, tent, tower, windmill \\
+    % Sport
+    Sport
+      & amenity & gym, track, dojo, sports\_centre, stadium, sports\_hall \\
+      & leisure & sports\_centre, swimming\_pool, fitness\_station, bowling\_alley, climbing\_wall, miniature\_golf, horse\_riding \\
+      & sport   & table\_tennis, multi, swimming, fitness, yoga, gymnastics, board\_games, climbing, castells, skating, basketball, badminton, taekwondo, martial\_arts, surfing, skate, snowboard, fencing, bodybuilding, boxing, mixed\_martial\_arts, brazilian\_jiu\_jitsu, muay\_thai, kick\_boxing, sailing, skateboard, running, soccer, karate, exercise, chess, orienteering, equestrian, shooting, pilates, padel, calisthenics, billiards, cycling, roller\_skating, paintball, boules, aikido, kayaking, snooker, beachvolleyball, dog\_agility, tennis, bmx, rugby\_league, ice\_skating, field\_hockey, polo, athletics, motor, long\_jump, pole\_vault, archery, racquet, volleyball, futsal, handball, roller\_hockey, cricket, baseball, softball \\
+    \addlinespace
 
-\addlinespace
-  Non-residential tourism &
-    aquarium, attraction, gallery, hostel, information, motel, theme\_park, zoo, winery 
-\\
-  \addlinespace
-  Non-residential landuse &
-    construction, industrial, farmland, farmyard, orchard, greenhouse\_horticulture, plant\_nursery \\
-  \addlinespace
-  Non-residential amenities &
-    bicycle\_parking, motorcycle\_parking, parking\_space, parking\_entrance, bicycle\_rental, shelter, research\_institute, smoking\_area, table, toilets, waste\_disposal, recycling, garden, coworking\_space, dog\_toilet, drinking\_water, bbq, public\_building, atm, beauty\_school, bench, bicycle\_rental;left\_luggage, charging\_station, childcare, clock, compressed\_air, dance\_school, disused, dojo, dressing\_room, fixme, flight\_attendant, grit\_bin, grocery, hookah\_lounge, karaoke\_box, kick-scooter\_parking, letter\_box, loading\_dock, locker, lounger, luggage\_locker, office, parcel\_locker, pastries, photo\_booth, piano, post\_box, relay\_box, sailing\_school, scooter\_rental, shower, signs, stock\_exchange, surf\_school, swingers\_club, tap, telephone, therapist, union, vacuum\_cleaner, vending\_machine, warehouse, waste\_basket, water\_point, watering\_place, wifi, ticket\_validator, Geldwechselstube, lavoir, meeting\_point, parking\_exit, retirement\_home, bar, bear\_box, biergarten, cafe, canteen, fast\_food, food\_court, ice\_cream, pub, restaurant, market, college, dancing\_school, driver\_training, driving\_school, kindergarten, language\_school, library, toy\_library, music\_school, prep\_school, school, ski\_school, training, university, bicycle\_repair\_station, boat\_rental, boat\_sharing, boat\_storage, bus\_station, car\_rental, car\_sharing, car\_wash, ferry\_terminal, fuel, motorcycle\_rental, parking, taxi, traffic\_park, vehicle\_inspection, weighbridge, payment\_terminal, bank, bureau\_de\_change, money\_transfer, payment\_centre, baby\_hatch, clinic, dentist, doctors, hospital, nursing\_home, pharmacy, social\_facility, veterinary, arts\_centre, brothel, casino, cinema, community\_centre, conference\_centre, events\_venue, exhibition\_centre, fountain, gambling, love\_hotel, music\_venue, nightclub, planetarium, public\_bookcase, social\_centre, stage, stripclub, studio, swingerclub, theatre, exhibition\_hall, courthouse, fire\_station, police, post\_depot, post\_office, prison, ranger\_station, townhall, animal\_boarding, animal\_breeding, animal\_shelter, animal\_training, baking\_oven, crematorium, dive\_centre, funeral\_hall, grave\_yard, hunting\_stand, internet\_cafe, kitchen, kneipp\_water\_cure, marketplace, monastery, mortuary, place\_of\_mourning, place\_of\_worship, public\_bath, refugee\_site, security\_control
- \\
-\end{longtable}
-\end{scriptsize}
+    % Economic & Retail
+    Economic \& Retail
+      & amenity & marketplace, atm, bank, bureau\_de\_change, money\_transfer \\
+      & office  & insurance, lawyer, estate\_agent, financial, tax\_advisor \\
+      & shop    & convenience, supermarket, florist, bakery, butcher, electronics, furniture, clothing, shoes, pharmacy, bookshop, jewelry, pet, hardware, hairdresser, optician, confectionery, gift, kiosk, mobile\_phone, general, \dots \\
+    \addlinespace
+
+    % Industrial
+    Industrial
+      & landuse  & industrial, depot, warehouse, quarry \\
+      & building & industrial, warehouse, manufacture, factory \\
+    \addlinespace
+
+    % Green & Nature
+    Green \& Nature
+      & landuse & park, forest, meadow, garden, village\_green \\
+      & leisure & park, garden, nature\_reserve \\
+      & natural & forest, beach, garden, wood, grassland, heath, shrubbery \\
+    \addlinespace
+
+    % Civic Institutions
+    Civic Institutions
+      & amenity  & townhall, courthouse, police, prison, fire\_station \\
+      & building & government \\
+      & office   & government \\
+    \addlinespace
+
+    % Worship
+    Worship
+      & amenity  & place\_of\_worship \\
+      & building & church, monastery, synagogue, cathedral, basilica \\
+      & historic & church \\
+      & landuse  & religious \\
+    \addlinespace
+
+    % Education
+    Education
+      & amenity  & school, college, university, language\_school, music\_school, driving\_school, beauty\_school, dancing\_school \\
+      & building & school, university, college \\
+      & office   & educational\_institution \\
+    \addlinespace
+
+    % Super POIs
+    High-traffic POIs
+      & leisure  & stadium, sports\_centre, sports\_hall, concert\_venue \\
+      & tourism  & theme\_park, zoo, aquarium \\
+      & natural  & beach, coastline \\
+      & landuse  & park \\
+      & building & stadium, sports\_hall, concert\_hall \\
+      & amenity  & events\_venue, exhibition\_centre, conference\_centre \\
+      & shop     & mall, department\_store \\
+      & water    & lake, river \\
+      & waterway & river \\
+  \end{longtable}
+  \end{scriptsize}
 
 
-\begin{figure}[!htbp]
-  \centering
-  \includegraphics[width=0.7\textwidth]{0_plots/paper1/appendices/Barcelona_Spain_residential_buildings.jpg}
-  \caption{\textbf{Residential building footprints of Barcelona, obtained from \acs{osm}.}}
-  \label{fig:res_buildings}
-\end{figure}
+\section{Disaggregating area-level attributes to residential building footprints}
+  \label{app_paper1:pop_distribution}
+  \setcounter{figure}{0}
+  \setcounter{table}{0}
+  \renewcommand{\thefigure}{A.4.\arabic{figure}}
+  \renewcommand{\thetable}{A.4.\arabic{table}}
 
-\subsection{Distributing counts}
+  To assign any count‐based attribute more realistically to the network nodes, it is first moved from the area-level aggregates (e.g. census-sections or neighborhoods) to the building scale. Directly allocating section totals by area would scatter counts into non‐residential places (parks, malls, etc.), producing large misallocations. Instead, for each attribute it was (1) extracted and filtered residential building footprints from \acs{osm}, and then (2) apportioned each section's total count across those footprints. This ensures that all attribute counts reside in actual dwellings before they are subsequently aggregated to the bike‐network nodes. 
 
-Count‐based variables were redistributed from their original spatial aggregations to residential building footprints via an area‐share method. Buildings were first spatially joined to the polygon in which they lie. For each polygon with total count \(C\) and containing \(n\) buildings of areas \(a_1,\dots,a_n\), each building \(i\) was assigned  
-\[
-C_i = C \times \frac{a_i}{\sum_{j=1}^n a_j}\,.
-\]  
-Point‐geometry buildings were buffered by 25 m to ensure intersection with their parent polygon. The result is a building‐level dataframe in which each residential footprint carries its share of the count. These building‐level counts are subsequently aggregated to network nodes (e.g.\ by summation within a node buffer) to derive node‐level attributes that more accurately reflect the spatial distribution of the original data. 
+  \subsection{Downloading residential building footprints}
+    Residential building footprints were initially obtained from \acs{osm} using OSMnx's \texttt{features\_from\_place} function, which queries a broad set of tags (\texttt{building}, \texttt{building\string:condition}, \texttt{amenity}, \texttt{man\_made}, \texttt{office}, \texttt{power}, and \texttt{shop}). The raw footprint layer was then filtered according to predefined tag–value lists (Table~\ref{tab:building_tag_filters}): only features whose \texttt{building} tag matched the residential list were retained, and any footprints matching non-residential building, amenity or tourism exclusion lists were removed.  To resolve remaining ambiguities, footprints were retained if either (a) their \texttt{building} tag differed from "yes" and all \texttt{building:condition}, \texttt{amenity}, \texttt{man\_made}, \texttt{office}, \texttt{power} and \texttt{shop} tags were empty, or (b) their \texttt{building} tag equaled "yes" and, in addition to all those tags being empty, their \texttt{name} was also empty.  The resulting residential footprint layer was saved and inspected visually (Figure~\ref{fig:res_buildings}).  
+
+    \begin{scriptsize}
+
+    \begin{longtable}{p{0.20\linewidth} p{0.8\linewidth}}
+      \caption[OSM tags used to filter residential and non-residential buildings]{
+        \textbf{
+          \acs{osm} tags used to filter residential and non-residential buildings}
+      }\label{tab:building_tag_filters}\\
+      \toprule
+      \textbf{Category} & \textbf{\acs{osm} tag values} \\
+      \midrule
+      \endfirsthead
+
+      \multicolumn{2}{@{}l}{\small\itshape Table \thetable\ continued}\\
+      \toprule
+      \textbf{Category} & \textbf{\acs{osm} tag values} \\
+      \midrule
+      \endhead
+
+      \midrule
+      \multicolumn{2}{r}{\small\itshape Continued on next page}
+      \endfoot
+
+      \bottomrule
+      \endlastfoot
+
+      Residential buildings &
+        apartments, barracks, bungalow, cabin, detached, annexe, dormitory, farm, ger, hotel, house, houseboat, residential, semidetached\_house, static\_caravan, terrace, tree\_house, trullo, isolated\_dwelling, yes \\
+
+      \addlinespace
+      Non-residential buildings &
+        commercial, industrial, kiosk, office, retail, supermarket, warehouse, cathedral, chapel, church, temple, kingdom\_hall, monastery, mosque, presbytery, shrine, synagogue, religious, cloister, bakehouse, civic, college, fire\_station, government, hospital, kindergarten, public, school, toilets, train\_station, transportation, university, museum, annex, administrative, library, shelter, sports, market, barn, conservatory, cowshed, farm\_auxiliary, greenhouse, slurry\_tank, stable, sty, grandstand, pavilion, riding\_hall, sports\_hall, sports\_centre, stadium, allotment\_hall, boathouse, hangar, hut, shed, car\_garage, garage, garages, parking, digester, service, tech\_cab, transformer\_tower, water\_tower, storage\_tank, silo, manufacture, air\_shaft, beach\_hut, bunker, castle, construction, container, guardhouse, military, outbuilding, pagoda, quonset\_hut, roof, ruins, tent, tower, windmill \\
+
+    \addlinespace
+      Non-residential tourism &
+        aquarium, attraction, gallery, hostel, information, motel, theme\_park, zoo, winery 
+    \\
+      \addlinespace
+      Non-residential landuse &
+        construction, industrial, farmland, farmyard, orchard, greenhouse\_horticulture, plant\_nursery \\
+      \addlinespace
+      Non-residential amenities &
+        bicycle\_parking, motorcycle\_parking, parking\_space, parking\_entrance, bicycle\_rental, shelter, research\_institute, smoking\_area, table, toilets, waste\_disposal, recycling, garden, coworking\_space, dog\_toilet, drinking\_water, bbq, public\_building, atm, beauty\_school, bench, bicycle\_rental;left\_luggage, charging\_station, childcare, clock, compressed\_air, dance\_school, disused, dojo, dressing\_room, fixme, flight\_attendant, grit\_bin, grocery, hookah\_lounge, karaoke\_box, kick-scooter\_parking, letter\_box, loading\_dock, locker, lounger, luggage\_locker, office, parcel\_locker, pastries, photo\_booth, piano, post\_box, relay\_box, sailing\_school, scooter\_rental, shower, signs, stock\_exchange, surf\_school, swingers\_club, tap, telephone, therapist, union, vacuum\_cleaner, vending\_machine, warehouse, waste\_basket, water\_point, watering\_place, wifi, ticket\_validator, Geldwechselstube, lavoir, meeting\_point, parking\_exit, retirement\_home, bar, bear\_box, biergarten, cafe, canteen, fast\_food, food\_court, ice\_cream, pub, restaurant, market, college, dancing\_school, driver\_training, driving\_school, kindergarten, language\_school, library, toy\_library, music\_school, prep\_school, school, ski\_school, training, university, bicycle\_repair\_station, boat\_rental, boat\_sharing, boat\_storage, bus\_station, car\_rental, car\_sharing, car\_wash, ferry\_terminal, fuel, motorcycle\_rental, parking, taxi, traffic\_park, vehicle\_inspection, weighbridge, payment\_terminal, bank, bureau\_de\_change, money\_transfer, payment\_centre, baby\_hatch, clinic, dentist, doctors, hospital, nursing\_home, pharmacy, social\_facility, veterinary, arts\_centre, brothel, casino, cinema, community\_centre, conference\_centre, events\_venue, exhibition\_centre, fountain, gambling, love\_hotel, music\_venue, nightclub, planetarium, public\_bookcase, social\_centre, stage, stripclub, studio, swingerclub, theatre, exhibition\_hall, courthouse, fire\_station, police, post\_depot, post\_office, prison, ranger\_station, townhall, animal\_boarding, animal\_breeding, animal\_shelter, animal\_training, baking\_oven, crematorium, dive\_centre, funeral\_hall, grave\_yard, hunting\_stand, internet\_cafe, kitchen, kneipp\_water\_cure, marketplace, monastery, mortuary, place\_of\_mourning, place\_of\_worship, public\_bath, refugee\_site, security\_control
+    \\
+    \end{longtable}
+    \end{scriptsize}
+
+
+    \begin{figure}[!htbp]
+      \centering
+      \includegraphics[width=0.7\textwidth]{0_plots/paper1/appendices/Barcelona_Spain_residential_buildings.jpg}
+      \caption[Residential building footprints of Barcelona, obtained from OSM]{
+        \textbf{Residential building footprints of Barcelona, obtained from \acs{osm}.}
+      }
+      \label{fig:res_buildings}
+    \end{figure}
+
+
+  \subsection{Redistributing area-level attributes}
+  \setcounter{figure}{0}
+  \setcounter{table}{0}
+  \renewcommand{\thefigure}{A.4.2.\arabic{figure}}
+  \renewcommand{\thetable}{A.4.2.\arabic{table}}
+
+  Count‐based variables were redistributed from their original spatial aggregations to residential building footprints via an area‐share method. Buildings were first spatially joined to the polygon in which they lie. For each polygon with total count \(C\) and containing \(n\) buildings of areas \(a_1,\dots,a_n\), each building \(i\) was assigned  
+  \[
+  C_i = C \times \frac{a_i}{\sum_{j=1}^n a_j}\,.
+  \]  
+  Point‐geometry buildings were buffered by 25 m to ensure intersection with their parent polygon. The result is a building‐level dataframe in which each residential footprint carries its share of the count. These building‐level counts are subsequently aggregated to network nodes (e.g.\ by summation within a node buffer $Y$) to derive node‐level attributes that more accurately reflect the spatial distribution of the original data. 
 
 
 \section{Normalization procedure}
-\label{app_paper1:normalization}
-\setcounter{figure}{0}
-\setcounter{table}{0} 
+  \label{app_paper1:normalization}
+  \setcounter{figure}{0}
+  \setcounter{table}{0}
+  \renewcommand{\thefigure}{A.5.\arabic{figure}}
+  \renewcommand{\thetable}{A.5.\arabic{table}}
 
-Prior to computing utility scores, all local‐factor variables were rescaled to a common \([0,1]\) range. Selecting an appropriate normalization technique for each variable is essential to prevent any single factor from disproportionately influencing the composite utility. While the ultimate normalization choices should reflect the specific \ac{bss} planning objectives and the local data distributions, general guidelines are presented in this study. Multiple techniques were considered, each chosen according to the variable's bounds, distribution, and interpretability:
+  Prior to computing utility scores, all local‐factor variables were rescaled to a common \([0,1]\) range. Selecting an appropriate normalization technique for each variable is essential to prevent any single factor from disproportionately influencing the composite utility. While the ultimate normalization choices should reflect the specific \ac{bss} planning objectives and the local data distributions, general guidelines are presented in this study. Multiple techniques were considered, each chosen according to the variable's bounds, distribution, and interpretability:
 
-\begin{itemize}
-  \item  Min–max scaling: linearly maps each value between its observed minimum and maximum.  Ideal for variables with known finite bounds or approximately uniform distributions without extreme outliers, as it preserves the original range and interpretative endpoints.
+  \begin{itemize}
+    \item  Min–max scaling: linearly maps each value between its observed minimum and maximum.  Ideal for variables with known finite bounds or approximately uniform distributions without extreme outliers, as it preserves the original range and interpretative endpoints.
 
-  \item Z‐score rescaling: standardizes to zero mean and unit variance, then applies min–max mapping.  Suited to roughly symmetric, bell-shaped distributions that differ only in scale, ensuring comparability without distortion by differing variances.
+    \item Z‐score rescaling: standardizes to zero mean and unit variance, then applies min–max mapping.  Suited to roughly symmetric, bell-shaped distributions that differ only in scale, ensuring comparability without distortion by differing variances.
 
-  \item Robust scaling: centering on the median and dividing by the inter-quartile range, with extreme values clipped to the \([0,1]\) interval. Reserved for heavy-tailed variables with extreme outliers, it limits the influence of rare extremes on the normalized range.      
+    \item Robust scaling: centering on the median and dividing by the inter-quartile range, with extreme values clipped to the \([0,1]\) interval. Reserved for heavy-tailed variables with extreme outliers, it limits the influence of rare extremes on the normalized range.      
 
-  \item Log‐transform (\(\log(1+x)\)): compresses right-skewed, strictly positive variables before scaling. Note that any zeros were shifted by \(+1\) to satisfy the positivity requirement. This transformation is particularly effective on variables where a small number of very large values would otherwise dominate the normalized range.
+    \item Log‐transform (\(\log(1+x)\)): compresses right-skewed, strictly positive variables before scaling. Note that any zeros were shifted by \(+1\) to satisfy the positivity requirement. This transformation is particularly effective on variables where a small number of very large values would otherwise dominate the normalized range.
 
-  \item Box–Cox transformation: power‐based variance stabilization for strongly skewed distributions, followed by rescaling. As with the log, all inputs must be strictly positive; zeros were replaced with a small constant (\(\epsilon=10^{-6}\)) prior to transformation. Ideal when a simple log underperforms in reducing skewness.
+    \item Box–Cox transformation: power‐based variance stabilization for strongly skewed distributions, followed by rescaling. As with the log, all inputs must be strictly positive; zeros were replaced with a small constant (\(\epsilon=10^{-6}\)) prior to transformation. Ideal when a simple log underperforms in reducing skewness.
 
-\end{itemize}
+  \end{itemize}
 
-Additionally, for variables where lower raw values indicate more favorable conditions (e.g.\ travel cost, slope penalties), the normalized score was inverted via $v_{inv} = 1 - v_{norm}$,
-so that higher values consistently correspond to more desirable outcomes across all factors.
+  Additionally, for variables where lower raw values indicate more favorable conditions (e.g.\ travel cost, slope penalties), the normalized score was inverted via $v_{inv} = 1 - v_{norm}$,
+  so that higher values consistently correspond to more desirable outcomes across all factors.
 
-Each selected transformation was followed by a final min–max rescaling to ensure every variable lies in \([0,1]\). Table~\ref{tab:normalization_map} lists the normalization method applied to each variable.  Detailed diagnostic figures, which display both the statistical and spatial effects of each transformation, are provided below (Figures \ref{fig:age_normalization}, \ref{fig:economic_normalization}, \ref{fig:education_normalization}, \ref{fig:pois1_normalization}, \ref{fig:pois2_normalization}, \ref{fig:pois3_normalization}, \ref{fig:pt_normalization}, \ref{fig:socio_normalization}, \ref{fig:transport_normalization})
-
-
-\begin{table}[!htbp]
-  \centering
-  \caption{\textbf{Normalization method assigned to each variable}}
-  \label{tab:normalization_map}
-  \footnotesize
-  \renewcommand{\arraystretch}{1.2}
-  \begin{tabular}{p{0.20\linewidth} p{0.75\linewidth}}
-    \toprule
-    \textbf{Method} & \textbf{Variables} \\
-    \midrule
-    
-    Min–max scaling & \texttt{tram\_lines}, \texttt{bike\_lane\_kms}, \texttt{cars\_ownership}, \texttt{motos\_ownership} \\
-    
-    Log–transform & \texttt{bus\_lines}, \texttt{metro\_lines}, \texttt{n\_health\_care}, \texttt{n\_culture}, \texttt{n\_tourism}, \texttt{n\_recreation}, \texttt{n\_sport}, \texttt{n\_economic\_retail}, \texttt{n\_industrial}, \texttt{n\_green}, \texttt{n\_civic}, \texttt{n\_worship}, \texttt{n\_education}, \texttt{n\_superpois} \\
-    
-    Box–Cox transformation & \texttt{age\_10-19}, \texttt{age\_20-29}, \texttt{age\_30-39}, \texttt{age\_40-49}, \texttt{age\_50-59}, \texttt{age\_60-69}, \texttt{age\_70+}, \texttt{household\_avg\_m2}, \texttt{unemployment}, \texttt{education\_primary}, \texttt{education\_secondary}, \texttt{education\_college}, \texttt{pois\_count}, \texttt{pois\_entropy}, \texttt{population}, \texttt{female}, \texttt{male}, \texttt{non\_spanish\_population}\\
-    
-    Inverted Box–Cox & \texttt{income}\\
-    \bottomrule
-  \end{tabular}
-\end{table}
+  Each selected transformation was followed by a final min–max rescaling to ensure every variable lies in \([0,1]\). Table~\ref{tab:normalization_map} lists the normalization method applied to each variable.  Detailed diagnostic figures, which display both the statistical and spatial effects of each transformation, are provided below (Figures \ref{fig:age_normalization}, \ref{fig:economic_normalization}, \ref{fig:education_normalization}, \ref{fig:pois1_normalization}, \ref{fig:pois2_normalization}, \ref{fig:pois3_normalization}, \ref{fig:pt_normalization}, \ref{fig:socio_normalization}, \ref{fig:transport_normalization})
 
 
-\begin{figure}[!htbp]
+  \begin{table}[!htbp]
     \centering
-    % \includegraphics[width=0.9\linewidth]{0_plots/paper1/appendices/variable_group_age.jpg}
-   \caption{\textbf{Age‐group distributions and spatial patterns before and after normalization}. Columns show cohorts 10–19, 20–29, 30–39, 40–49, 50–59, 60–69, and 70+. \emph{Top row:} kernel density estimates of the raw counts (blue) and the normalized values (green), with vertical dashed lines indicating the lower and upper outlier thresholds for the normalized data (first and third quartiles ± 1.5 × IQR).  
-    \emph{Middle row:} raw values mapped at each network node (zero‐value nodes in gray).  
-    \emph{Bottom row:} normalized values mapped at the same nodes (zero‐value nodes in gray).}
-
-    \label{fig:age_normalization}
-\end{figure}
-
-\begin{figure}[!htbp]
-    \centering
-    % \includegraphics[width=0.9\linewidth]{0_plots/paper1/appendices/variable_group_economic.jpg}
-   \caption{\textbf{Distributions and spatial patterns before and after normalization of the average household size in $m^{2}$, average income per person in 2022 and unemployment percentage}. \emph{Top row:} kernel density estimates of the raw counts (blue) and the normalized values (green), with vertical dashed lines indicating the lower and upper outlier thresholds for the normalized data (first and third quartiles ± 1.5 × IQR).  
-    \emph{Middle row:} raw values mapped at each network node (zero‐value nodes in gray).  
-    \emph{Bottom row:} normalized values mapped at the same nodes (zero‐value nodes in gray).}
-
-    \label{fig:economic_normalization}
-\end{figure}
-
-
-\begin{figure}[!htbp]
-    \centering
-    % \includegraphics[width=0.9\linewidth]{0_plots/paper1/appendices/variable_group_education.jpg}
-   \caption{\textbf{Distributions and spatial patterns before and after normalization of the number of people with up to primary education, with up to secondary education and with college education}. \emph{Top row:} kernel density estimates of the raw counts (blue) and the normalized values (green), with vertical dashed lines indicating the lower and upper outlier thresholds for the normalized data (first and third quartiles ± 1.5 × IQR).  
-    \emph{Middle row:} raw values mapped at each network node (zero‐value nodes in gray).  
-    \emph{Bottom row:} normalized values mapped at the same nodes (zero‐value nodes in gray).}
-
-    \label{fig:education_normalization}
-\end{figure}
-
-\begin{figure}[!htbp]
-    \centering
-    % \includegraphics[width=0.9\linewidth]{0_plots/paper1/appendices/variable_group_pois1.jpg}
-    \caption{\textbf{Distributions and spatial patterns before and after normalization of category‐specific \ac{poi} counts for health \& care, culture, tourism, recreation, sport locations}.  
-    \emph{Top row:} kernel density estimates of the raw counts (blue) and the normalized values (green), with vertical dashed lines indicating the lower and upper outlier thresholds for the normalized data (first and third quartiles ± 1.5 × IQR).  
-    \emph{Middle row:} raw values mapped at each network node (zero‐value nodes in gray).  
-    \emph{Bottom row:} normalized values mapped at the same nodes (zero‐value nodes in gray).}
-    \label{fig:pois1_normalization}
-\end{figure}
+    \caption[Normalization method assigned to each variable]{
+      \textbf{Normalization method assigned to each variable}
+    }
+    \label{tab:normalization_map}
+    \footnotesize
+    \renewcommand{\arraystretch}{1.2}
+    \begin{tabular}{p{0.20\linewidth} p{0.75\linewidth}}
+      \toprule
+      \textbf{Method} & \textbf{Variables} \\
+      \midrule
+      
+      Min–max scaling & \texttt{tram\_lines}, \texttt{bike\_lane\_kms}, \texttt{cars\_ownership}, \texttt{motos\_ownership} \\
+      
+      Log–transform & \texttt{bus\_lines}, \texttt{metro\_lines}, \texttt{n\_health\_care}, \texttt{n\_culture}, \texttt{n\_tourism}, \texttt{n\_recreation}, \texttt{n\_sport}, \texttt{n\_economic\_retail}, \texttt{n\_industrial}, \texttt{n\_green}, \texttt{n\_civic}, \texttt{n\_worship}, \texttt{n\_education}, \texttt{n\_superpois} \\
+      
+      Box–Cox transformation & \texttt{age\_10-19}, \texttt{age\_20-29}, \texttt{age\_30-39}, \texttt{age\_40-49}, \texttt{age\_50-59}, \texttt{age\_60-69}, \texttt{age\_70+}, \texttt{household\_avg\_m2}, \texttt{unemployment}, \texttt{education\_primary}, \texttt{education\_secondary}, \texttt{education\_college}, \texttt{pois\_count}, \texttt{pois\_entropy}, \texttt{population}, \texttt{female}, \texttt{male}, \texttt{non\_spanish\_population}\\
+      
+      Inverted Box–Cox & \texttt{income}\\
+      \bottomrule
+    \end{tabular}
+  \end{table}
 
 
-\begin{figure}[!htbp]
-    \centering
-    % \includegraphics[width=0.9\linewidth]{0_plots/paper1/appendices/variable_group_pois2.jpg}
-    \caption{\textbf{Distributions and spatial patterns before and after normalization of category‐specific \ac{poi} counts for economic/retail, industrial, green, civic and worship locations}.  
-    \emph{Top row:} kernel density estimates of the raw counts (blue) and the normalized values (green), with vertical dashed lines indicating the lower and upper outlier thresholds for the normalized data (first and third quartiles ± 1.5 × IQR).  
-    \emph{Middle row:} raw values mapped at each network node (zero‐value nodes in gray).  
-    \emph{Bottom row:} normalized values mapped at the same nodes (zero‐value nodes in gray).}
-    \label{fig:pois2_normalization}
-\end{figure}
+  \begin{figure}[!htbp]
+      \centering
+      \includegraphics[width=0.9\linewidth]{0_plots/paper1/appendices/variable_group_age.jpg}
+    \caption[Distributions and spatial patterns before and after normalization of age-group variables]{
+      \textbf{Distributions and spatial patterns before and after normalization of age-group variables.} Columns show cohorts 10–19, 20–29, 30–39, 40–49, 50–59, 60–69, and 70+. 
+      \textbf{Top row:} kernel density estimates of the raw counts (blue) and the normalized values (green), with vertical dashed lines indicating the lower and upper outlier thresholds for the normalized data (first and third quartiles ± 1.5 × IQR).  
+      \textbf{Middle row:} raw values mapped at each network node (zero‐value nodes in gray).  
+      \textbf{Bottom row:} normalized values mapped at the same nodes (zero‐value nodes in gray).
+    }
 
-\begin{figure}[!htbp]
-    \centering
-    % \includegraphics[width=0.9\linewidth]{0_plots/paper1/appendices/variable_group_pois3.jpg}
-    \caption{\textbf{Distributions and spatial patterns before and after normalization of category‐specific \ac{poi} counts for for education, high-traffic "super" \acp{poi}, the total \ac{poi} count, and \ac{poi} diversity (entropy)}.  
-    \emph{Top row:} kernel density estimates of the raw counts (blue) and the normalized values (green), with vertical dashed lines indicating the lower and upper outlier thresholds for the normalized data (first and third quartiles ± 1.5 × IQR).  
-    \emph{Middle row:} raw values mapped at each network node (zero‐value nodes in gray).  
-    \emph{Bottom row:} normalized values mapped at the same nodes (zero‐value nodes in gray).}
-    \label{fig:pois3_normalization}
-\end{figure}
+      \label{fig:age_normalization}
+  \end{figure}
 
-
-\begin{figure}[!htbp]
-    \centering
-    % \includegraphics[width=0.9\linewidth]{0_plots/paper1/appendices/variable_group_public_transport.jpg}
-    \caption{\textbf{Distributions and spatial patterns before and after normalization of the public transport variables}. \emph{Top row:} kernel density estimates of the raw counts (blue) and the normalized values (green), with vertical dashed lines indicating the lower and upper outlier thresholds for the normalized data (first and third quartiles ± 1.5 × IQR).  
-    \emph{Middle row:} raw values mapped at each network node (zero‐value nodes in gray).  
-    \emph{Bottom row:} normalized values mapped at the same nodes (zero‐value nodes in gray).}
-    \label{fig:pt_normalization}
-\end{figure}
+  \begin{figure}[!htbp]
+      \centering
+      \includegraphics[width=0.9\linewidth]{0_plots/paper1/appendices/variable_group_economic.jpg}
+      \caption[Distributions and spatial patterns before and after normalization of economic variables]{
+        \textbf{Distributions and spatial patterns before and after normalization of economic variables.} 
+        The figure displays average household size (in \(m^{2}\)), average income per person (2022), and unemployment percentage. 
+        \textbf{Top row:} kernel density estimates of the raw counts (blue) and the normalized values (green), with vertical dashed lines indicating the lower and upper outlier thresholds for the normalized data (first and third quartiles ± 1.5 × IQR).  
+        \textbf{Middle row:} raw values mapped at each network node (zero‐value nodes in gray).  
+        \textbf{Bottom row:} normalized values mapped at the same nodes (zero‐value nodes in gray).}
+      \label{fig:economic_normalization}
+  \end{figure}
 
 
-\begin{figure}[!htbp]
-    \centering
-    % \includegraphics[width=0.9\linewidth]{0_plots/paper1/appendices/variable_group_socio.jpg}
-    \caption{\textbf{Distributions and spatial patterns before and after normalization of the sociodemographic variables: total population, female population, male population, and non-Spanish population}. \emph{Top row:} kernel density estimates of the raw counts (blue) and the normalized values (green), with vertical dashed lines indicating the lower and upper outlier thresholds for the normalized data (first and third quartiles ± 1.5 × IQR).  
-    \emph{Middle row:} raw values mapped at each network node (zero‐value nodes in gray).  
-    \emph{Bottom row:} normalized values mapped at the same nodes (zero‐value nodes in gray).}
-    \label{fig:socio_normalization}
-\end{figure}
+  \begin{figure}[!htbp]
+      \centering
+      \includegraphics[width=0.9\linewidth]{0_plots/paper1/appendices/variable_group_education.jpg}
+      \caption[Distributions and spatial patterns before and after normalization of educational variables]{
+        \textbf{Distributions and spatial patterns before and after normalization of educational variables.} 
+        The figure displays the number of people with up to primary education, with up to secondary education and with college education. 
+        \textbf{Top row:} kernel density estimates of the raw counts (blue) and the normalized values (green), with vertical dashed lines indicating the lower and upper outlier thresholds for the normalized data (first and third quartiles ± 1.5 × IQR).  
+        \textbf{Middle row:} raw values mapped at each network node (zero‐value nodes in gray).  
+        \textbf{Bottom row:} normalized values mapped at the same nodes (zero‐value nodes in gray).
+      }
+      \label{fig:education_normalization}
+  \end{figure}
 
-\begin{figure}[!htbp]
-    \centering
-    % \includegraphics[width=0.9\linewidth]{0_plots/paper1/appendices/variable_group_transport.jpg}
-    \caption{\textbf{Distributions and spatial patterns before and after normalization of the car and motos count}. \emph{Top row:} kernel density estimates of the raw counts (blue) and the normalized values (green), with vertical dashed lines indicating the lower and upper outlier thresholds for the normalized data (first and third quartiles ± 1.5 × IQR).  
-    \emph{Middle row:} raw values mapped at each network node (zero‐value nodes in gray).  
-    \emph{Bottom row:} normalized values mapped at the same nodes (zero‐value nodes in gray).}
-    \label{fig:transport_normalization}
-\end{figure}
+  \begin{figure}[!htbp]
+      \centering
+      \includegraphics[width=0.9\linewidth]{0_plots/paper1/appendices/variable_group_pois1.jpg}
+      \caption[Distributions and spatial patterns before and after normalization of category-specific POIs for health \& care, culture, tourism, recreation, and sport locations]{
+        \textbf{Distributions and spatial patterns before and after normalization of category-specific \ac{poi} counts for health \& care, culture, tourism, recreation, and sport locations.}
+        \textbf{Top row:} kernel density estimates of the raw counts (blue) and the normalized values (green), with vertical dashed lines indicating the lower and upper outlier thresholds for the normalized data (first and third quartiles ± 1.5 × IQR).  
+        \textbf{Middle row:} raw values mapped at each network node (zero‐value nodes in gray).  
+        \textbf{Bottom row:} normalized values mapped at the same nodes (zero‐value nodes in gray).
+      }
+      \label{fig:pois1_normalization}
+  \end{figure}
+
+
+  \begin{figure}[!htbp]
+      \centering
+      \includegraphics[width=0.9\linewidth]{0_plots/paper1/appendices/variable_group_pois2.jpg}
+      \caption[Distributions and spatial patterns before and after normalization of category-specific POIs for economic, industrial, green, civic, and worship locations]{
+        \textbf{Distributions and spatial patterns before and after normalization of category‐specific \ac{poi} counts for economic, industrial, green, civic, and worship locations.}  
+        \textbf{Top row:} kernel density estimates of the raw counts (blue) and the normalized values (green), with vertical dashed lines indicating the lower and upper outlier thresholds for the normalized data (first and third quartiles ± 1.5 × IQR).  
+        \textbf{Middle row:} raw values mapped at each network node (zero‐value nodes in gray).  
+        \textbf{Bottom row:} normalized values mapped at the same nodes (zero‐value nodes in gray).}
+      \label{fig:pois2_normalization}
+  \end{figure}
+
+  \begin{figure}[!htbp]
+      \centering
+      \includegraphics[width=0.9\linewidth]{0_plots/paper1/appendices/variable_group_pois3.jpg}
+      \caption[Distributions and spatial patterns before and after normalization of category-specific POIs for education, high-traffic "super" POIs, total POIs, and POI diversity (entropy)]{
+        \textbf{Distributions and spatial patterns before and after normalization of category‐specific \ac{poi} counts for education, high-traffic "super" \acp{poi}, the total \ac{poi} count, and \ac{poi} diversity (entropy).}  
+        \textbf{Top row:} kernel density estimates of the raw counts (blue) and the normalized values (green), with vertical dashed lines indicating the lower and upper outlier thresholds for the normalized data (first and third quartiles ± 1.5 × IQR).  
+        \textbf{Middle row:} raw values mapped at each network node (zero‐value nodes in gray).  
+        \textbf{Bottom row:} normalized values mapped at the same nodes (zero‐value nodes in gray).
+      }
+      \label{fig:pois3_normalization}
+  \end{figure}
+
+
+  \begin{figure}[!htbp]
+      \centering
+      \includegraphics[width=0.9\linewidth]{0_plots/paper1/appendices/variable_group_public_transport.jpg}
+      \caption[Distributions and spatial patterns before and after normalization of the PT variables]{
+        \textbf{Distributions and spatial patterns before and after normalization of the \ac{pt} variables}. 
+        \textbf{Top row:} kernel density estimates of the raw counts (blue) and the normalized values (green), with vertical dashed lines indicating the lower and upper outlier thresholds for the normalized data (first and third quartiles ± 1.5 × IQR).  
+        \textbf{Middle row:} raw values mapped at each network node (zero‐value nodes in gray).  
+        \textbf{Bottom row:} normalized values mapped at the same nodes (zero‐value nodes in gray).
+      }
+      \label{fig:pt_normalization}
+  \end{figure}
+
+
+  \begin{figure}[!htbp]
+      \centering
+      \includegraphics[width=0.9\linewidth]{0_plots/paper1/appendices/variable_group_socio.jpg}
+      \caption[Distributions and spatial patterns before and after normalization of the sociodemographic variables]{
+        \textbf{Distributions and spatial patterns before and after normalization of the sociodemographic variables.} Variables include total population, female population, male population, and non-Spanish population. 
+        \textbf{Top row:} kernel density estimates of the raw counts (blue) and the normalized values (green), with vertical dashed lines indicating the lower and upper outlier thresholds for the normalized data (first and third quartiles ± 1.5 × IQR).  
+        \textbf{Middle row:} raw values mapped at each network node (zero‐value nodes in gray).  
+        \textbf{Bottom row:} normalized values mapped at the same nodes (zero‐value nodes in gray).
+      }
+      \label{fig:socio_normalization}
+  \end{figure}
+
+  \begin{figure}[!htbp]
+      \centering
+      \includegraphics[width=0.9\linewidth]{0_plots/paper1/appendices/variable_group_transport.jpg}
+      \caption[Distributions and spatial patterns before and after normalization of the car and motorbike count]{
+        \textbf{Distributions and spatial patterns before and after normalization of the car and motorbike count}. 
+        \textbf{Top row:} kernel density estimates of the raw counts (blue) and the normalized values (green), with vertical dashed lines indicating the lower and upper outlier thresholds for the normalized data (first and third quartiles ± 1.5 × IQR).  
+        \textbf{Middle row:} raw values mapped at each network node (zero‐value nodes in gray).  
+        \textbf{Bottom row:} normalized values mapped at the same nodes (zero‐value nodes in gray).
+      }
+      \label{fig:transport_normalization}
+  \end{figure}
 
 
 \section{Results}
 
-  \subsection{Spatial distributions of local factors for scenarios S1–S3}
-  \label{app_paper1:scenarios} 
+  \setcounter{figure}{0}
+  \setcounter{table}{0}
+  \renewcommand{\thefigure}{A.6.\arabic{figure}}
+  \renewcommand{\thetable}{A.6.\arabic{table}}
 
-    \begin{figure}[!htbp]
+    \subsection{Spatial distributions of local factors for scenarios S1–S3}
+    \label{app_paper1:scenarios}
+    \setcounter{figure}{0}
+    \setcounter{table}{0}
+    \renewcommand{\thefigure}{A.6.1.\arabic{figure}}
+    \renewcommand{\thetable}{A.6.1.\arabic{table}}
+
+      \begin{figure}[!htbp]
+          \centering
+          \includegraphics[width=0.65\linewidth]{0_plots/paper1/appendices/scenario_1.jpg}
+          \caption[Spatial distributions of utility and local factors for Scenario S1]{
+            \textbf{Spatial distributions of utility and localfactors for Scenario S1.} The leftmost panel shows each node’s normalized utility score, computed as a weighted sum of the local factors. In the remaining panels, the spatial pattern of each individual factor is displayed, with the factor’s assigned weight indicated in that panel’s title.
+          }
+          \label{fig:spatial_distribution_s1}
+      \end{figure}
+
+      \begin{figure}[!htbp]
+          \centering
+          \includegraphics[width=0.65\linewidth]{0_plots/paper1/appendices/scenario_2.jpg}
+          \caption[Spatial distributions of utility and local factors for scenario S2]{
+            \textbf{Spatial distributions of utility and local factors for scenario S2.} The leftmost panel shows each node’s normalized utility score, computed as a weighted sum of the local factors. In the remaining panels, the spatial pattern of each individual factor is displayed, with the factor’s assigned weight indicated in that panel’s title.
+          }
+          \label{fig:spatial_distribution_s2}
+      \end{figure}
+
+      \begin{figure}[!htbp]
+          \centering
+          \includegraphics[width=0.65\linewidth]{0_plots/paper1/appendices/scenario_3.jpg}
+          \caption[Spatial distributions of utility and local factors for scenario S3]{
+            \textbf{Spatial distributions of utility and local factors for scenario S3.} The leftmost panel shows each node’s normalized utility score, computed as a weighted sum of the local factors. In the remaining panels, the spatial pattern of each individual factor is displayed, with the factor’s assigned weight indicated in that panel’s title.
+          }
+          \label{fig:spatial_distribution_s3}
+      \end{figure}
+      \clearpage
+
+    \subsection{Network-based station optimization for scenarios S2 and S3}
+    \label{app_paper1:network_scenarios} 
+    \setcounter{figure}{0}
+    \setcounter{table}{0}
+    \renewcommand{\thefigure}{A.6.2.\arabic{figure}}
+    \renewcommand{\thetable}{A.6.2.\arabic{table}}
+
+      \begin{figure}[!htbp]
+          \centering
+          \includegraphics[width=1\linewidth]{0_plots/paper1/appendices/alpha_screening_s2.png}
+          \caption[Impact of network-metrics trade-offs on station selection for scenario S2]{
+            \textbf{Impact of network-metrics trade-offs on station selection for scenario S2.}  All panels use the same S2 input weights to illustrate how modifying $\alpha$ shifts the \ac{bss} network and the node utilities $U_i$. 
+            \textbf{(A)} Maps of selected stations under six conditions: a baseline optimization without network metrics, and optimizations with $\alpha$ = 0, 0.25, 0.50, 0.75, and 1. 
+            \textbf{(B)} Displays proximity score $S_{pro}$ and accessibility score $S_{acc}$ versus $\alpha$. 
+            \textbf{(C)} \ac{bss} utility $U_{BSS}$ alongside box-plots of individual station utilities for each $\alpha$. 
+            \textbf{(D)} Change in mean local factor values of the selected stations relative to the baseline without network metrics
+          }
+          \label{fig:alpha_screening_s2}
+      \end{figure}
+
+
+      \begin{figure}[!htbp]
+          \centering
+          \includegraphics[width=1\linewidth]{0_plots/paper1/appendices/alpha_screening_s3.png}
+          \caption[Impact of network-metrics trade-offs on station selection for scenario S3]{
+            \textbf{Impact of network-metrics trade-offs on station selection for scenario S3.}  All panels use the same S3 input weights to illustrate how modifying $\alpha$ shifts the \ac{bss} network and the node utilities $U_i$. 
+            \textbf{(A)} Maps of selected stations under six conditions: a baseline optimization without network metrics, and optimizations with $\alpha$ = 0, 0.25, 0.50, 0.75, and 1. 
+            \textbf{(B)} Displays proximity score $S_{pro}$ and accessibility score $S_{acc}$ versus $\alpha$. 
+            \textbf{(C)} \ac{bss} utility $U_{BSS}$ alongside box-plots of individual station utilities for each $\alpha$. 
+            \textbf{(D)} Change in mean local factor values of the selected stations relative to the baseline without network metrics
+          }
+          \label{fig:alpha_screening_s3}
+      \end{figure}
+
+      \clearpage
+
+    \subsection{Altitude-adjusted optimizations}
+    \label{app_paper1:results_altitude}
+    \setcounter{figure}{0}
+    \setcounter{table}{0}
+    \renewcommand{\thefigure}{A.6.3.\arabic{figure}}
+    \renewcommand{\thetable}{A.6.3.\arabic{table}}
+
+      \begin{figure}[!htbp]
         \centering
-        \includegraphics[width=0.65\linewidth]{0_plots/paper1/appendices/scenario_1.jpg}
-        \caption{\textbf{Spatial distributions for Scenario S1.} The leftmost panel shows each node’s normalized utility score, computed as a weighted sum of the local factors. In the remaining panels, the spatial pattern of each individual factor is displayed, with the factor’s assigned weight indicated in that panel’s title.}
-        \label{fig:spatial_distribution_s1}
-    \end{figure}
+        \includegraphics[width=1\linewidth]{0_plots/paper1/appendices/altitude_comparison_s1.png}    
+        \caption[Impact of altitude-adjusted distances on station selection for scenario S1]{
+          \textbf{Impact of altitude-adjusted distances on station selection for scenario S1.} 
+          \textbf{(A)} Original edge distances vs. altitude-adjusted distances, coloured by slope of the between origin and destination. 
+          \textbf{(B)} ECDF of normalized node scores for different $\alpha$ values under the S1 scenario, with and without altitude adjustments; the baseline corresponds to the optimization without network metrics for S1. 
+          \textbf{(C)} Composite utility $U^*_{BSS}$ for the resulting station sets, showing a slight trade-off when elevation is considered. 
+          \textbf{(D)} Spatial distribution of normalized node scores in the study area. 
+          \textbf{(E–G)} Differences in selected station locations (grid cell counts) between configurations with and without altitude adjustment under the \textbf{(E)} S1 scenario, and its network-aware versions using \textbf{(F)}~$\alpha=0$ and \textbf{(G)}~$\alpha=1$. Grids cells are 500 m by 500 m. Positive values indicate more stations were selected in a given cell when altitude was considered. Background contour lines represent elevation levels.
+        }
+        \label{fig:altitude_s1}
+      \end{figure}
 
-    \begin{figure}[!htbp]
+      \begin{figure}[!htbp]
         \centering
-        \includegraphics[width=0.65\linewidth]{0_plots/paper1/appendices/scenario_2.jpg}
-        \caption{\textbf{Spatial distributions for Scenario S2.} The leftmost panel shows each node’s normalized utility score, computed as a weighted sum of the local factors. In the remaining panels, the spatial pattern of each individual factor is displayed, with the factor’s assigned weight indicated in that panel’s title.}
-        \label{fig:spatial_distribution_s2}
-    \end{figure}
-
-    \begin{figure}[!htbp]
-        \centering
-        \includegraphics[width=0.65\linewidth]{0_plots/paper1/appendices/scenario_3.jpg}
-        \caption{\textbf{Spatial distributions for Scenario S3.} The leftmost panel shows each node’s normalized utility score, computed as a weighted sum of the local factors. In the remaining panels, the spatial pattern of each individual factor is displayed, with the factor’s assigned weight indicated in that panel’s title.}
-        \label{fig:spatial_distribution_s3}
-    \end{figure}
-    \clearpage
-
-  \subsection{Network-based station optimization for scenarios S2 and S3}
-  \label{app_paper1:network_scenarios} 
-
-    \begin{figure}[!htbp]
-        \centering
-        \includegraphics[width=1\linewidth]{0_plots/paper1/appendices/alpha_screening_s2.png}
-        \caption{\textbf{Impact of network‐metrics trade-off ($\alpha$) on scenario S2.}  All panels use the same S2 input weights to illustrate how modifying $\alpha$ shifts the \ac{bss} network and the node utilities $U_i$. \textbf{(A)} Maps of selected stations under six conditions: a baseline optimization without network metrics, and optimizations with $\alpha$ = 0, 0.25, 0.50, 0.75, and 1. \textbf{(B)} displays proximity score $S_{pro}$ and accessibility score $S_{acc}$ versus $\alpha$. \textbf{(C)} \ac{bss} utility $U_{BSS}$ alongside box-plots of individual station utilities for each $\alpha$. \textbf{(D)} Change in mean local factor values of the selected stations relative to the no network metrics baseline.}
-        \label{fig:alpha_screening_s2}
-    \end{figure}
+        \includegraphics[width=1\linewidth]{0_plots/paper1/appendices/altitude_comparison_s2.png}    
+        \caption[Impact of altitude-adjusted distances on station selection for scenario S2]{
+          \textbf{Impact of altitude-adjusted distances on station selection for scenario S2.} \textbf{(A)} Original edge distances vs. altitude-adjusted distances, coloured by slope of the between origin and destination. 
+          \textbf{(B)} ECDF of normalized node scores for different $\alpha$ values under the S2 scenario, with and without altitude adjustments; the baseline corresponds to the optimization without network metrics for S2. 
+          \textbf{(C)} Composite utility $U^*_{BSS}$ for the resulting station sets, showing a slight trade-off when elevation is considered. 
+          \textbf{(D)} Spatial distribution of normalized node scores in the study area. 
+          \textbf{(E–G)} Differences in selected station locations (grid cell counts) between configurations with and without altitude adjustment under the \textbf{(E)} S2 scenario, and its network-aware versions using \textbf{(F)}~$\alpha=0$ and \textbf{(G)}~$\alpha=1$. Grids cells are 500 m by 500 m. Positive values indicate more stations were selected in a given cell when altitude was considered. Background contour lines represent elevation levels.}
+          \label{fig:altitude_s2}
+      \end{figure}
 
 
-    \begin{figure}[!htbp]
-        \centering
-        \includegraphics[width=1\linewidth]{0_plots/paper1/appendices/alpha_screening_s3.png}
-        \caption{\textbf{Impact of network‐metrics trade-off ($\alpha$) on scenario S3.}  All panels use the same S3 input weights to illustrate how modifying $\alpha$ shifts the \ac{bss} network and the node utilities $U_i$. \textbf{(A)} Maps of selected stations under six conditions: a baseline optimization without network metrics, and optimizations with $\alpha$ = 0, 0.25, 0.50, 0.75, and 1. \textbf{(B)} displays proximity score $S_{pro}$ and accessibility score $S_{acc}$ versus $\alpha$. \textbf{(C)} \ac{bss} utility $U_{BSS}$ alongside box-plots of individual station utilities for each $\alpha$. \textbf{(D)} Change in mean local factor values of the selected stations relative to the no network metrics baseline.}
-        \label{fig:alpha_screening_s3}
-    \end{figure}
+    \subsection[BSS expansion]{\ac{bss} expansion}
+    \label{app_paper1:results_bss_expansion}
+    \setcounter{figure}{0}
+    \setcounter{table}{0}
+    \renewcommand{\thefigure}{A.6.4.\arabic{figure}}
+    \renewcommand{\thetable}{A.6.4.\arabic{table}}
 
-    \clearpage
-
-  \subsection{Altitude-adjusted optimizations}
-  \label{app_paper1:results_altitude}
-
-    \begin{figure}[!htbp]
-      \centering
-      \includegraphics[width=1\linewidth]{0_plots/paper1/appendices/altitude_comparison_s1.png}    \caption{
-    \textbf{Impact of altitude-adjusted distances on station selection.} \textbf{(A)} Original edge distances vs. altitude-adjusted distances, coloured by slope of the between origin and destination. \textbf{(B)} ECDF of normalized node scores for different $\alpha$ values under the S1 scenario, with and without altitude adjustments; the baseline corresponds to the optimization without network metrics for S1. \textbf{(C)} Composite utility $U^*_{\ac{bss}}$ for the resulting station sets, showing a slight trade-off when elevation is considered. \textbf{(D)} Spatial distribution of normalized node scores in the study area. \textbf{(E–G)} Differences in selected station locations (grid cell counts) between configurations with and without altitude adjustment under the \textbf{(E)} S1 scenario, and its network-aware versions using \textbf{(F)}~$\alpha=0$ and \textbf{(G)}~$\alpha=1$. Grids cells are 500 m by 500 m. Positive values indicate more stations were selected in a given cell when altitude was considered. Background contour lines represent elevation levels.}
-      \label{fig:altitude_s1}
-    \end{figure}
-
-    \begin{figure}[!htbp]
-        \centering
-        \includegraphics[width=1\linewidth]{0_plots/paper1/appendices/altitude_comparison_s2.png}    \caption{
-    \textbf{Impact of altitude-adjusted distances on station selection.} \textbf{(A)} Original edge distances vs. altitude-adjusted distances, coloured by slope of the between origin and destination. \textbf{(B)} ECDF of normalized node scores for different $\alpha$ values under the S2 scenario, with and without altitude adjustments; the baseline corresponds to the optimization without network metrics for S2. \textbf{(C)} Composite utility $U^*_{\ac{bss}}$ for the resulting station sets, showing a slight trade-off when elevation is considered. \textbf{(D)} Spatial distribution of normalized node scores in the study area. \textbf{(E–G)} Differences in selected station locations (grid cell counts) between configurations with and without altitude adjustment under the \textbf{(E)} S2 scenario, and its network-aware versions using \textbf{(F)}~$\alpha=0$ and \textbf{(G)}~$\alpha=1$. Grids cells are 500 m by 500 m. Positive values indicate more stations were selected in a given cell when altitude was considered. Background contour lines represent elevation levels.}
-        \label{fig:altitude_s2}
-    \end{figure}
-
-
-  \subsection{\ac{bss} expansion}
-  \label{app_paper1:results_bss_expansion}
-
-    \begin{figure}[!htbp]
-        \centering
-        \includegraphics[width=0.5\linewidth]{0_plots/paper1/appendices/eixample_pois_and_pt.png}
-        \caption{\textbf{Spatial distribution of public transport stations and \acp{poi} across the Eixample district in Barcelona.} Public transport nodes include bus and tram stops, and metro entrances.}
-
-        \label{fig:pois_and_pt_eixample}
-    \end{figure}
+      \begin{figure}[!htbp]
+          \centering
+          \includegraphics[width=0.5\linewidth]{0_plots/paper1/appendices/eixample_pois_and_pt.png}
+          \caption[PT and POIs spatial distributions in Barcelona's l'Eixample district]{
+            \textbf{\ac{pt} and \acp{poi} spatial distributions in Barcelona's l'Eixample district.} 
+            The figure maps bus and tram stops, metro entrances, and \ac{poi} categories across the district.
+          }
+          \label{fig:pois_and_pt_eixample}
+      \end{figure}
