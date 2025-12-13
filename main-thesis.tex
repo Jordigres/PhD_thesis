@@ -163,16 +163,16 @@
 \listoftables
 
 %-------------List of Algorithms----------------------------
-\newpage
-\phantomsection \label{listofalgorithms}
-\addcontentsline{toc}{chapter}{List of Algorithms}
-\listofalgorithms
+% \newpage
+% \phantomsection \label{listofalgorithms}
+% \addcontentsline{toc}{chapter}{List of Algorithms}
+% \listofalgorithms
 
 %------------ List of Abbreviations---------------------
 \include{1_Precontent/abbreviations}
 
 % %------------ List of Glossary---------------------
-\include{1_Precontent/glossary}
+% \include{1_Precontent/glossary}
 
 % \printnomencl[space] space can be set as 2em between symbol and description
 %\printnomencl[3em]
@@ -181,7 +181,6 @@
 \mainmatter
 
 % ################## Part 1 INTRODUCTION ##################
-\graphicspath{{Figures}}
 \epigraphhead[550]{
   \textit{``A journey of a thousand miles begins with a single step.''}\\
   [0.5em]\begin{flushright}\textbf{Lao Tzu}\\
@@ -198,6 +197,7 @@
   [0.5em]\begin{flushright}\textbf{Bill Nye}\\
   [-0.3em]\textit{American science educator}\end{flushright}}
 \part{Background}
+\label{pt:background}
 \include{Part_2/1__Bike-sharing_systems}
 \include{Part_2/2__Station_placement}
 \include{Part_2/3__Mobility_and_battery_modelling}
@@ -210,6 +210,7 @@
   [-0.3em]\textit{German theoretical physicist}\end{flushright}}
 \part[Designing BSS Station Networks in Barcelona]{Designing \ac{bss} Station Networks in Barcelona} 
 \label{pt:data-driven-station-planning}
+\include{Part_3/0__Intro}
 \include{Part_3/1__Use_case_Barcelona}
 \include{Part_3/2__Station_planning}
 
@@ -218,8 +219,9 @@
   \textit{``Trying to predict the future is like trying to drive down a country road at night with no lights while looking out the back window.''}\\
   [0.5em]\begin{flushright}\textbf{Peter Drucker}\\
   [-0.3em]\textit{Austrian-American management consultant and philosopher}\end{flushright}}
-\part{Predictive Operations for \textit{Bicing}}
-\label{part:predictive_operations}
+\part[Predictive Operations for Bicing]{Predictive Operations for \ac{bss} Bicing}
+\label{pt:predictive_operations}
+\include{Part_4/0__Intro}
 \include{Part_4/1_Use_case_Bicing}
 \include{Part_4/2__Batteries}
 \include{Part_4/3__Predictive_maintenance}
@@ -229,7 +231,8 @@
   \textit{``You are one ride away from a good mood.''}\\
   [0.5em]\begin{flushright}\textbf{Sarah Bentley}\\
   [-0.3em]\textit{Common cycling saying}\end{flushright}}
-\part{Conclusion and Future Directions}
+\part{Closing reflections}
+\chapter{Discussion and implications}
 \include{Part_5/1_Conclusions_and_future_directions}
 
 
@@ -238,7 +241,7 @@
 %\backmatter
 
 % ********************************** Bibliography ******************************
-\begin{spacing}{0.9}
+\begin{spacing}{0.8}
 
 % To use the conventional natbib style referencing
 % Bibliography style previews: http://nodonn.tipido.net/bibstyle.php
@@ -255,6 +258,7 @@
   references/ref_PART2_3_impacts,
   references/ref_PART2_4_ai,
   references/ref_PART3_stations,
+  references/ref_PART4_bicing_use_case,
   references/ref_PART4_batteries,
   references/ref_PART4_predictive_maintenance
 }
@@ -270,7 +274,6 @@
 \end{spacing}
 
 % ********************************** Appendices ********************************
-
 \begin{appendices} % Using appendices environment for more functunality
   \include{Appendices/paper1_stations}
   \include{Appendices/paper2_batteries}
