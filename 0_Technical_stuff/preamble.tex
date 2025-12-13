@@ -39,7 +39,7 @@
 
 % *************************** Graphics and figures *****************************
 
-%\usepackage{rotating}
+\usepackage{rotating}
 %\usepackage{wrapfig}
 
 % Uncomment the following two lines to force Latex to place the figure.
@@ -69,7 +69,7 @@
 \usepackage{framed,enumitem} 
 
 \usepackage{siunitx} % use this package module for SI units
-\usepackage{url} % for proper URL formatting
+\usepackage[hyphens]{xurl} % better URL breaking at more positions
 \usepackage{hyperref}
 \hypersetup{
   colorlinks,
@@ -107,8 +107,25 @@
 % Load xcolor to replace the old color package from the class file
 % xcolor automatically replaces color when loaded, but we ensure compatibility
 % \usepackage{xcolor}
-\usepackage[usenames,dvipsnames]{xcolor}
+\usepackage[dvipsnames]{xcolor}
 \definecolor{RED}{rgb}{1,0,0} % Define RED as an alias for red in case something uses uppercase
+% Load tocloft before etoc to avoid conflicts
+% Prevent counter redefinition errors by patching \newcounter
+\makeatletter
+% Save original \newcounter
+\let\@@newcounter\newcounter
+% Redefine \newcounter to check if counter exists first
+\renewcommand{\newcounter}[1]{%
+  \@ifundefined{c@#1}{%
+    \@@newcounter{#1}%
+  }{%
+    % Counter already exists, do nothing to avoid error
+  }%
+}
+\usepackage{tocloft}
+% Restore original \newcounter after tocloft loads
+\let\newcounter\@@newcounter
+\makeatother
 \usepackage{etoc}
 % Packages for PART and EPIGRAPH
 \usepackage{epigraph}
@@ -154,6 +171,10 @@
 % \doublespacing
 % \onehalfspacing
 % \singlespacing
+
+% Borrar si és necessari. Afegit per reduir \hbox overfull warnings.
+% Allow more flexible line breaking to reduce overfull hbox warnings
+\setlength{\emergencystretch}{3em}
 
 
 % ************************ Formatting / Footnote *******************************
@@ -224,6 +245,15 @@
 
 \setcounter{secnumdepth}{3}
 \setcounter{tocdepth}{3}
+
+% ********************** List of Figures and Tables spacing ********************
+% Increase spacing between number and title in list of figures and tables
+% (tocloft is loaded earlier, before etoc)
+% Add space after the number to prevent superposition with the title
+\renewcommand{\cftfigaftersnum}{\quad}  % Add space after figure number (quad = 1em)
+\renewcommand{\cfttabaftersnum}{\quad}  % Add space after table number (quad = 1em)
+\setlength{\cftfignumwidth}{3.6em}  % Width for figure numbers
+\setlength{\cfttabnumwidth}{3.6em}  % Width for table numbers
 
 
 % ******************************* Nomenclature *********************************
