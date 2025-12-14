@@ -5,13 +5,11 @@
 \textit{Bicing} has made available for this use case two bike-sharing data sets: a trips dataset and a maintenance dataset (Appendix~\ref{app_paper3:section_data_exploration}).
 
 \begin{itemize}
-    \item The trips data set encompasses individual trips generated from April 2019 to December 2022 (i.e., 3 years and 9 months). Out of 53 million trips, 33 million (62\%) were completed by \acp{m-b}, while 20 million (38\%) were made with \acp{e-b}. Each trip entry includes the following information: starting and ending dates and times with second-level granularity, starting and ending stations, bike identifier, bike model (\ac{m-b} or \ac{e-b}), and an anonymized user identifier. Additionally, geographical data for the 519 stations, including latitude and longitude coordinates, are provided for the study.
+    \item The trips dataset is described in detail in Section~\ref{ch:bicing_mobility_patterns}. For the mobility analysis presented in that section, only trips data from 2022 was used to minimize the impact of the COVID-19 pandemic and to reflect the increasing use of \acp{e-b}. In contrast, the maintenance analysis and the \ac{pm} modeling utilized the complete trips dataset available (from April 2019 to December 2022).
 
     \item Maintenance data is comprised of a total of 310,000 \acp{mo}, which correspond to various bicycle repairs types executed between September 1st, 2020, and January 1st, 2023 (i.e., 2 years and 4 months). Each \ac{mo} record provides the following information: \ac{mo} identifier, date, category, subcategory, bike identifier, and bike model (\ac{m-b} or \ac{e-b}).
     There exist a total of 12 categories and 87 subcategories, encompassing a wide array of actions such as cleaning, greasing, adjusting, or changing bike parts. Categories range from fewer than 100 interventions to 120,000, with the majority of them falling into the brake and wheel categories (66\%). Likewise, subcategories also reveal a wide range of counts, with only 10\% of the repair typologies surpassing 10,000 \acp{mo}.
   \end{itemize}
-
-For the mobility analysis, only trips data from 2022 was used to minimize the impact of the COVID-19 pandemic and to reflect the increasing use of \acp{e-b}, as detailed in Appendix~\ref{app_paper3:section_data_exploration}. In contrast, the maintenance analysis and the \ac{pm} modeling utilized the complete datasets available for both mobility and maintenance.
     
     \subsection{Trips processing} \label{section_trips_processing}
   

@@ -1,36 +1,5 @@
 \section{Results}
-
-
-\subsection{Mobility patterns analysis} \label{section_results_mobility}
-
-    The analysis of mobility patterns focused on data of 2022. Both mechanical and electric transportation modes exhibited variability across time due to seasonal variations and holidays such as Easter week and summer holidays (Figure~\ref{fig:trips_characteristics}A). However, a noticeable differential trend emerged from summer on-wards. Electric mobility experienced a rise in trip numbers while the mechanical one suffered a significant decrease. Despite some \acp{m-b} being upgraded to \acp{e-b} in the course of 2022, the increase in the number of \ac{e-b} rides couldn't be entirely attributed to this transformation, considering they comprised only 40\% of the bike fleet at their highest point. The \acp{e-b} experienced a rise in the mean daily trips per bike, whereas the \acp{m-b} saw a significant reduction. Consequently, the variations in the usage of both transportation modes can be attributed to the upgrade of \acp{m-b} into \acp{e-b} and the increasing preference of users for the electric mobility.
-
-    \begin{figure}[ht!]
-        \centering
-        \includegraphics[width=1\textwidth]{0_plots/paper3/main/panel_1.png}
-        \caption[Trip patterns of \textit{Bicing} in 2022]{
-            \textbf{Trip patterns of \textit{Bicing} in 2022.} 
-            \textbf{(A)} Time series depicting the weekly trip counts alongside the average weekly number of trips per bike. 
-            \textbf{(B)} Hourly time series illustrating the average trip counts throughout the week, with the area around the time series indicating the standard deviation. 
-            \textbf{(C-F)} Distributions of trip characteristics, with vertical lines representing the mean of each subgroup.
-        }
-        \label{fig:trips_characteristics}
-    \end{figure}    
-
-    Trip counts present a strong weekly seasonality characterized by two distinct mainly daily patterns: weekdays and weekends (Figure~\ref{fig:trips_characteristics}B). On weekdays, three important trip count maxima are observed at 8:00, 14:00, and 18:00, with a gradual increase in trip numbers as the week progresses, peaking on Thursday. Fridays slightly deviate from the typical weekday pattern since they present similar trip count peaks at 14:00 and 18:00. In contrast, weekends are characterized by a 30\% mobility reduction, the absence of an 8:00 peak, and a shift in the 18:00 peak to 19:00. Notably, electric mobility consistently matches or surpasses the mechanical one across all days and hours despite its additional cost. Both transportation modes also differ in their trip characteristics (Figure~\ref{fig:trips_characteristics}C-F). Significant differences were found in the distributions of trip duration, distance, speed, and elevation (Section~\ref{section_trips_processing}), implying two distinct behaviors. Specifically, electric mobility is characterized by steeper inclines, longer durations, greater distances from the origin, and higher speeds compared to mechanical mobility.
-
-    Additionally, each mobility mode exhibits unique spatial mobility dynamics (Figure~\ref{fig:elevation_maps}). High-altitude stations predominantly receive \ac{e-b} trips, whereas low-altitude stations see the majority of incoming trips via \acp{m-b}. This reflects users' preference for electric mobility when doing physically demanding trips. While this pattern is clear for incoming trips, it becomes less pronounced for outgoing trips, since the proportional utilization of \acp{e-b} is not as dominant, even at high-altitude stations. This is attributed to the fact that the outgoing trips from a station do not indicate their destinations, resulting in a mix of trips to lower and higher stations. Nevertheless, given the overall preference for electric mobility among users, the inclination towards \acp{e-b} still remains evident. Furthermore, when analyzing the differences in the percentages of incoming and outgoing trips involving \acp{e-b} (Appendix~\ref{app_paper3:section_mobility_analysis}), it becomes evident that the prevalence of incoming \ac{e-b} trips is more pronounced at high-altitude stations. In contrast, at lower-altitude stations, the percentages of incoming trips made by \acp{e-b} become less substantial compared to the outgoing trips.
-
-    \begin{figure}[ht!]
-        \centering
-        \includegraphics[width=1\textwidth]{0_plots/paper3/main/panel_2.pdf}
-        \caption[Trip flow percentages for e-bikes and m-bikes in 2022, segmented by trip elevation.]{
-            \textbf{Trip flow percentages for \acp{e-b} and \acp{m-b} in 2022, segmented by trip elevation.} Each pair of maps displays the differences in \ac{e-b} and \ac{m-b} trip percentages for incoming and outgoing trips at each station. The left maps include all trips, whereas the remaining figures apply a filter based on trip elevation. Within each map, individual dots represent \ac{bss} stations. The dot size reflects the station's altitude, with larger dots indicating higher altitudes, and the dot color signifies differences in trip flow percentages. Grey dots denote stations that do not receive or send trips with the specified altitude filter.
-        }
-        \label{fig:elevation_maps}
-    \end{figure}
-
-    By segregating incoming and outgoing trips based on their elevation, this phenomenon becomes even more evident (Figure~\ref{fig:elevation_maps}). At stations that generate outgoing trips with an elevation gain of over 100 meters, electric mobility completely dominates the transportation mode. Consequently, the receiving stations at higher elevations predominantly receive \ac{e-b} trips. This prevalence of electric mobility reduces gradually as the elevation decreases until reaching those trips with elevations between -50 and 50 meters. In this range of elevations, mechanical mobility plays a much more prominent role, especially at low altitude stations, however, even at high-altitude stations, electric mobility remains relevant in both incoming and outgoing trips. Notably, even in scenarios with negative elevations exceeding -50 meters, electric mobility continue to be the preferred transport mode choice, albeit with reduced percentages. This phenomenon may be attributed to users' preference for an electric transportation mode on uphill rides, resulting in more \acp{e-b} accumulating at higher altitudes, and to potential elevation irregularities in paths between high-altitude stations.
+\label{sec:failure_forecasting_results}
 
 \subsection[MOs analysis]{\acp{mo} analysis}
 
