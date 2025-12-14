@@ -1,4 +1,5 @@
 \section{Methodology}
+\label{sec:station_planning_methodology}
 
 This section first presents the data sources used in the study. It then describes the station planning framework, detailing the mathematical formulation of the optimization problem and the two-step evaluation process: an initial scoring of candidate locations using a \ac{mcdm} approach, followed by a network-level adjustment that incorporates inter-station proximity and system-wide accessibility considerations. Next, the section proceeds to introduce the topography module, which refines distance calculations by accounting for slope effects. Finally, the section concludes with the configuration of the \ac{ga} used for the optimization.
 
@@ -278,7 +279,7 @@ This section first presents the data sources used in the study. It then describe
         \quad\text{where}\quad
         g_{e} = \frac{\Delta h_{e}}{d_{e}}.
         \]
-    To align with standard cycling guidelines, which recommend a maximum slope of 10\%, \(g_{e}\) is then clamped to the interval $[-0.10,0.10]$ \cite{AASHTO1999bicycle, CycleHighways2025, CROW2006}. Applying Parkin \& Rotheram’s linear slope-speed relation \cite{Parkin2010}, the segment speed becomes  
+    To align with standard cycling guidelines, which recommend a maximum slope of 10\%, \(g_{e}\) is then clamped to the interval $[-0.10,0.10]$ \cite{AASHTO1999bicycle, CycleHighways2025, CROW2006}. Applying Parkin and Rotheram’s linear slope-speed relation \cite{Parkin2010}, the segment speed becomes  
         \[
         v(g_{e})=v_{0}+b_{\mathrm{up}}\,g_{+,e}+b_{\mathrm{down}}\,g_{-,e},
         \]
