@@ -3,12 +3,12 @@
 
     \subsection{Data}
 
-    This research analyzes the bike usage and battery levels of Barcelona's \ac{bss} \cite{Soriguera2018, Winslow2019, Grau-Escolano2024}, using data supplied by its operator, \textit{Bicing}, which includes trip and battery information:
+    This research analyzes the bike usage and battery levels of Barcelona's \ac{bss} \cite{Soriguera2018, Winslow2019, Grau-Escolano2024}, using data supplied by its operator, \textit{Bicing}, which made available the following data sets:
 
       \begin{itemize}
-        \item The trips dataset is described in detail in Chapter~\ref{ch:bicing_mobility_patterns}. In this work, we focus specifically on the mobility of \acp{e-b}.
+        \item The trips dataset, which is described in detail in Chapter~\ref{ch:bicing_mobility_patterns}. In this work, we focus specifically on the mobility of \acp{e-b}.
 
-        \item To analyze \ac{e-b} battery dynamics, two datasets were used: one with snapshots taken every 8 hours over the entire year of 2022, and another with snapshots taken every 30 minutes over three weeks from 29 March to 18 April 2023. Each snapshot was recorded at the system level, capturing the battery levels of every bike available at the docking stations at the specified intervals. As the snapshots were captured at the stations, battery levels were recorded exclusively while the bikes were docked and not during travel. The relevant fields in both datasets include percentage, voltage, current, and temperature of the battery, bike station, timestamp, bike status (operative, low battery, or inoperative for several reasons such as maintenance), and location (at station, in use, or at the workshop). A detailed analysis of these datasets is provided in Appendices~\ref{app_paper2:data_description}.
+        \item Two \ac{e-b} battery dynamics datasets. The first one, with snapshots taken every 8 hours over the entire year of 2022, and the second one, with snapshots taken every 30 minutes over three weeks from 29 March to 18 April 2023. Each snapshot was recorded at the system level, capturing the battery levels of every bike available at the docking stations at the specified intervals. As the snapshots were captured at the stations, battery levels were recorded exclusively while the bikes were docked and not during travel. The relevant fields in both datasets include percentage, voltage, current, and temperature of the battery, bike station, timestamp, bike status (operative, low battery, or inoperative for several reasons such as maintenance), and location (at station, in use, or at the workshop). A detailed analysis of these datasets is provided in Appendices~\ref{app_paper2:data_description}.
       \end{itemize}
 
     Additionally, trip data from March and April 2023 was available to assess battery consumption in the 30-minute battery dataset.
