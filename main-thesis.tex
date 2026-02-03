@@ -196,12 +196,12 @@
   \textit{``Bicycling is a big part of the future. It has to be. There's something wrong with a society that drives a car to workout in a gym.''}\\
   [0.5em]\begin{flushright}\textbf{Bill Nye}\\
   [-0.3em]\textit{American science educator}\end{flushright}}
-\part{Background}
-\label{pt:background}
-\include{Part_2/1__Bike-sharing_systems}
-\include{Part_2/2__Station_placement}
-\include{Part_2/3__Mobility_and_battery_modelling}
-\include{Part_2/4__Failure_forecasting_in_maintenance_operations}
+  \part[Foundations of BSSs]{Foundations of \acp{bss}}
+\label{pt:foundations}
+\include{Part_2/1__Introduction_to_BSS}
+\include{Part_2/2__BSS_users_and_their_mobility_patterns}
+\include{Part_2/3__Impacts}
+\include{Part_2/4__Data_driven_and_AI_methods_in_bss}
 
 % ################## Part 3 BCN STATION PLANNING ##################
 \epigraphhead[550]{
@@ -211,6 +211,7 @@
 \part[Designing BSS Station Networks in Barcelona]{Designing \ac{bss} Station Networks in Barcelona} 
 \label{pt:data-driven-station-planning}
 \include{Part_3/0__Intro}
+\include{Part_2/2__Station_placement}
 \include{Part_3/1__Use_case_Barcelona}
 \include{Part_3/2__Station_planning}
 
@@ -223,20 +224,22 @@
 \label{pt:predictive_operations}
 \include{Part_4/0__Intro}
 \include{Part_4/1_Use_case_Bicing}
+\include{Part_2/3__Mobility_and_battery_modelling}
+\include{Part_2/4__Failure_forecasting_in_maintenance_operations}
 \include{Part_4/2___Bicing_mobility}
 \include{Part_4/2__Batteries}
 \include{Part_4/3__Predictive_maintenance}
 
 % ################## Part 5 CONCLUSIONS ##################
 \epigraphhead[550]{
-  \textit{``You are one ride away from a good mood.''}\\
-  [0.5em]\begin{flushright}\textbf{Sarah Bentley}\\
-  [-0.3em]\textit{Common cycling saying}\end{flushright}}
+  \begin{flushright}\textit{``You are one ride away from a good mood.''}\\[2.5em]
+  \textbf{Sarah Bentley}\\[-0.3em]
+  \textit{Common cycling saying}
+  \end{flushright}}
 \part{Closing reflections}
-\chapter{Discussion and implications}
 \label{ch:discussion_and_implications}
-\include{Part_5/1__Discussion}
-\include{Part_5/2__Conclusions}
+% \include{Part_5/1__Discussion}
+% \include{Part_5/2__Conclusions}
 
 
 % ********************************** Back Matter *******************************
@@ -277,11 +280,11 @@
 \end{spacing}
 
 % ********************************** Appendices ********************************
-\begin{appendices} % Using appendices environment for more functunality
-  \include{Appendices/paper1_stations}
-  \include{Appendices/paper2_batteries}
-  \include{Appendices/paper3_predictive_maintenance}
-\end{appendices}
+% \begin{appendices} % Using appendices environment for more functunality
+%   \include{Appendices/paper1_stations}
+%   \include{Appendices/paper2_batteries}
+%   \include{Appendices/paper3_predictive_maintenance}
+% \end{appendices}
 
 % *************************************** Index ********************************
 \printthesisindex % If index is present
