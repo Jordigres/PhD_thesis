@@ -1,0 +1,200 @@
+\section{Results}
+\label{sec:failure_forecasting_results}
+
+\subsection[MOs analysis]{\acp{mo} analysis}
+\label{subsec:MOs_analysis}
+
+    Before generating survival predictions for bike components, an analysis of the failure patterns within the maintenance dataset was conducted. Given the low frequencies of most \ac{mo} types (Appendix~\ref{app_paper3:section_data_exploration}) and the criteria outlined in Section~\ref{section_mos_processing}, only a few subcategories were deemed suitable for developing prediction models. Ultimately, three repair types were identified as the final targets for the predictions: brake pads, wheel spokes, and chains. Selected bike parts data was converted into \ac{mo} units (Table~\ref{tab:MO_units_censoring_vs_model}, Appendix~\ref{app_paper3:section_maintenance_operations_analysis}), and their corresponding covariate values were integrated as described in Section~\ref{section_mos_processing}.
+
+    The analysis of failure dynamics for the three bike parts revealed distinct patterns between \acp{m-b} and \acp{e-b} (Figure~\ref{fig:durability_analysis}). Specifically, for brake pads and wheel spokes, \acp{e-b} generally exhibit a significantly higher number of repairs per bike compared to their mechanical counterparts. Interestingly, \acp{m-b} display very few wheel spoke repairs. Also, notable differences in the survival times of the three bike parts have been found. \Ac{e-b} brake pads have shorter survival periods compared to their mechanical counterparts, and wheel spokes display similar trends. However, the scarcity of \acp{mo} for \acp{m-b} makes direct comparisons of survival distributions impractical. Finally, chain repairs present the widest range of survival times for both \acp{m-b} and \acp{e-b}, with \ac{m-b} chains having longer survival times when compared to \ac{e-b} chains.
+
+    \begin{figure}[ht!]
+        \centering
+        \includegraphics[width=1\textwidth]{0_plots/paper3/main/panel_3.pdf}
+        \caption[Durability analysis of bike components]{
+            \textbf{Durability analysis of bike components.} This figure presents the distribution of the survival time for the uncensored \ac{mo} units across various bike components, plotted against their cumulative traveled distance.
+        }
+        \label{fig:durability_analysis}
+    \end{figure}
+
+
+    When exploring the potential relation with bike usage, cumulative distance emerged as the primary covariate that significantly distinguishes between bike models (Figure~\ref{fig:durability_analysis}). The \ac{m-b} brake pads demonstrate considerably longer durability compared to their \ac{e-b} counterparts when covering equivalent distances, while in the case of chains, the behavior is the opposite. Furthermore, although it appears that the limited number of uncensored \ac{m-b} \ac{mo} units for wheel spokes outlast those of the \acp{e-b}, the scarcity of the former prevents a meaningful comparison of their behaviors. Also, differences have been observed in terms of the average number of reparations for other \ac{mo} subcategories during the target \ac{mo} units (Appendix~\ref{app_paper3:section_maintenance_operations_analysis}). Thus, \acp{m-b} and \acp{e-b} bike parts exhibit distinct breakdown dynamics, which can be attributed to variations in how bikes are used based on their specific model.
+
+    Before model training, \ac{mo} units distributions according to censoring and bike model have been examined (Figure~\ref{fig:censoring}, Table~\ref{tab:MO_units_censoring_vs_model}). Uncensored data for both brake pads and wheel spokes show similar trends, representing in both cases approximately 84\% of the dataset. 90\% of the uncensored units have survival times of up to 200 days for brake pads and 150 days for wheel spokes, with some units lasting as long as approximately 800 days. However, there are two significant differences between both. First, the ratio of right-censored to uncensored units for brake pads remains fairly consistent until the 550-day mark. In contrast, for wheel spokes, the proportion of uncensored units steadily declines, virtually disappearing after 650 days. Secondly, uncensored units for \acp{m-b} become the majority for brake pads after 200 days, whereas there is an almost complete absence of such units for \ac{m-b} wheel spokes. The decreasing number of \ac{mo} units over time and the reduction in uncensored units suggest that modeling long-lasting \ac{mo} units for both bike components could pose challenges. Moreover, the specific scarcity of uncensored \ac{mo} units for \ac{m-b} wheel spokes in brake pads could introduce additional complexities in the modeling.
+
+    \begin{figure}[ht!]
+        \centering
+        \includegraphics[width=1\textwidth]{0_plots/paper3/main/panel_4.png}
+        \caption[Censoring distributions of bike components]{
+            \textbf{Censoring distributions of bike components.} The graph features a black line representing the count of \ac{mo} units over time. Accompanying this, colored regions illustrate the relative fractions of each \ac{mo} unit type within the total count.
+        }
+        \label{fig:censoring}
+    \end{figure}
+
+
+    \begin{table}[htbp!]
+        \centering
+        \footnotesize
+        \caption[Counts and percentages of MO units for the three chosen bike parts]{
+            \textbf{Counts and percentages of \ac{mo} units for the three chosen bike parts.}
+        }
+        \label{tab:MO_units_censoring_vs_model}
+        \begin{tabular}{lccc}
+            \toprule
+                            & {M-bike}        & {E-bike}         & {Total}         \\
+            \midrule
+            \textbf{Brake pad MO units}                                           \\
+            Uncensored     & 8,777 (19.4\%)  & 29,655 (65.5\%)  & 38,432 (84.9\%) \\
+            Right-censored & 3,994 (8.8\%)   & 2,841 (6.3\%)    & 6,835 (15.1\%)  \\
+            Total          & 12,771 (28.2\%) & 32,496 (71.2\%)  & 45,267 (100\%)  \\ \\
+        
+            \textbf{Wheel spokes MO units}                                        \\
+            Uncensored     & 31 (0.2\%)      & 14,177 (83.6\%)  & 14,208 (83.8\%) \\
+            Right-censored & 353 (2.1\%)     & 2,386 (14.1\%)   & 2,739  (16.2\%) \\
+            Total          & 384  (2.3\%)    & 16,563  (97.7\%) & 16,947 (100\%)  \\ \\
+        
+            \textbf{Chain MO units}                                               \\
+            Uncensored     & 4,344 (36.3\%)  & 1,679 (14\%)     & 6,023 (50.4\%)  \\
+            Right-censored & 3,875 (32.4\%)  & 2,056 (17.2\%)   & 5,931 (49.6\%)  \\
+            Total          & 8,219 (68.8\%)  & 3,735 (31.2\%)   & 11,954 (100\%)  \\
+            \bottomrule
+        \end{tabular}
+        \end{table}
+
+    Chain maintenance exhibits distinct patterns. The number of censored units for chains almost exceeds that of the uncensored units, indicating that chains generally have longer lifespans compared to the other two bike components. Moreover, the failure rate for chains is notably different; only 30\% of chains fail before reaching the 200-day mark. Given the robust nature of chains, the proportion of uncensored units is low at the start of the timeline. Additionally, due to the rarity of instances surviving for extended periods, this proportion remains low past the 500-day mark as well. Considering the lower overall number of \ac{mo} units for chains, coupled with the relatively smaller number of uncensored units and their reduced proportion at both the beginning and end of the timeline, modeling the longevity of chains could be more challenging compared to other parts.
+
+\subsection{Predictions accuracy}
+
+    Upon confirming data distributions in the training and test sets are aligned (Appendix~\ref{app_paper3:section_model_training}), survival models were trained and their performance was evaluated predicting the uncensored \ac{mo} units from both datasets (Appendix~\ref{app_paper3:section_model_training}, Table~\ref{tab:prediction_results_test}). The decision to exclude the right-censored data was made to prevent comparisons of predictions with the time duration of \ac{mo} units that do not conclude with a repair.
+
+    \begin{table}[htbp!]
+        \centering
+        \footnotesize
+        \caption[Prediction accuracy on the test dataset]{
+            \textbf{Predictions accuracy on the test dataset.} 
+            Forecasts are computed on the test dataset using exclusively uncensored \ac{mo} units.
+        }
+        \label{tab:prediction_results_test}
+        \begin{tabular}{llccc}
+            \toprule
+                                & Models   & Brake pads     & Wheel spokes   & Chains \\
+            \midrule
+            RMSE                & CPH      & 66.27          & 91.07          & 100.64 \\
+                                & MTLR     & 38.51          & 26.74          & 64.73 \\
+                                & CSF      & 37.45          & 41.28          & 108.29 \\
+                                & DeepSurv & \textbf{28.75} & \textbf{18.83} & \textbf{43.62} \\
+            \midrule
+            R\textsuperscript{2} & CPH      & 0.59           & -0.29          & 0.60 \\
+                                 & MTLR     & 0.86           & 0.89           & 0.84 \\
+                                 & CSF      & 0.87           & 0.73           & 0.55 \\
+                                 & DeepSurv & \textbf{0.92}  & \textbf{0.94}  & \textbf{0.93} \\
+            \midrule
+            MAPE                 & CPH      & 59.65          & 68.96          & 197.59 \\
+                                 & MTLR     & 45.31          & 33.82          & 69.40 \\
+                                 & CSF      & 89.60          & 105.90         & 227.10 \\
+                                 & DeepSurv & \textbf{28.78} & \textbf{18.42} & \textbf{33.02} \\
+            \bottomrule
+        \end{tabular}
+        \end{table}
+
+    As expected, across nearly all models, predictions made on a combination of the training and validation sets exhibit higher accuracy than those generated on the test set. This discrepancy arises because the training and the hyper-parameter optimization process has occurred on the training and validation sets, while the test set is strictly reserved for evaluating the final performance. Moreover, the close similarity between both sets' accuracies implies that the hyper-parameter optimization has been successful enough to grant the capacity for prediction generalization.
+
+    Classical \ac{cph} models have exhibited the poorest accuracy. This lesser performance is likely due to the their reliance on linear equations, which is inadequate for capturing the nonlinear failure dynamics of the bike components. To address this issue, \ac{mtlr} and \ac{csf} models were employed, demonstrating in both cases higher accuracies. However, an exception was noted with the \ac{csf} model's performance for chains. This outcome arises from the fact that \ac{csf} models were unable to generate predictions within the entire range of the training data, and thus, they were unable to adequately learn from the training set. In contrast, \ac{mtlr} models clearly outperformed \ac{cph} models, indicating that the adapted logistic regressions for survival data are more effective than \ac{cph} models.
+
+    \ac{deepsurv} models were utilized to improve the modeling of nonlinear data, achieving the best results. Compared to \ac{mtlr} models, \ac{deepsurv} models demonstrated a reduction in RMSE values by 25 to 33\%. Also, they attained MAPE metrics below 33\% and R\textsuperscript{2} values exceeding 0.92. However, it is important to note that the accuracy of predictions for chains remains lower than those for brake pads and wheel spokes. This disparity might stem from two previously mentioned factors: the relatively small number of chain \ac{mo} units and the limited availability of uncensored data for \ac{mo} units with survival periods of either less than 200 days or more than 600 days.
+
+\subsection{Predictions analysis}
+
+    In the \ac{pm} field, predictions must be as close as possible to the failure date and, ideally, these predictions should pertain to dates preceding the failure events, as it facilitates preventive maintenance and avoids the costs associated with late component replacements. In this line, an exploration of the predictions has been performed by considering right-censored and uncensored units separately.
+
+    Uncensored data predictions present a high level of accuracy. This assertion is further substantiated by a comparative analysis of the mean and standard deviations pertaining to the actual and predicted lifespans (Table~\ref{tab:actual_vs_pred_descriptive}). However, right-censored \ac{mo} units exhibit more substantial deviations in these statistics. Also, as previously stated, chain predictions exhibit the highest predictive errors, which can be attributed to its lower number of \ac{mo} units and the significantly higher proportion of right-censored units.
+
+    \begin{table}[htbp!]
+        \centering
+        \footnotesize
+        \caption[Descriptive statistics of actual and predicted survival times]{
+            \textbf{Descriptive statistics of actual and predicted survival times.} 
+            The means and standard deviations (in parenthesis) for the actual and predicted survival times (in days) are displayed.
+        }
+        \label{tab:actual_vs_pred_descriptive}
+        \begin{tabular}{@{}lccc@{}}
+            \toprule
+                                & {All}           & {Uncensored}    & {Right-censored} \\
+            \midrule
+            \textbf{Brake pads MO units}                                              \\
+            Actual survival    & 88.21 (96.95)   & 87.52 (97.83)   & 104.80 (103.81)  \\
+            Predicted survival & 88.04 (91.19)   & 85.92 (91.86)   & 110.56 (92.42)   \\  \\
+        
+            \textbf{Wheel spokes MO units}                                            \\
+            Actual survival    & 77.05 (88.58)   & 63.33 (71.73)   & 155.54 (126.64)  \\
+            Predicted survival & 79.30 (91.62)   & 62.25 (69.58)   & 175.36 (130.84)  \\  \\
+        
+            \textbf{Chains MO units}                                                  \\
+            Actual survival    & 258.70 (151.29) & 278.67 (147.79) & 230.81 (155.61)  \\
+            Predicted survival & 283.02 (146.51) & 286.86 (145.69) & 272.73 (152.8)   \\
+            \bottomrule
+        \end{tabular}
+        \end{table}
+
+    Uncensored \ac{mo} units exhibit strong lineal relationships between the predicted and actual survival times, as evidenced by Pearson correlation coefficients of 0.97 for brake pads, 0.97 for wheel spokes, and 0.96 for chains (Figure~\ref{fig:pred_exploration}). Similarly, the predicted-to-actual survival time ratio for the three bike components is notably accurate (Table~\ref{tab:pred_actual_statistics}), with a mean centered around 1, and approximately 80\% of predictions exhibiting an error of less than $\pm$25\% compared to the actual values. In terms of the absolute difference, in the brake pads and wheel spokes 80\% of the \ac{mo} units have an error below 20 units, while for chains, it's 50\%. Therefore, it can be confidently concluded that the predictions are remarkably close to the actual failure dates.
+
+        \begin{figure}[ht!]
+            \centering
+            \includegraphics[width=0.9\textwidth]{0_plots/paper3/main/panel_5.png}
+            \caption[Comparison between actual and predicted survival times of bike components]{
+                \textbf{Comparison between actual and predicted survival times of bike components.} Each plot displays instances predicted beyond the actual survival time in grey, and those predicted before in light blue. The charts also include percentages indicating the proportion of instances predicted to fail either before or after their actual failure dates.
+            }
+            \label{fig:pred_exploration}
+        \end{figure}
+
+        \begin{sidewaystable}[htbp!]
+            \centering
+            \footnotesize
+            \caption[Descriptive statistics of prediction errors of uncensored MO units]{
+                \textbf{Descriptive statistics of prediction errors of uncensored \ac{mo} units.}
+            }
+            \label{tab:pred_actual_statistics}
+            \begin{tabular}{
+                lcccccccccccccccc
+            }
+            \toprule
+                            & {Mean} & {Std} & {Min} & {10\%} & {20\%} & {30\%} & {40\%} & {50\%} & {60\%} & {70\%} & {75\%} & {80\%} & {90\%} & {95\%} & {99\%} & {Max}    \\
+            \midrule
+            \multicolumn{17}{l}{\textbf{Predicted to actual ratio}} \\
+            Brake pads   & 1.09  & 0.76  & 0.25 & 0.76 & 0.84 & 0.89  & 0.94  & 0.99  & 1.04  & 1.11  & 1.14  & 1.19  & 1.34  & 1.57  & 3.38   & 40.51  \\
+            Wheel spokes & 1.03  & 0.38  & 0.00 & 0.76 & 0.84 & 0.89  & 0.93  & 0.97  & 1.02  & 1.08  & 1.12  & 1.16  & 1.28  & 1.44  & 2.20   & 13.70  \\
+            Chains       & 1.20  & 2.16  & 0.00 & 0.88 & 0.92 & 0.95  & 0.98  & 1.01  & 1.04  & 1.09  & 1.11  & 1.15  & 1.30  & 1.57  & 4.57   & 112.66 \\
+            \addlinespace
+            \multicolumn{17}{l}{\textbf{Predicted minus actual}} \\
+            Brake pads   & 12.86 & 17.84 & 0.00 & 1.07 & 2.26 & 3.61  & 5.07  & 6.85  & 9.23  & 12.81 & 15.40 & 18.84 & 31.49 & 45.59 & 86.26  & 340.79 \\
+            Wheel spokes & 8.75  & 12.42 & 0.00 & 0.74 & 1.54 & 2.44  & 3.52  & 4.83  & 6.52  & 8.71  & 10.30 & 12.37 & 20.37 & 30.52 & 61.60  & 223.53 \\
+            Chains       & 28.05 & 25.81 & 0.01 & 3.76 & 7.66 & 11.78 & 16.28 & 21.13 & 26.69 & 34.40 & 38.63 & 44.33 & 61.66 & 77.47 & 115.11 & 334.97 \\
+            \bottomrule
+            \end{tabular}  
+        \end{sidewaystable}
+
+    Unlike the uncensored units, which provide data on when bike parts fail, the right-censored units lack information regarding the specific timing of these failures. For this reason, the predicted days are expected to have higher values than the actual days, and therefore the predicted/actual ratio values should tend values higher than one. In this case, indeed, the majority of predictions generated for the right-censored \ac{mo} units were higher than the corresponding actual values (Figure~\ref{fig:pred_exploration}).
+
+\subsection{Models interpretability}
+
+    To assess how model inputs might affect the chances of models predicting a reparation, the game theoretic approach \ac{shap} has been applied to the \ac{deepsurv} models of the three bike parts (Figure~\ref{fig:shap}). 
+    Additionally, for a comprehensive view of the average effect of each input feature on the models’ output, partial dependence plots are provided in Appendix~\ref{app_paper3:section_models_interpretability}.
+    Overall, the most influential features are the ones related to the bike usage and the bike model.
+
+    \begin{figure}[ht!]
+        \centering
+        \includegraphics[width=0.9\textwidth]{0_plots/paper3/main/panel_6.png}
+        \caption[SHAP values for survival time predictions]{
+            \textbf{\ac{shap} values for survival time predictions.} \ac{shap} values were calculated using 5,000 samples from the training set and the KernelExplainer class. This explainer was created with 100 background representative samples from the training set, which were obtained using k-means. Features are ordered according to their mean absolute \ac{shap} values in descending order.
+        }
+        \label{fig:shap}
+    \end{figure}
+
+    \ac{mo} units cumulative distance emerged as the most influential factor in predicting the lifespans of the three bike parts. Larger distances are strongly associated with longer predicted survival times. This connection might seem counterintuitive, as one would typically expect higher distances to lead to faster breakdowns. However, because the models' aim is to predict survival times, direct survival information is not included as an input. Consequently, due to the strong correlation between survival times and cumulative distances, cumulative distance is used as a baseline for predicting the lifespan of bike parts.
+
+    Average mean speed has also emerged as one of the most critical features for all bike parts. Higher values are closely associated with shorter survival times, indicating that increased stress on the bike parts leads to a reduction in their lifespan.
+
+    In Figures~\ref{fig:trips_characteristics}~and~\ref{fig:elevation_maps}, it was noted that the bike model plays an important role in \ac{bss} mobility dynamics. As a result, the bike model emerges as the second most impactful feature. Specifically, electric mobility is consistently linked with shorter survival times. However, it is worth noting that the impact of the bike model on wheel spokes is relatively less pronounced, which can be attributed to the fewer number of \ac{mo} units for \acp{m-b}.
+
+    While weather-related variables have a lesser impact, they remain significant. Higher mean daily temperatures and mean daily atmospheric pressure values were associated with reduced survival times for brake pads and wheel spokes. In essence, hotter and drier weather conditions tended to decrease the survival time of these bike components. However, this effect is less evident in the case of chains. This discrepancy can be attributed to their extended survival times, leading to a wider range of weather conditions being encompassed within the average values. Finally, the counts of repairs for other \acp{mo} have been found to be the variables with least impact in the predictions.
+        

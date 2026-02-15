@@ -1,200 +1,137 @@
 \section{Results}
-\label{sec:failure_forecasting_results}
+\label{sec:battery_results}
 
-\subsection[MOs analysis]{\acp{mo} analysis}
-\label{subsec:MOs_analysis}
+    \subsection[Assessing e-bikes' battery levels and usage patterns]{Assessing \acp{e-b}' battery levels and usage patterns}
+    \label{subsec:battery_results_analysis}
 
-    Before generating survival predictions for bike components, an analysis of the failure patterns within the maintenance dataset was conducted. Given the low frequencies of most \ac{mo} types (Appendix~\ref{app_paper3:section_data_exploration}) and the criteria outlined in Section~\ref{section_mos_processing}, only a few subcategories were deemed suitable for developing prediction models. Ultimately, three repair types were identified as the final targets for the predictions: brake pads, wheel spokes, and chains. Selected bike parts data was converted into \ac{mo} units (Table~\ref{tab:MO_units_censoring_vs_model}, Appendix~\ref{app_paper3:section_maintenance_operations_analysis}), and their corresponding covariate values were integrated as described in Section~\ref{section_mos_processing}.
+        The average battery levels per neighborhood show significant variability across neighborhoods (Figure~\ref{battery_overiew}A, Appendix~\ref{app_paper2:subsection_battery_levels_across_time}). To facilitate the analysis of all the temporal series of average battery levels derived from each neighborhood, K-means clustering was performed, resulting in four distinct clusters (Figure~\ref{battery_overiew}B, Appendix~\ref{app_paper2:subsection_choice_of_number_of_clusters}). The central and southern neighborhoods, which fall into Clusters 1 and 4, have the lowest battery levels, exhibiting steep declines in battery levels during business hours with recovery during nighttime (Figure~\ref{battery_overiew}C). This is likely due to the high levels of industrial and commercial activity, as well as the dense populations in these areas. Additionally, it is worth noting that some neighborhoods in Cluster 4 have slower charging speeds at night, likely due to a stronger nightlife presence. In contrast, northern neighborhoods in Clusters 2 and 3 are mainly residential with less commercial activity, resulting in higher and more stable battery levels throughout the day.
 
-    The analysis of failure dynamics for the three bike parts revealed distinct patterns between \acp{m-b} and \acp{e-b} (Figure~\ref{fig:durability_analysis}). Specifically, for brake pads and wheel spokes, \acp{e-b} generally exhibit a significantly higher number of repairs per bike compared to their mechanical counterparts. Interestingly, \acp{m-b} display very few wheel spoke repairs. Also, notable differences in the survival times of the three bike parts have been found. \Ac{e-b} brake pads have shorter survival periods compared to their mechanical counterparts, and wheel spokes display similar trends. However, the scarcity of \acp{mo} for \acp{m-b} makes direct comparisons of survival distributions impractical. Finally, chain repairs present the widest range of survival times for both \acp{m-b} and \acp{e-b}, with \ac{m-b} chains having longer survival times when compared to \ac{e-b} chains.
-
-    \begin{figure}[ht!]
-        \centering
-        \includegraphics[width=1\textwidth]{0_plots/paper3/main/panel_3.pdf}
-        \caption[Durability analysis of bike components]{
-            \textbf{Durability analysis of bike components.} This figure presents the distribution of the survival time for the uncensored \ac{mo} units across various bike components, plotted against their cumulative traveled distance.
-        }
-        \label{fig:durability_analysis}
-    \end{figure}
-
-
-    When exploring the potential relation with bike usage, cumulative distance emerged as the primary covariate that significantly distinguishes between bike models (Figure~\ref{fig:durability_analysis}). The \ac{m-b} brake pads demonstrate considerably longer durability compared to their \ac{e-b} counterparts when covering equivalent distances, while in the case of chains, the behavior is the opposite. Furthermore, although it appears that the limited number of uncensored \ac{m-b} \ac{mo} units for wheel spokes outlast those of the \acp{e-b}, the scarcity of the former prevents a meaningful comparison of their behaviors. Also, differences have been observed in terms of the average number of reparations for other \ac{mo} subcategories during the target \ac{mo} units (Appendix~\ref{app_paper3:section_maintenance_operations_analysis}). Thus, \acp{m-b} and \acp{e-b} bike parts exhibit distinct breakdown dynamics, which can be attributed to variations in how bikes are used based on their specific model.
-
-    Before model training, \ac{mo} units distributions according to censoring and bike model have been examined (Figure~\ref{fig:censoring}, Table~\ref{tab:MO_units_censoring_vs_model}). Uncensored data for both brake pads and wheel spokes show similar trends, representing in both cases approximately 84\% of the dataset. 90\% of the uncensored units have survival times of up to 200 days for brake pads and 150 days for wheel spokes, with some units lasting as long as approximately 800 days. However, there are two significant differences between both. First, the ratio of right-censored to uncensored units for brake pads remains fairly consistent until the 550-day mark. In contrast, for wheel spokes, the proportion of uncensored units steadily declines, virtually disappearing after 650 days. Secondly, uncensored units for \acp{m-b} become the majority for brake pads after 200 days, whereas there is an almost complete absence of such units for \ac{m-b} wheel spokes. The decreasing number of \ac{mo} units over time and the reduction in uncensored units suggest that modeling long-lasting \ac{mo} units for both bike components could pose challenges. Moreover, the specific scarcity of uncensored \ac{mo} units for \ac{m-b} wheel spokes in brake pads could introduce additional complexities in the modeling.
-
-    \begin{figure}[ht!]
-        \centering
-        \includegraphics[width=1\textwidth]{0_plots/paper3/main/panel_4.png}
-        \caption[Censoring distributions of bike components]{
-            \textbf{Censoring distributions of bike components.} The graph features a black line representing the count of \ac{mo} units over time. Accompanying this, colored regions illustrate the relative fractions of each \ac{mo} unit type within the total count.
-        }
-        \label{fig:censoring}
-    \end{figure}
-
-
-    \begin{table}[htbp!]
-        \centering
-        \footnotesize
-        \caption[Counts and percentages of MO units for the three chosen bike parts]{
-            \textbf{Counts and percentages of \ac{mo} units for the three chosen bike parts.}
-        }
-        \label{tab:MO_units_censoring_vs_model}
-        \begin{tabular}{lccc}
-            \toprule
-                            & {M-bike}        & {E-bike}         & {Total}         \\
-            \midrule
-            \textbf{Brake pad MO units}                                           \\
-            Uncensored     & 8,777 (19.4\%)  & 29,655 (65.5\%)  & 38,432 (84.9\%) \\
-            Right-censored & 3,994 (8.8\%)   & 2,841 (6.3\%)    & 6,835 (15.1\%)  \\
-            Total          & 12,771 (28.2\%) & 32,496 (71.2\%)  & 45,267 (100\%)  \\ \\
-        
-            \textbf{Wheel spokes MO units}                                        \\
-            Uncensored     & 31 (0.2\%)      & 14,177 (83.6\%)  & 14,208 (83.8\%) \\
-            Right-censored & 353 (2.1\%)     & 2,386 (14.1\%)   & 2,739  (16.2\%) \\
-            Total          & 384  (2.3\%)    & 16,563  (97.7\%) & 16,947 (100\%)  \\ \\
-        
-            \textbf{Chain MO units}                                               \\
-            Uncensored     & 4,344 (36.3\%)  & 1,679 (14\%)     & 6,023 (50.4\%)  \\
-            Right-censored & 3,875 (32.4\%)  & 2,056 (17.2\%)   & 5,931 (49.6\%)  \\
-            Total          & 8,219 (68.8\%)  & 3,735 (31.2\%)   & 11,954 (100\%)  \\
-            \bottomrule
-        \end{tabular}
-        \end{table}
-
-    Chain maintenance exhibits distinct patterns. The number of censored units for chains almost exceeds that of the uncensored units, indicating that chains generally have longer lifespans compared to the other two bike components. Moreover, the failure rate for chains is notably different; only 30\% of chains fail before reaching the 200-day mark. Given the robust nature of chains, the proportion of uncensored units is low at the start of the timeline. Additionally, due to the rarity of instances surviving for extended periods, this proportion remains low past the 500-day mark as well. Considering the lower overall number of \ac{mo} units for chains, coupled with the relatively smaller number of uncensored units and their reduced proportion at both the beginning and end of the timeline, modeling the longevity of chains could be more challenging compared to other parts.
-
-\subsection{Predictions accuracy}
-
-    Upon confirming data distributions in the training and test sets are aligned (Appendix~\ref{app_paper3:section_model_training}), survival models were trained and their performance was evaluated predicting the uncensored \ac{mo} units from both datasets (Appendix~\ref{app_paper3:section_model_training}, Table~\ref{tab:prediction_results_test}). The decision to exclude the right-censored data was made to prevent comparisons of predictions with the time duration of \ac{mo} units that do not conclude with a repair.
-
-    \begin{table}[htbp!]
-        \centering
-        \footnotesize
-        \caption[Prediction accuracy on the test dataset]{
-            \textbf{Predictions accuracy on the test dataset.} 
-            Forecasts are computed on the test dataset using exclusively uncensored \ac{mo} units.
-        }
-        \label{tab:prediction_results_test}
-        \begin{tabular}{llccc}
-            \toprule
-                                & Models   & Brake pads     & Wheel spokes   & Chains \\
-            \midrule
-            RMSE                & CPH      & 66.27          & 91.07          & 100.64 \\
-                                & MTLR     & 38.51          & 26.74          & 64.73 \\
-                                & CSF      & 37.45          & 41.28          & 108.29 \\
-                                & DeepSurv & \textbf{28.75} & \textbf{18.83} & \textbf{43.62} \\
-            \midrule
-            R\textsuperscript{2} & CPH      & 0.59           & -0.29          & 0.60 \\
-                                 & MTLR     & 0.86           & 0.89           & 0.84 \\
-                                 & CSF      & 0.87           & 0.73           & 0.55 \\
-                                 & DeepSurv & \textbf{0.92}  & \textbf{0.94}  & \textbf{0.93} \\
-            \midrule
-            MAPE                 & CPH      & 59.65          & 68.96          & 197.59 \\
-                                 & MTLR     & 45.31          & 33.82          & 69.40 \\
-                                 & CSF      & 89.60          & 105.90         & 227.10 \\
-                                 & DeepSurv & \textbf{28.78} & \textbf{18.42} & \textbf{33.02} \\
-            \bottomrule
-        \end{tabular}
-        \end{table}
-
-    As expected, across nearly all models, predictions made on a combination of the training and validation sets exhibit higher accuracy than those generated on the test set. This discrepancy arises because the training and the hyper-parameter optimization process has occurred on the training and validation sets, while the test set is strictly reserved for evaluating the final performance. Moreover, the close similarity between both sets' accuracies implies that the hyper-parameter optimization has been successful enough to grant the capacity for prediction generalization.
-
-    Classical \ac{cph} models have exhibited the poorest accuracy. This lesser performance is likely due to the their reliance on linear equations, which is inadequate for capturing the nonlinear failure dynamics of the bike components. To address this issue, \ac{mtlr} and \ac{csf} models were employed, demonstrating in both cases higher accuracies. However, an exception was noted with the \ac{csf} model's performance for chains. This outcome arises from the fact that \ac{csf} models were unable to generate predictions within the entire range of the training data, and thus, they were unable to adequately learn from the training set. In contrast, \ac{mtlr} models clearly outperformed \ac{cph} models, indicating that the adapted logistic regressions for survival data are more effective than \ac{cph} models.
-
-    \ac{deepsurv} models were utilized to improve the modeling of nonlinear data, achieving the best results. Compared to \ac{mtlr} models, \ac{deepsurv} models demonstrated a reduction in RMSE values by 25 to 33\%. Also, they attained MAPE metrics below 33\% and R\textsuperscript{2} values exceeding 0.92. However, it is important to note that the accuracy of predictions for chains remains lower than those for brake pads and wheel spokes. This disparity might stem from two previously mentioned factors: the relatively small number of chain \ac{mo} units and the limited availability of uncensored data for \ac{mo} units with survival periods of either less than 200 days or more than 600 days.
-
-\subsection{Predictions analysis}
-
-    In the \ac{pm} field, predictions must be as close as possible to the failure date and, ideally, these predictions should pertain to dates preceding the failure events, as it facilitates preventive maintenance and avoids the costs associated with late component replacements. In this line, an exploration of the predictions has been performed by considering right-censored and uncensored units separately.
-
-    Uncensored data predictions present a high level of accuracy. This assertion is further substantiated by a comparative analysis of the mean and standard deviations pertaining to the actual and predicted lifespans (Table~\ref{tab:actual_vs_pred_descriptive}). However, right-censored \ac{mo} units exhibit more substantial deviations in these statistics. Also, as previously stated, chain predictions exhibit the highest predictive errors, which can be attributed to its lower number of \ac{mo} units and the significantly higher proportion of right-censored units.
-
-    \begin{table}[htbp!]
-        \centering
-        \footnotesize
-        \caption[Descriptive statistics of actual and predicted survival times]{
-            \textbf{Descriptive statistics of actual and predicted survival times.} 
-            The means and standard deviations (in parenthesis) for the actual and predicted survival times (in days) are displayed.
-        }
-        \label{tab:actual_vs_pred_descriptive}
-        \begin{tabular}{@{}lccc@{}}
-            \toprule
-                                & {All}           & {Uncensored}    & {Right-censored} \\
-            \midrule
-            \textbf{Brake pads MO units}                                              \\
-            Actual survival    & 88.21 (96.95)   & 87.52 (97.83)   & 104.80 (103.81)  \\
-            Predicted survival & 88.04 (91.19)   & 85.92 (91.86)   & 110.56 (92.42)   \\  \\
-        
-            \textbf{Wheel spokes MO units}                                            \\
-            Actual survival    & 77.05 (88.58)   & 63.33 (71.73)   & 155.54 (126.64)  \\
-            Predicted survival & 79.30 (91.62)   & 62.25 (69.58)   & 175.36 (130.84)  \\  \\
-        
-            \textbf{Chains MO units}                                                  \\
-            Actual survival    & 258.70 (151.29) & 278.67 (147.79) & 230.81 (155.61)  \\
-            Predicted survival & 283.02 (146.51) & 286.86 (145.69) & 272.73 (152.8)   \\
-            \bottomrule
-        \end{tabular}
-        \end{table}
-
-    Uncensored \ac{mo} units exhibit strong lineal relationships between the predicted and actual survival times, as evidenced by Pearson correlation coefficients of 0.97 for brake pads, 0.97 for wheel spokes, and 0.96 for chains (Figure~\ref{fig:pred_exploration}). Similarly, the predicted-to-actual survival time ratio for the three bike components is notably accurate (Table~\ref{tab:pred_actual_statistics}), with a mean centered around 1, and approximately 80\% of predictions exhibiting an error of less than $\pm$25\% compared to the actual values. In terms of the absolute difference, in the brake pads and wheel spokes 80\% of the \ac{mo} units have an error below 20 units, while for chains, it's 50\%. Therefore, it can be confidently concluded that the predictions are remarkably close to the actual failure dates.
-
-        \begin{figure}[ht!]
-            \centering
-            \includegraphics[width=0.9\textwidth]{0_plots/paper3/main/panel_5.png}
-            \caption[Comparison between actual and predicted survival times of bike components]{
-                \textbf{Comparison between actual and predicted survival times of bike components.} Each plot displays instances predicted beyond the actual survival time in grey, and those predicted before in light blue. The charts also include percentages indicating the proportion of instances predicted to fail either before or after their actual failure dates.
-            }
-            \label{fig:pred_exploration}
+        \begin{figure}[!htbp]
+          \centering
+          \includegraphics[width=0.9\textwidth]{0_plots/paper2/main/Panel1.png}
+          \caption[Average neighborhood battery levels and temporal clustering]{
+            \textbf{Average neighborhood battery levels and temporal clustering.}
+            \textbf{(A)} Average battery levels across neighborhoods. The average for each neighborhood is computed using the battery values of all the bikes in that neighborhood. 
+            \textbf{(B)} Clustering of the neighborhoods according to the temporal pattern of battery levels using K-means into four distinct clusters. 
+            \textbf{(C)} Temporal series of average battery levels for each cluster. The neighborhoods in grey do not have bike-sharing stations.}
+          \label{battery_overiew}
         \end{figure}
 
-        \begin{sidewaystable}[htbp!]
+        One factor directly related to average battery levels is the average time between trips for each bike, which can also be referred to as inter-event time. With longer inter-event times, \acp{e-b} have more opportunity to recharge, resulting in higher battery levels. In Figure~\ref{correlations}A, central and southern neighborhoods (Clusters 1 and 4) have not only lower average battery levels but also shorter inter-event times, indicating a higher turnover of \acp{e-b} due to frequent trips. This high turnover aligns with the higher density of users and increased mobility demand in commercial and densely populated areas. However, Zona Franca, located in the southernmost area of the city, presents a distinct case due to its industrial nature and significantly low population density (1 inhabitant per hectare \cite{bcn_population_density}), which results in low \ac{e-b} usage. Conversely, northern neighborhoods (Clusters 2 and 3) exhibit longer inter-event times, reflecting less frequent \ac{e-b} usage and consequently higher and more stable battery levels despite some of them being in high altitudes. Additionally, a Pearson correlation analysis was conducted between average battery levels and inter-event time at the station level (Figure~\ref{correlations}B), revealing a correlation value of 0.39. This moderate positive correlation suggests that stations with longer inter-event times tend to have higher average battery levels, further supporting the neighborhood-level results.
+
+        \begin{figure}[!htbp]
             \centering
-            \footnotesize
-            \caption[Descriptive statistics of prediction errors of uncensored MO units]{
-                \textbf{Descriptive statistics of prediction errors of uncensored \ac{mo} units.}
-            }
-            \label{tab:pred_actual_statistics}
-            \begin{tabular}{
-                lcccccccccccccccc
-            }
-            \toprule
-                            & {Mean} & {Std} & {Min} & {10\%} & {20\%} & {30\%} & {40\%} & {50\%} & {60\%} & {70\%} & {75\%} & {80\%} & {90\%} & {95\%} & {99\%} & {Max}    \\
-            \midrule
-            \multicolumn{17}{l}{\textbf{Predicted to actual ratio}} \\
-            Brake pads   & 1.09  & 0.76  & 0.25 & 0.76 & 0.84 & 0.89  & 0.94  & 0.99  & 1.04  & 1.11  & 1.14  & 1.19  & 1.34  & 1.57  & 3.38   & 40.51  \\
-            Wheel spokes & 1.03  & 0.38  & 0.00 & 0.76 & 0.84 & 0.89  & 0.93  & 0.97  & 1.02  & 1.08  & 1.12  & 1.16  & 1.28  & 1.44  & 2.20   & 13.70  \\
-            Chains       & 1.20  & 2.16  & 0.00 & 0.88 & 0.92 & 0.95  & 0.98  & 1.01  & 1.04  & 1.09  & 1.11  & 1.15  & 1.30  & 1.57  & 4.57   & 112.66 \\
-            \addlinespace
-            \multicolumn{17}{l}{\textbf{Predicted minus actual}} \\
-            Brake pads   & 12.86 & 17.84 & 0.00 & 1.07 & 2.26 & 3.61  & 5.07  & 6.85  & 9.23  & 12.81 & 15.40 & 18.84 & 31.49 & 45.59 & 86.26  & 340.79 \\
-            Wheel spokes & 8.75  & 12.42 & 0.00 & 0.74 & 1.54 & 2.44  & 3.52  & 4.83  & 6.52  & 8.71  & 10.30 & 12.37 & 20.37 & 30.52 & 61.60  & 223.53 \\
-            Chains       & 28.05 & 25.81 & 0.01 & 3.76 & 7.66 & 11.78 & 16.28 & 21.13 & 26.69 & 34.40 & 38.63 & 44.33 & 61.66 & 77.47 & 115.11 & 334.97 \\
-            \bottomrule
-            \end{tabular}  
-        \end{sidewaystable}
+            \includegraphics[width=0.9\textwidth]{0_plots/paper2/main/Panel2.png}
+            \caption[Inter-event times, distance index, and their relationships with battery levels]{
+              \textbf{Inter-event times, distance index, and their relationships with battery levels.} 
+              \textbf{(A)} Average inter-event time between trips across neighborhoods. The average for each neighborhood is computed using the inter-event time values of all bikes, with outliers removed using the IQR method at the station level. 
+              \textbf{(B)} Relation between average battery levels and inter-event time at the station level, with a Pearson correlation of 0.39 (p-value<0.001). 
+              \textbf{(C)} Distance index per neighborhood, calculated by first computing the index at the station level to accurately reflect trip distances between stations, and then averaging it at the neighborhood level. 
+              \textbf{(D)} Relation between average battery levels and the distance index at the station level, with a Pearson correlation of 0.47 (p-value<0.001). The neighborhoods in gray do not have bike-sharing stations.}
+            \label{correlations}
+        \end{figure}
 
-    Unlike the uncensored units, which provide data on when bike parts fail, the right-censored units lack information regarding the specific timing of these failures. For this reason, the predicted days are expected to have higher values than the actual days, and therefore the predicted/actual ratio values should tend values higher than one. In this case, indeed, the majority of predictions generated for the right-censored \ac{mo} units were higher than the corresponding actual values (Figure~\ref{fig:pred_exploration}).
+        Apart from the inter-event time, two additional factors can affect the average battery levels at a station: the origins of the trips that the station receives and the number of trips coming from each origin. To evaluate the impact of these factors on battery depletion, a distance index (\(DI_j\)) was developed for each station \( j \). This index measures the influence of the distances traveled by bikes on their battery levels by accounting for both the distance of each trip and the frequency of trips from each origin station. Specifically, for trips originating at station \( i \) and ending at station \( j \), the distance  (\( d_{i,j} \)) is weighted by the inverse of the total trips originating from station \( i \) (\( n_i \)). This weighting ensures that trips from less frequent origins have a greater influence on the distance index. The weighted distances for all origin stations \( i \) are then summed for the destination station \( j \). To make the index independent of the station’s overall demand, the sum of these weighted distances is normalized by the total number of trips received by station \( j \) (\( \sum_{i} T_{ij} \)). The resulting distance index provides a measure of how trip distances, adjusted for trip frequency, contribute to battery depletion at a station. Importantly, higher values of \(DI_j\) indicate that the station receives a greater proportion of trips from distant origins, which is associated with lower average battery levels. The formula is as follows:
 
-\subsection{Models interpretability}
+        \begin{equation}
+          DI_j = \frac{\sum_{i} \frac{d_{i,j}}{n_i}}{\sum_{i} T_{ij}}
+        \end{equation}
 
-    To assess how model inputs might affect the chances of models predicting a reparation, the game theoretic approach \ac{shap} has been applied to the \ac{deepsurv} models of the three bike parts (Figure~\ref{fig:shap}). 
-    Additionally, for a comprehensive view of the average effect of each input feature on the models’ output, partial dependence plots are provided in Appendix~\ref{app_paper3:section_models_interpretability}.
-    Overall, the most influential features are the ones related to the bike usage and the bike model.
+        The distance index was computed for all stations, and averaged over each neighborhood (Figure~\ref{correlations}C). As shown, neighborhoods in the northern areas tend to have a higher distance index, indicating that trips to these neighborhoods often originate from farther stations and that there are fewer incoming trips overall. This combination results in higher average battery levels. Conversely, neighborhoods in the central and southern parts of the city exhibit a lower distance index, suggesting that trips to these areas typically come from nearby stations and that there are more incoming trips, leading to lower battery levels. Zona Franca, as previously mentioned, deviates from this trend due to its unique industrial nature and low population density. The Pearson correlation between the distance index and average battery levels at the station level revealed a value of 0.47 (Figure~\ref{correlations}D), indicating a moderate positive correlation. This suggests that stations farther from others and receiving a lower number of trips tend to have higher average battery levels. Additionally, no significant collinearities were found between the inter-event time and the distance index (Appendix~\ref{app_paper2:subsection_collinearity}).
 
-    \begin{figure}[ht!]
-        \centering
-        \includegraphics[width=0.9\textwidth]{0_plots/paper3/main/panel_6.png}
-        \caption[SHAP values for survival time predictions]{
-            \textbf{\ac{shap} values for survival time predictions.} \ac{shap} values were calculated using 5,000 samples from the training set and the KernelExplainer class. This explainer was created with 100 background representative samples from the training set, which were obtained using k-means. Features are ordered according to their mean absolute \ac{shap} values in descending order.
-        }
-        \label{fig:shap}
-    \end{figure}
 
-    \ac{mo} units cumulative distance emerged as the most influential factor in predicting the lifespans of the three bike parts. Larger distances are strongly associated with longer predicted survival times. This connection might seem counterintuitive, as one would typically expect higher distances to lead to faster breakdowns. However, because the models' aim is to predict survival times, direct survival information is not included as an input. Consequently, due to the strong correlation between survival times and cumulative distances, cumulative distance is used as a baseline for predicting the lifespan of bike parts.
+    \subsection[Modeling e-bikes' battery levels]{Modeling \acp{e-b}' battery levels}
 
-    Average mean speed has also emerged as one of the most critical features for all bike parts. Higher values are closely associated with shorter survival times, indicating that increased stress on the bike parts leads to a reduction in their lifespan.
+        Using the battery model described in Section~\ref{sec:battery_modeling} (linear increase when docked, decrease during trips), the optimal parameters for the power consumption equation and charging speed were determined through hyperparameter optimization (see Section~\ref{sec:battery_optimization}). The fit between the observed and expected battery levels, using these optimal parameters, is shown in Figure \ref{fig:battery_fit}. In Figure \ref{fig:battery_fit}A, the predicted battery percentage is displayed, while in Figure \ref{fig:battery_fit}B, the predicted battery variation is presented. Despite the dispersion, a significant correlation is observed, with values closely aligned to the diagonal. Factors such as user heterogeneity, missing route information, or bikes not charging while docked could contribute to the dispersion. The parameters were also validated using the 8-hour dataset, with similar correlation values (Appendix~\ref{app_paper2:subsection_linear_battery_function}). In addition, a non-linear charging function was tested using a sigmoid-like function to account for faster charging times at lower battery levels. The fitting results are very similar to the linear function, with the optimal shape inferred being almost linear (Appendix~\ref{app_paper2:subsection_nonlinear_charging_function}).
 
-    In Figures~\ref{fig:trips_characteristics}~and~\ref{fig:elevation_maps}, it was noted that the bike model plays an important role in \ac{bss} mobility dynamics. As a result, the bike model emerges as the second most impactful feature. Specifically, electric mobility is consistently linked with shorter survival times. However, it is worth noting that the impact of the bike model on wheel spokes is relatively less pronounced, which can be attributed to the fewer number of \ac{mo} units for \acp{m-b}.
+        \begin{figure}[!htbp]
+          \begin{center}
+          \includegraphics[width=0.9\textwidth]{0_plots/paper2/main/battery_prediction.png}
+          \end{center}
+          \caption[Battery model validation using the 30-minute battery dataset]{
+            \textbf{Battery model validation using the 30-minute battery dataset.} 
+            \textbf{(A)} Observed battery level as a function of the predicted values. 
+            \textbf{(B)} Battery variation observed as a function of the predicted values. Each point corresponds to one battery-level observation. The Root Mean Squared Error (RMSE) is $0.0178$ and the Pearson correlation coefficient is significant in both cases (p-val<0.001). The linear fit is shown in gray.
+          } 
+          \label{fig:battery_fit}
+        \end{figure}
 
-    While weather-related variables have a lesser impact, they remain significant. Higher mean daily temperatures and mean daily atmospheric pressure values were associated with reduced survival times for brake pads and wheel spokes. In essence, hotter and drier weather conditions tended to decrease the survival time of these bike components. However, this effect is less evident in the case of chains. This discrepancy can be attributed to their extended survival times, leading to a wider range of weather conditions being encompassed within the average values. Finally, the counts of repairs for other \acp{mo} have been found to be the variables with least impact in the predictions.
-        
+        This battery model can have two key applications. The first enables the assessment of battery consumption and destination probabilities for individual trips. The second integrates the Markov chain-based approach with the battery model to predict both \ac{e-b} locations and battery levels across the entire fleet.
+
+
+    \subsection{Single trip application}
+
+        Evaluating short-term scenarios for a single bike can be achieved by coupling the battery model with the distribution of possible destinations $P_{ij}^{w,h}$. In Figure \ref{fig:single_trip}, given \textit{St. Ciutat de Granada, 168} as the origin station, the probability of arriving at each destination is represented by the size of the dots, while the battery consumption for each bike trip is indicated by the color. The probability of destinations changes significantly between 8:00 and 18:00 despite the same origin station. At 18:00, trips tend to be shorter and head towards nearby stations, while morning trips are longer and converge towards a few work-related hot spots. Additionally, battery consumption varies notably based on the elevation changes along the route, with trips going downhill consuming less battery over the same distance. 
+
+        \begin{figure}[!htbp]
+          \begin{center}
+          \includegraphics[width=0.9\textwidth]{0_plots/paper2/main/single_trip_daytype=0_station=42.pdf}
+          \end{center}
+          \caption[Single trip location and battery prediction]{
+            \textbf{Single trip location and battery prediction.}
+            Probability of finding a bike at a station and battery consumption of the trip when departing from the station in \textit{St. Ciutat de Granada, 168} on a weekday at \textbf{(A)} 08:00 and \textbf{(B)} 18:00. The origin station is highlighted with a triangle. The size of the dots corresponds to the probability of having that station as the destination and color corresponds to the battery consumed by the bike. The grey points correspond to destination stations with no trips.
+          }
+          \label{fig:single_trip}
+        \end{figure}
+
+        Furthermore, an impact index can be computed to assess the influence of each origin station on battery levels. This index depends on the probability of each destination given an origin station, the battery consumption of each possible trip, and the average hourly trips departing from station $i$ to other stations. The impact index can be written as:
+
+        \begin{equation}
+        \gamma^{w,h}_i=\langle T^{w,h}_i \rangle P^{w,h}_{ij} \Delta B_{ij}
+        \end{equation} 
+
+        where $\langle T^{w,h}_i \rangle$ represents the average number of trips departing from station $i$, $P^{w,h}_{ij}$ is the probability that a trip generated in station $i$ ends in station $j$, and $\Delta B_{ij}$ is the battery consumed by a trip from $i$ to $j$. An example of the impact index $\gamma$ at 8:00 and 18:00 on a regular weekday is shown in Figure \ref{fig:impact}. Due to the variation in trip patterns captured by $P^{w,h}_{ij}$, the stations with the highest impact change throughout the day.
+
+        \begin{figure}[!htbp]
+          \begin{center}
+          \includegraphics[width=0.9\textwidth]{0_plots/paper2/main/impact_index_0.pdf}
+          \end{center}
+          \caption[Station impact index at different hours of the day]{
+            \textbf{Station impact index at different hours of the day.} Impact index of the stations at \textbf{(A)} 08:00 and \textbf{(B)} 18:00. The station with higher impact at each hour is highlighted with a larger dot size. In the morning, the \textit{St. Provença, 125} station has the highest impact, while in the afternoon, \textit{St. Ciutat de Granada, 168} has the greatest impact.
+            } 
+          \label{fig:impact}
+        \end{figure}
+
+    \subsection{Coupling the Markov chain and the battery models}
+
+        The adjusted battery consumption function can be integrated into the Markov chain approach to provide joint predictions of both location and battery levels over multiple trips, either at the single-bike or \ac{bss} level. Inter-event times are used to calculate the charging percentage, while the distance and duration of trips are used to calculate energy consumption. Thus, the inputs required for the coupled model are the location and battery level of each bike along with the day of the week and the hour, which together define the starting point of the simulation.
+
+        To validate this approach, systematic simulations were performed using initial conditions from the 2023 mobility data and 30-minute battery data (Figure \ref{fig:markov_correlations}). Due to the inherent noise in micro-mobility service usage (i.e., the unpredictability of which bike at a station will be selected by the next user), the validation was conducted at the station level. For each validation snapshot, the initial conditions were determined by the number of available bikes and their average battery level at each station in the snapshot. To address potential gaps in battery data, the battery level of each bike was set to the station average. However, while comparisons between actual and predicted values were made at the station level, the mobility and battery dynamics of each bikes were simulated individually. Additionally, to prevent data leakage, the probabilities of the Markov model were based on data from the year 2022.
+
+        \begin{figure}[!htbp]
+          \begin{center}
+          \includegraphics[width=0.9\textwidth]{0_plots/paper2/main/markov_correlations.pdf}
+          \end{center}
+          \caption[Correlations for the Markov chain model across prediction horizons.]{
+            \textbf{Correlations for the Markov chain model across prediction horizons.} 
+            \textbf{(A)} Pearson correlation coefficient between actual and predicted bike availability per station as a function of $\Delta t$. 
+            \textbf{(B)} Pearson correlation coefficient between actual and predicted average battery level per station as a function of $\Delta t$.
+          }
+          \label{fig:markov_correlations}
+        \end{figure}
+
+        Once both the mobility and battery consumption models were validated, simulations across various initial scenarios and time horizons were conducted to demonstrate the potential applications of our framework (Appendix~\ref{app_paper2:section_initial_conditions_for_battery_predictions}). For these predictions, the initial conditions were derived from the average number of available bikes and their battery levels across stations in snapshots corresponding to the same type of day and hour. First, it is possible to compute the probability of finding a bike at a given destination and its battery level as a function of its origin, following one or more trips within a time period $\Delta t$. The final battery levels are determined by averaging over all the Markov iterations. As an example, Figure \ref{fig:markov_trips} shows the probability and battery levels of bikes departing from the station at Glòries (\textit{St. Ciutat de Granada, 168}) at 08:00 after \textbf{(A)} 30 and \textbf{(B)} 120 minutes. The role of distance from the origin is evident in the short-term predictions, with lower battery levels at greater distances and inclinations. However, this effect diminishes over longer time windows, as multiple trips can occur before reaching a station. For longer periods, a greater variety of final destinations is also possible.
+
+
+        \begin{figure}[!htbp]
+          \begin{center}
+          \includegraphics[width=0.9\textwidth]{0_plots/paper2/main/markov_trips_daytype=0-hour=08-station=42.pdf}
+          \end{center}
+          \caption[Predicted bike locations and battery levels for trips starting at 8:00 from Glòries station]{
+            \textbf{Predicted bike locations and battery levels for trips starting at 8:00 from Glòries station.} Probability of finding a bike and average battery levels after \textbf{(A)} 30 minutes and \textbf{(B)} 120 minutes of simulation for trips departing from the Glòries station (St.\ Ciutat de Granada, 168) at 08:00 on an average weekday. The origin station is highlighted with a triangle.
+          }
+          \label{fig:markov_trips}
+        \end{figure}
+
+        As a second application, the Markov chain approach allows to transition from bike-level to system-level predictions. To calculate the number of available bikes per station across the entire fleet, the probabilities $f^{w,h}_{i,j}(\Delta t)$ for each destination station $j$ are summed, which may result in non-integer values. Battery levels, on the other hand, are calculated by multiplying each bike's probability by its corresponding battery level and then dividing by the number of available bikes. Figure~\ref{fig:markov_battery} displays the number of available bikes and the average battery level after two hours of simulation for two different starting times, 08:00 and 18:00. Stations near the city center exhibit lower battery levels, consistent with the data analysis results. Meanwhile, the northern part of the city, which experiences lower usage rates, shows higher battery levels. Additionally, lower battery levels are observed in the afternoon due to increased battery consumption throughout the day.
+
+        \begin{figure}[!htbp]
+          \begin{center}
+          \includegraphics[width=0.9\textwidth]{0_plots/paper2/main/markov_battery_daytype=0-dt=120.pdf}
+          \end{center}
+          \caption[System-level predictions of bike availability and battery levels after 120 minutes of simulation]{
+            \textbf{System-level predictions of bike availability and battery levels after 120 minutes of simulation.} 
+            Predictions combine the Markov mobility model with the battery equations for simulations starting at \textbf{(A)} 08:00 and \textbf{(B)} 18:00 on an average weekday.
+          }
+          \label{fig:markov_battery}
+        \end{figure}
