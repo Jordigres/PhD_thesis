@@ -84,9 +84,12 @@ This Section first presents the data sources used in the study. It then describe
     Subject to the spatial‐separation constraint above, this work proposes to optimize station locations to maximize overall system utility, defined by two complementary components: the suitability of individual candidate nodes and the structural performance of the network in terms of system compactness and accessibility. These components can sometimes conflict: a candidate location that scores highly on local factors (e.g. locations with high population density or \ac{pt} connectivity) may not improve network compactness or accessibility, while a location that contributes to a more compact or accessible network may have lower local suitability. To reconcile these considerations, the framework integrates both perspectives through a two-step approach:
 
     \begin{enumerate}
-        \item \textbf{Station‐level scoring:} Based on the system's planning objectives, a set of relevant local factors (such as population, number of \acp{poi}, income, etc.) is selected and weights are assigned to each factor. For each graph node \(i\), the utility \(U_i\) is then computed as a weighted sum of the normalized values of these factors, with all measurements taken within a configurable circular buffer of radius $Y$ around the node. This approach ensures that the score for each node reflects the surrounding local conditions relevant to the planning goals (see Section~\ref{sec:section_nodes_utility}).
-        
-        \item \textbf{Station‐level scoring:} assign each node \(i\) a utility \(U_i\) via a weighted sum of normalized local factors chosen based on the system's planning objectives (e.g. population, number of \acp{poi}, income, etc.). Each factor is measured within a configurable circular buffer of radius $Y$ around the node, so that the score reflects the surrounding conditions of the potential station location (see Section~\ref{sec:section_nodes_utility}).
+        \item \textbf{Station‐level scoring:} assign each node \(i\) a utility \(U_i\) via a 
+        weighted sum of normalized local factors chosen based on the system's planning 
+        objectives (e.g. population, number of \acp{poi}, income, etc.). Each factor is 
+        measured within a configurable circular buffer of radius $Y$ around the node, so that 
+        the score reflects the surrounding conditions of the potential station location (see 
+        Section~\ref{sec:section_nodes_utility}).
 
         \item \textbf{Network‐level adjustment:} combine the sum of selected node utilities with a composite network metric that balances station proximity and system accessibility according to a user-defined parameter $\alpha$ (see Section~\ref{sec:section_network_utility}).
     \end{enumerate}
