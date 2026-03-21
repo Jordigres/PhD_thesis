@@ -92,6 +92,15 @@
  % left=20mm,
  top=25mm,
 }
+% Uniform paragraph spacing: twoside + \flushbottom (book default) stretches
+% vertical glue on short pages; \raggedbottom lets pages end short instead.
+% Without that stretch, book class keeps \parskip=0pt, so paragraphs look tight;
+% set a fixed parskip (no plus/minus) so gaps stay even and do not vary by page.
+\raggedbottom
+\setlength{\parskip}{0.45\baselineskip}
+% Optional: use block paragraphs (no first-line indent) instead of the default
+% indented style: uncomment the next line.
+% \setlength{\parindent}{0pt}
 \usepackage{algorithm} 
 \usepackage[algo2e]{algorithm2e} 
 \usepackage{algpseudocode}
