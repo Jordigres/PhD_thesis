@@ -1,9 +1,9 @@
-\section{Methodology}
-\label{sec:station_planning_methodology}
+\section{Methodology}\label{sec:station_planning_methodology}
 
-This Section first presents the data sources used in the study. It then describes the station planning framework, detailing the mathematical formulation of the optimization problem and the two-step evaluation process: an initial scoring of candidate locations using a \ac{mcdm} approach, followed by a network-level adjustment that incorporates inter-station proximity and system-wide accessibility considerations. Next, the Section proceeds to introduce the topography module, which refines distance calculations by accounting for slope effects. Finally, it concludes with the configuration of the \ac{ga} used for the optimization.
 
-    \subsection{Data}
+This section presents the methodology used in the proposed framework. It first introduces the mathematical problem formulation, then describes the scoring framework and the topography-based distance adjustment, and finally outlines the \ac{ga} used for optimization.
+
+\subsection{Data}\label{sec:station_planning_data}
     
     This study draws on multiple open data sources available for Barcelona, including the \acf{ine}~\cite{INE}, \acf{osm}~\cite{OpenStreetMap_web}, \acf{odb}~\cite{ODB}, and \acf{otd}~\cite{OTD}, which provide the following datasets:
 
@@ -32,7 +32,7 @@ This Section first presents the data sources used in the study. It then describe
 
     \begin{table}[!htbp]
     \centering
-    \caption[Notation used in the BSS optimization model]{
+    \caption[Notation used in the BSS station-planning model]{
         \textbf{Notation used in the \ac{bss} optimization model.}
     }
     \label{table:notation}
@@ -69,56 +69,47 @@ This Section first presents the data sources used in the study. It then describe
     \end{tabular}
     \end{table}
 
-    \subsection{Optimization problem}
-    
-    Building on the data described above, this study formulates \ac{bss} station planning as an optimization problem in which station locations are chosen to maximize the system's total utility. The framework is flexible in that it can incorporate a wide range of spatial factors, adjust weighting schemes, and prioritize proximity among stations or accessibility of the system to reflect different planning priorities.
+\subsection{Problem formulation}
 
-    The aim of the optimization is to select a set $ S \subset V $ of $ k $ nodes from the \ac{osm} bike graph to serve as \ac{bss} stations. To do this, each node $i \in V$ is associated with a binary decision variable $x_i$, where $x_i = 1$ if node $i$ is selected as station and $x_i = 0$ otherwise. The only constraint in this optimization is spatial (Eq.~\ref{eq:spatial_constraint}): any two selected stations $ i $ and $ j $ must be separated by at least $X$ meters apart considering the paths of the directed bike network: 
+    \ac{bss} station placement is formulated as maximizing total system utility (Eq.~\ref{eq:full_formula}) using the bicycle network, node-level data, and symbols introduced in Section~\ref{sec:station_planning_data} and Table~\ref{table:notation}. The formulation adds one spatial constraint (Eq.~\ref{eq:spatial_constraint}), requiring any two selected stations to be at least $X$ meters apart along the directed bike network:
 
-        \begin{equation}\label{eq:spatial_constraint}
-            d(i,j) \geq X, \quad \text{if } x_i = 1 \text{ and } x_j = 1
-        \end{equation}
+    \begin{equation}\label{eq:spatial_constraint}
+        d(i,j) \geq X, \quad \text{if } x_i = 1 \text{ and } x_j = 1
+    \end{equation}
 
-    where $ d(i,j) $ is the shortest‐path distance. Minimum inter-station separation distances commonly adopted in the \ac{bss} literature range from 250\,m to 500\,m \cite{Kabak2018, MateoBabiano2016, Croci2014}; in this study, a fixed value of  $X$ = 300\,m is adopted to illustrate the presented framework, which can accommodate any alternative value of \(X\) as required. Furthermore, \(d(i,j)\) can be substituted with an elevation‐adjusted "equivalent flat distance"  $d_{\mathrm{eq}}(i,j)$, in order to account for uphill and downhill trip effects (see Section~\ref{sec:slopes}). 
+    where $d(i,j)$ is the shortest-path distance. In \ac{bss} literature, minimum inter-station spacing typically ranges from 250\,m to 500\,m~\cite{Kabak2018, MateoBabiano2016, Croci2014}. Here, $X=300$\,m is used as an illustrative value, although the framework supports alternative thresholds. The distance metric $d(i,j)$ can also be replaced by the topography-adjusted equivalent flat distance, $d_{\mathrm{eq}}(i,j)$, to account for slope-related effort (Section~\ref{sec:slopes}).
 
-    Subject to the spatial‐separation constraint above, this work proposes to optimize station locations to maximize overall system utility, defined by two complementary components: the suitability of individual candidate nodes and the structural performance of the network in terms of system compactness and accessibility. These components can sometimes conflict: a candidate location that scores highly on local factors (e.g. locations with high population density or \ac{pt} connectivity) may not improve network compactness or accessibility, while a location that contributes to a more compact or accessible network may have lower local suitability. To reconcile these considerations, the framework integrates both perspectives through a two-step approach:
+    Subject to this spatial constraint, station locations are optimized by maximizing overall system utility. The objective combines two complementary components: (i) the local suitability of candidate nodes and (ii) network-level performance in terms of compactness and accessibility. These components may conflict, as nodes with high local scores (e.g., high population density or public transport connectivity) do not always improve network structure, and vice versa. To reconcile both perspectives, the framework uses a two-step approach:
 
     \begin{enumerate}
-        \item \textbf{Station‐level scoring:} assign each node \(i\) a utility \(U_i\) via a 
-        weighted sum of normalized local factors chosen based on the system's planning 
-        objectives (e.g. population, number of \acp{poi}, income, etc.). Each factor is 
-        measured within a configurable circular buffer of radius $Y$ around the node, so that 
-        the score reflects the surrounding conditions of the potential station location (see 
-        Section~\ref{sec:section_nodes_utility}).
+    \item \textbf{Station-level scoring:} each node \(i\) is assigned a utility \(U_i\) as a weighted sum of normalized local factors aligned with planning objectives (e.g., population, POIs, income). Each factor is measured within a configurable circular buffer of radius $Y$ around the node, so that the score captures local context (Section~\ref{sec:section_nodes_utility}).
 
-        \item \textbf{Network‐level adjustment:} combine the sum of selected node utilities with a composite network metric that balances station proximity and system accessibility according to a user-defined parameter $\alpha$ (see Section~\ref{sec:section_network_utility}).
+    \item \textbf{Network-level adjustment:} the sum of selected node utilities is combined with a composite metric that balances inter-station proximity and system accessibility through a user-defined parameter $\alpha$ (Section~\ref{sec:section_network_utility}).
     \end{enumerate}
 
-    This two‐step procedure yields a utility score for any station set $S$, but does not solve the placement problem. Given the combinatorial nature of the placement problem, a \ac{ga} is employed to identify high-utility \ac{bss} station sets (Section \ref{sec:GA}).
+    This two-step procedure yields the utility of any station set $S$, but it does not solve the placement problem by itself. Because the problem is combinatorial, a \ac{ga} is used to identify high-utility \ac{bss} configurations (Section~\ref{sec:GA}).
 
-    \subsection{Scoring framework}
-        
+\subsection{Scoring framework}
+
+    Building on the problem formulation presented in the previous subsection, this subsection explains the station-level and network-level utility terms used in Eq.~\ref{eq:full_formula}. 
+
         \subsubsection{Nodes utility} \label{sec:section_nodes_utility}
 
-        To obtain the utility score \(U_i\) for each candidate node \(i\), a spatial weighted sum over \(F\) factors is computed as follows:
+        To obtain the utility of a candidate node, each node \(i\) is assigned a score \(U_i\) based on a weighted combination of local factors. Let \(F\) be the number of local factors, \(W_f\) the user-defined weight of factor \(f\), and \(V_{\mathrm{norm},f}^i\) the normalized value of factor \(f\) measured within a buffer of radius \(Y\) around node \(i\). Here, the weights \(W_f\) encode planning priorities, while \(Y\) defines the spatial context used to evaluate each node. This node-level utility is formalized in Eq.~\ref{eq:node_utility}:
 
-            \begin{equation} \label{eq:node_utility}
-                U_i \;=\;\sum_{f=1}^F W_f\,V_{\mathrm{norm},f}^i,
-            \end{equation}
+        \begin{equation} \label{eq:node_utility}
+            U_i \;=\;\sum_{f=1}^F W_f\,V_{\mathrm{norm},f}^i,
+        \end{equation}
 
-        where \(V_{\mathrm{norm},f}^i\) represents the normalized value of factor \(f\) within a buffer of radius \(Y\) meters around node \(i\), and \(W_f\) is the user-defined weight for that factor. By adjusting the weights \(W_f\), planners can shift emphasis among competing objectives, while the buffer radius \(Y\) determines the spatial extent of each node’s local context.
+        Table~\ref{table:local_factors_nodes} enumerates the local factors used in this study. These factors are examples of attributes commonly considered in \ac{bss} planning rather than a fixed list: additional spatial variables (e.g., land-use mix, crime rates, ridership, or parking availability) can be incorporated by measuring them within the node buffer and assigning an appropriate weight. In this implementation, absolute totals are used (e.g., residents and amenities), so higher underlying values translate into higher node utility. Relative indicators, such as per-capita or per-area measures, can also be integrated, although they may lead to different interpretations across planning contexts. In all cases, variables are normalized to ensure comparability. Details on the normalization procedures and before/after distributions for these variables are provided in Appendix~\ref{app:normalization}. To obtain the utility of a candidate station set, let \(V\) be the set of candidate nodes, \(x_i \in \{0,1\}\) the decision variable indicating whether node \(i\) is selected as a station, and \(U_i\) the node utility defined above. The resulting station-set utility is formalized in Eq.~\ref{eq:BSS_utility_no_metrics}:
 
-        Table~\ref{table:local_factors_nodes} enumerates the local factors considered in this study. These are meant as examples of factors commonly considered in \ac{bss} planning rather than a fixed set: any spatial attribute such as land‐use mix, crime rates, ridership, or parking availability can be incorporated by first measuring its value within a specified buffer around each candidate node and then assigning a weight to each spatial attribute. In this study, absolute totals are used (e.g., the number of residents or the count of amenities within the buffer), so that higher underlying values translate directly into higher node scores. Relative indicators, such as per-capita or per-area measures, could also be incorporated, but they express values in relation to a denominator rather than absolute magnitude, which can lead to different interpretations across planning scenarios. Regardless of the choice, all variables are normalized to ensure comparability. Details on the normalization procedures and before/after distributions for these variables are provided in Appendix~\ref{app_paper1:normalization}. Once the normalized scores have been computed, the \ac{bss} utility for a given set of stations $S$ is determined by the following formula:
-
-            \begin{equation}\label{eq:BSS_utility_no_metrics}
-                    U_{BSS} = \max \sum_{i\in V} x_i \cdot U_i
-            \end{equation}
-
-        where $V$ is the set of candidate nodes, $x_i$ is the binary decision variable for node $i$ (1 if selected as a station, 0 otherwise), and $U_i$ is the utility score of node $i$.
+        \begin{equation}\label{eq:BSS_utility_no_metrics}
+                U_{BSS} = \max \sum_{i\in V} x_i \cdot U_i
+        \end{equation}
 
         \begin{table}[!htbp]
             \centering
-            \caption[Local factors considered for the BSS station placement and their node-level aggregation procedures]{
+            \caption[Local factors for BSS station placement and node-level aggregation]{
                 \textbf{Local factors considered for the \ac{bss} station placement and their node-level aggregation procedures.} Data sources are detailed in Appendix~\ref{app_paper1:data_sources}.
             }
             \label{table:local_factors_nodes}
@@ -129,23 +120,23 @@ This Section first presents the data sources used in the study. It then describe
                 \textbf{Category} & \textbf{Variable} & \textbf{Preprocessing and aggregation within radius \(Y\)} \\
                 \midrule
                 Socioeconomics & Population 
-                    & Census section-level counts are first allocated to residential buildings according to their share of floor area (see Appendix~\ref{app_paper1:pop_distribution}). Next, for each node, the population within its buffer \(Y\) is obtained by summing the building-level counts, weighting partial buildings by the proportion of their area inside the buffer.\\
+                    & Section-level counts apportioned to residential building footprints (area-share, see Appendix~\ref{app:pop_distribution}); building-level counts summed within \(Y\), with partial overlaps weighted by intersecting area.\\
                 & Sex 
-                    & Male and female counts per census section are allocated to buildings and aggregated to nodes using the same method as population. \\
+                    & Male and female counts per section allocated to buildings and aggregated to nodes using the same method as population. \\
                 & Age 
-                    & Counts in 10-year bins (10–19, …, 70+) per census section are allocated to buildings and aggregated to nodes using the same method as population. \\
+                    & Counts in 10-year bins (10–19, …, 70+) per section allocated to buildings and aggregated to nodes using the same method as population. \\
                 & Immigration 
-                    & Non-Spanish citizen counts per census section are allocated to buildings and aggregated to nodes using the same method as population. \\
+                    & Non-Spanish citizen counts per section redistributed to buildings and aggregated to nodes using the same method as population. \\
                 & Education 
-                    & Counts by attainment level (primary, secondary, tertiary) per census section are allocated to buildings and aggregated to nodes using the same method as population. \\
+                    & Counts by attainment level (primary, secondary, tertiary) per section redistributed to buildings and aggregated to nodes using the same method as population. \\
                 & Unemployment 
-                    & Neighborhood-level unemployment rate applied to census section population aged 19–69. Resulting counts are then allocated to buildings and aggregated to nodes as population. \\
+                    & Neighborhood-level unemployment rate applied to section population aged 19–69; resulting counts redistributed to buildings and aggregated to nodes as population. \\
                 & Car ownership 
-                    & Motorization index at census section level (vehicles per 1,000 people) is first converted to absolute counts (index × census section population / 1,000). Then, these counts are allocated to buildings and aggregated to nodes as population. \\
+                    & Motorization index (vehicles per 1 000) converted to absolute counts (index × section population / 1 000), redistributed to buildings and aggregated as population. \\
                 & Household size 
-                    & Average dwelling size (m²) at census section level is aggregated to each node via area-weighted mean over the intersecting census sections. \\
+                    & Average dwelling size (m²) per section aggregated to each node via area-weighted mean over intersecting sections. \\
                 & Income 
-                    & Average net income per capita at census section level is aggregated to each node via area-weighted mean over the intersecting census sections. \\
+                    & Average net income per capita per section aggregated to each node via area-weighted mean over intersecting sections. \\
                 \midrule
                 
                 Public transport  & Metro lines 
@@ -157,55 +148,84 @@ This Section first presents the data sources used in the study. It then describe
                 \midrule
                 
                 Built environment & Bike lanes 
-                    & Total length of \ac{osm} "cycleway" segments within \(Y\). \\
-                & \ac{poi} count 
-                    & Number of \acp{poi} within \(Y\) considering the categories: healthcare, culture, tourism, recreation, sport, economic and retail, industrial, green, civic, worship, and education, based on a 15-minute city review~\cite{Papadopoulos2023}. Additionally, an overall count of all \acp{poi} is also considered.\\
-                & \ac{poi} diversity 
-                    & Shannon entropy of \ac{poi} categories within \(Y\) (zero when no \acp{poi} present). \\
+                    & Total length of OSM “cycleway” segments within \(Y\). \\
+                & POI count 
+                    & Number of POIs within \(Y\) considering the categories: healthcare, culture, tourism, recreation, sport, economic and retail, industrial, green, civic, worship, and education, based on a 15-minute city review~\cite{Papadopoulos2023}. Additionally, an overall count of all POIs is also considered.\\
+                & POI diversity 
+                    & Shannon entropy of POI categories within \(Y\) (zero when no POIs present). \\
                 \bottomrule
             \end{tabular}
         \end{table}
 
-
         \subsubsection{Network utility} \label{sec:section_network_utility}
 
-        After computing the node's local utility for a candidate set $S$ (Eq.~\ref{eq:BSS_utility_no_metrics}), the \ac{bss} score is complemented by an evaluation of the \ac{bss} network structure. This evaluation must account for both the proximity among the chosen stations and the coverage of the \ac{bss} service area. These two aspects capture different characteristics of the station placement, as a configuration that maximizes station dispersion does not necessarily ensure optimal coverage, and vice versa. A composite metric is constructed by combining the two individual metrics to provide a unified measure of overall network spatial arrangement:
+        After computing the local utilities for a candidate set $S$ (Eq.~\ref{eq:BSS_utility_no_metrics}), the \ac{bss} score is complemented with a network-structure assessment. This assessment considers two complementary aspects: proximity among selected stations and accessibility of the service area. Because these objectives can conflict (e.g., maximizing station dispersion does not always maximize coverage), they are integrated through a composite metric:
 
         \begin{itemize}
-            \item \textbf{Proximity metric} measures how close the stations in $S$ are, building on the concept of farness~\cite{Sabidussi1966}, which sums the shortest-path distances from one node to all others, and is thus closely related to the reciprocal of the unnormalized closeness centrality. Farness quantifies how far a node is from all other nodes in a network. Here, this idea is adapted to evaluate the spatial distribution of \ac{bss} stations by computing the total pairwise farness within the selected stations:
-
-                \begin{equation}
-                    Pro = \sum_{{s,t} \subset S} d(s,t)
-                \end{equation}
-
-            where $d(s,t)$ represents the shortest-path distance between stations $s$ and $t$, computed using the edges of $G$. A larger $Pro$ value indicates that the selected stations are more dispersed across the network.
-
-            \item \textbf{Accessibility metric} measures how well the stations provide accessibility across the entire network. It is based on the $p$-median problem~\cite{Daskin2015, Revelle2008}, a well-known facility location model that seeks to minimize the sum of distances between demand points and their nearest facility. The metric is computed as the total shortest-path distance from each node $v \in V$ to its nearest station $s \in S$:
-
-                \begin{equation}
-                    d(v, S) = \min_{s \in S} d(v,s),
-                \end{equation}
-
-            Then, the accessibility metric is defined as:
-                
-                \begin{equation}
-                    Acc = \sum_{v \in V} d(v, S)
-                \end{equation}
-
-            Lower values of $Acc$ indicate higher accessibility, meaning that, on average, stations are better positioned to minimize travel distance from any node of $G$.
-        \end{itemize}
-
-        Because both $Pro$ and $Acc$ depend on network size and station count, they are first min–max scaled to $[0,1]$ for comparability, and then inverted so that higher values denote higher proximity and higher access, as shown in Eq.~\ref{eq:normalization}. The resulting normalized inverted metrics are denoted as $S_{prox}$ and $S_{acc}$.
-
-            \begin{equation} \label{eq:normalization}
-                    M_{\mathrm{inv}} = 1 - \frac{M - M_{\min}}{M_{\max}-M_{\min}}.
+        \item \textbf{Proximity metric:} Eq.~\ref{eq:pro_metric} defines the proximity term. Drawing on farness~\cite{Sabidussi1966}, it measures the spatial dispersion of the selected stations by summing pairwise shortest-path distances on graph $G$, where $d(s,t)$ is the shortest-path distance between stations $s,t \in S$. Larger $Pro$ values indicate a more dispersed station set (i.e., lower proximity).
+            \begin{equation}\label{eq:pro_metric}
+                Pro = \sum_{{s,t} \subset S} d(s,t)
             \end{equation}
 
-        Since finding the truly minimum or maximum values of the proximity metric is NP-hard~\cite{Hassin1997, Ravi1994}, as it requires choosing a subset of nodes to optimize the sum of pairwise shortest‐path distances, its normalization bounds are approximated using heuristics. Similarly, we use a heuristic for the accessibility metric because determining its optimal values—that is, solving the \textit{p}-median problem—is also NP-hard~\cite{Kariv2006, Hakimi1965}. Thus, heuristic approximations are employed to estimate the normalization bounds for both metrics. The approximate minimum and maximum values are computed as follows (Figure~\ref{fig:graph_metric_bounds}):
+        \item \textbf{Accessibility metric:} Grounded in the $p$-median concept~\cite{Daskin2015, Revelle2008}, this metric captures how well the selected stations serve the full network. Eq.~\ref{eq:nearest_station_distance} first defines, for each network node $v \in V$, the shortest-path distance to its nearest station in the selected set $S$, and Eq.~\ref{eq:accessibility_metric} then aggregates these nearest-station distances over all nodes to obtain the total accessibility score. Lower values of $Acc$ indicate higher accessibility (shorter aggregate distances from nodes to their nearest station).
+            \begin{equation}\label{eq:nearest_station_distance}
+                d(v, S) = \min_{s \in S} d(v,s),
+            \end{equation}
+        
+            \begin{equation}\label{eq:accessibility_metric}
+                Acc = \sum_{v \in V} d(v, S)
+            \end{equation}
+
+        \end{itemize}
+
+        Because both $Pro$ and $Acc$ depend on network size and station count, they are first min-max scaled to $[0,1]$ and then inverted so that higher values denote higher proximity and higher accessibility. Let $M$ be either $Pro$ or $Acc$, and let $M_{\min}$ and $M_{\max}$ be its lower and upper bounds. This min-max inversion is defined in Eq.~\ref{eq:normalization}.
+
+        \begin{equation} \label{eq:normalization}
+                M_{\mathrm{inv}} = 1 - \frac{M - M_{\min}}{M_{\max}-M_{\min}}.
+        \end{equation}
+
+        Computing exact minimum and maximum bounds for both proximity~\cite{Hassin1997, Ravi1994} and accessibility~\cite{Kariv2006, Hakimi1965} is NP-hard. Therefore, normalization bounds are approximated heuristically. The resulting approximate bounds are defined as follows (Figure~\ref{fig:graph_metric_bounds}):
+
+        \begin{itemize}
+        \item \textbf{Minimum proximity distance:} Eq.~\ref{eq:pro_min} defines the lower proximity bound (i.e., the most compact configuration), where each pair of $k$ stations is exactly $X$\,m apart:
+            
+        \begin{equation}
+            \mathrm{Pro}_{min} =  \binom{k}{2}X.
+                \label{eq:pro_min}
+            \end{equation}
+
+        \item \textbf{Maximum proximity distance:} this corresponds the upper proximity bound (i.e., the most dispersed configuration), and is approximated with a \textit{farthest-first} heuristic. Eq.~\ref{eq:seed} selects the initial station as the node with maximum eccentricity, which provides a peripheral starting point. Eq.~\ref{eq:farthest} then adds stations iteratively by selecting the node whose minimum distance to the current set is largest. Finally, Eq.~\ref{eq:pro_max} gives the upper proximity bound as the resulting total pairwise distance:
+            
+            \begin{equation}
+            s_{1} = \arg\max_{v\in V}\;\max_{u\in V} d(v,u),
+            \label{eq:seed}
+            \end{equation}
+        
+            \begin{equation}
+                s_i = \arg\max_{v \notin \{s_1,\dots,s_{i-1}\}} \min_{s \in \{s_1,\dots,s_{i-1}\}} d(v,s).
+                \label{eq:farthest}
+            \end{equation}
+            
+            \begin{equation}
+                \mathrm{Pro}_{max} = \sum_{\{s,t\} \subset S} d(s,t).
+                \label{eq:pro_max}
+            \end{equation}
+
+        \item \textbf{Minimum accessibility distance:} Eq.~\ref{eq:acc_min} defines the lower accessibility bound (i.e., the best-case coverage) corresponding to the case where all nodes in \(V\) are as close as possible to a station. It is approximated via \(k\)-means clustering on node coordinates, with stations placed at nodes nearest to the cluster centroids to form $A_{\mathrm{acc,min}}$:
+
+            \begin{equation}
+                \mathrm{Acc}_{min} \approx \sum_{v\in V} \min_{s \in A_{\mathrm{acc,min}}} d(v,s).
+                \label{eq:acc_min}
+            \end{equation}
+
+
+        \item \textbf{Maximum accessibility distance:} this corresponds to the upper accessibility bound (i.e., the worst-case coverage), and is approximated with a peripheral-concentration heuristic. Using the same definition in Eq.~\ref{eq:acc_min}, the bound is evaluated with $A_{\mathrm{acc,max}}$ instead of $A_{\mathrm{acc,min}}$. In practice, stations are concentrated in a peripheral area. Starting from the peripheral seed in Eq.~\ref{eq:seed}, additional stations are iteratively placed at the closest available nodes while respecting $X$\,m constraint.
+        \end{itemize}
+        
 
         \begin{figure}[!htbp]
-            \centering
-            \includegraphics[width=1\linewidth]{0_plots/paper1/main/Barcelona_graph_metric_bounds.png}
+        \centering
+        \includegraphics[width=1\linewidth]{0_plots/paper1/main/Barcelona_graph_metric_bounds.png}
             \caption[Normalization bounds for proximity and accessibility metrics on Barcelona’s bike network with \(k=50\) stations]{
                 \textbf{Normalization bounds for proximity and accessibility metrics on Barcelona’s bike network with \(k=50\) stations}. Stations are shown in red, and the city boundary is outlined in grey.
                 \textbf{(A)} Maximum proximity (\(\mathrm{Pro}_{\max}\)), representing the worst‐case proximity of stations.  
@@ -215,212 +235,138 @@ This Section first presents the data sources used in the study. It then describe
             \label{fig:graph_metric_bounds}
         \end{figure}
 
+        Eq.~\ref{eq:combined_score} combines the normalized inverted proximity and accessibility scores into a single network score, where $\alpha \in [0,1]$ controls the trade-off between proximity and accessibility, $S_{\mathrm{prox}}$ is the inverted normalized $Pro$, and $S_{\mathrm{acc}}$ is the inverted normalized $Acc$. A value of $\alpha = 0$ prioritizes accessibility, while $\alpha = 1$ prioritizes proximity.
 
-        \begin{itemize}
-            \item \textbf{Minimum proximity distance}: this is the most compact configuration, where each pair of $k$ stations is exactly $X$\,m apart:
-                
-                \begin{equation}
-                    \mathrm{Pro}_{min} =  \binom{k}{2}X
-                        \label{eq:pro_min}
-                \end{equation}
-
-            \item \textbf{Maximum proximity distance}: this corresponds to the most dispersed \ac{bss}, approximated via a \textit{farthest‐first} heuristic. First, the node with the greatest eccentricity is  chosen as the initial station ($s_1$), ensuring a peripheral starting point:
-                
-                \begin{equation}
-                    s_{1} = \arg\max_{v\in V}\;\max_{u\in V} d(v,u),
-                    \label{eq:seed}
-                \end{equation}
-            
-            Then, subsequent stations are added one by one by selecting the node whose minimum distance to the existing set is largest:
-                \begin{equation}
-                    s_i = \arg\max_{v \notin \{s_1,\dots,s_{i-1}\}} \min_{s \in \{s_1,\dots,s_{i-1}\}} d(v,s).
-                    \label{eq:farthest}
-                \end{equation}
-            
-            The resulting total pairwise distance gives the upper bound for proximity:
-                \begin{equation}
-                    \mathrm{Pro}_{max} = \sum_{\{s,t\} \subset S} d(s,t).
-                    \label{eq:pro_max}
-                \end{equation}
-
-            \item \textbf{Minimum accessibility distance:} this corresponds to  the scenario in which all nodes in \(V\) are as close as possible to a station. It is approximated via \(k\)-means clustering on node coordinates. A station is placed at the node closest to each cluster centroid forming the station set $S_{\mathrm{acc,min}}$. The bound is:
-
-                \begin{equation}
-                    \mathrm{Acc}_{min} \approx \sum_{v\in V} \min_{s \in S_{\mathrm{acc,min}}} d(v,s).
-                    \label{eq:acc_min}
-                \end{equation}
+        \begin{equation}\label{eq:combined_score}
+            CS(\alpha) = \alpha S_{\mathrm{prox}} + (1 - \alpha) S_{\mathrm{acc}}
+        \end{equation}
 
 
-            \item \textbf{Maximum accessibility distance:} this corresponds to the scenario in which all nodes are as far as possible from their nearest station. Using the same definition in Eq.~\ref{eq:acc_min}, the bound is evaluated with $S_{\mathrm{acc,max}}$ instead of $S_{\mathrm{acc,min}}$. In this case, stations are concentrated in a peripheral area of the network. Starting from a peripheral seed node (Eq.~\ref{eq:seed}), subsequent stations are iteratively placed at the closest available nodes while respecting the minimum separation constraint $X$.
-        \end{itemize}
-            
+        Eq.~\ref{eq:full_formula} then extends Eq.~\ref{eq:BSS_utility_no_metrics} by combining station-level utility with network performance, where $U_{\mathrm{BSS}}$ is the sum of station-level scores:
 
-        To assess both network proximity and accessibility at the same time, the normalized inverted scores of both are combined into a single score defined as:
-            \begin{equation}
-                CS(\alpha) = \alpha S_{\text{pro}} + (1 - \alpha) S_{\text{acc}}
-            \end{equation}
-        
-        where $\alpha \in [0,1]$ controls the weighting between proximity and accessibility, $S_{\text{pro}}$ is the inverted normalized $Pro$, and $S_{\text{acc}}$ the inverted normalized $Acc$. A value of $\alpha = 0$ prioritizes accessibility, while $\alpha = 1$ focuses solely on station proximity, and intermediate values allow planners to balance these two objectives according to their priorities.
+        \begin{equation} \label{eq:full_formula}
+        U_{\mathrm{BSS}}^* = U_{\mathrm{BSS}} \times \left( \alpha \cdot S_{\mathrm{prox}} + (1 - \alpha) \cdot S_{\mathrm{acc}} \right)
+        \end{equation}
 
+\subsection{Distance adjustment based on topography}\label{sec:slopes}
 
-        Based on this, the overall \ac{bss} utility is obtained by extending Eq.~\ref{eq:BSS_utility_no_metrics} to combine individual station scores with network performance: 
-            \begin{equation} \label{eq:full_formula}
-                U_{\text{BSS}}^* = U_{\text{BSS}} \times \left( \alpha \cdot S_{\text{pro}} + (1 - \alpha) \cdot S_{\text{acc}} \right)
-            \end{equation}
-        where $U_{\text{BSS}}$ is the sum of individual station scores, ensuring that the final utility reflects both geographical coverage and network proximity, as balanced by $\alpha$.
-
-    \subsection{Distance adjustment based on topography}
-    \label{sec:slopes}
+    Beyond the baseline formulation, topography should be considered because shortest-path distances $d(i,j)$ drive the optimization. Distances should therefore reflect not only geometric length but also effort due to elevation change. Uphill segments increase effort, while downhill segments can reduce effort but may also require braking on steep declines. To capture these effects, the framework uses an elevation-adjusted ``equivalent flat distance'' $d_{\mathrm{eq}}(i,j)$, which better approximates perceived cycling effort, particularly for m-bikes.
     
-    Beyond the baseline formulation, it is important to consider how topography influences cycling effort. Since shortest-path distances $d(i,j)$ play a central role in the optimization, they should capture not only geometric length but also the effort associated with elevation changes. Uphill segments demand greater exertion, while downhill sections may ease travel but, in the case of steep declines, can also force cyclists to brake to avoid accidents. To represent these effects, the framework allows the use of an elevation-adjusted ‘equivalent flat distance’ $d_{\mathrm{eq}}(i,j)$. In this formulation, uphill segments are penalised and downhill segments rewarded on moderate slopes, yielding distances that more closely approximate the perceived effort of cycling, particularly for \acp{m-b}.
-
-    The equivalent flat distance for a single edge \(e\) of horizontal length \(d_{e}\) and elevation change \(\Delta h_{e}\) is computed in the following steps. First, the slope of \(e\) is computed and decomposed into uphill and downhill components in one step:
-        \[
-        g_{+,e} = \max\!\bigl(g_{e},0\bigr), 
+    For a single edge \(\ell\) with horizontal length \(d_{\ell}\) and elevation change \(\Delta h_{\ell}\), the equivalent flat distance is computed as follows. First, slope is computed as \(g_{\ell}=\Delta h_{\ell}/d_{\ell}\), clamped to $[-0.10,0.10]$ according to cycling guidelines \cite{AASHTO1999bicycle, CycleHighways2025, CROW2006}, and decomposed into uphill and downhill components (Eq.~\ref{eq:slope_components}). Second, speed for edge \(\ell\) is estimated with the Parkin \& Rotheram relation (Eq.~\ref{eq:slope_speed}), using \(v_{0}=6.01\) m/s, \(b_{\mathrm{up}}=-40.02\), and \(b_{\mathrm{down}}=-23.79\) (m/s per unit slope). Travel time is then computed as \(t_{\ell}=d_{\ell}/v(g_{\ell})\), and converted to equivalent flat distance as \(d_{\mathrm{eq},\ell}=t_{\ell}v_{0}\). This represents the flat-ground distance that would require the same travel time at speed \(v_{0}\).
+    \begin{equation}
+        g_{+,\ell} = \max\!\bigl(g_{\ell},0\bigr), 
         \quad
-        g_{-,e} = \min\!\bigl(g_{e},0\bigr),
+        g_{-,\ell} = \min\!\bigl(g_{\ell},0\bigr),
         \quad\text{where}\quad
-        g_{e} = \frac{\Delta h_{e}}{d_{e}}.
-        \]
-    To align with standard cycling guidelines, which recommend a maximum slope of 10\%, \(g_{e}\) is then clamped to the interval $[-0.10,0.10]$ \cite{AASHTO1999bicycle, CycleHighways2025, CROW2006}. Applying Parkin and Rotheram’s linear slope-speed relation \cite{Parkin2010}, the segment speed becomes  
-        \[
-        v(g_{e})=v_{0}+b_{\mathrm{up}}\,g_{+,e}+b_{\mathrm{down}}\,g_{-,e},
-        \]
-    with \(v_{0}=6.01\) m/s, \(b_{\mathrm{up}}=-40.02\), and \(b_{\mathrm{down}}=-23.79\) (m/s per unit slope). The resulting travel time \(t_{e}=d_{e}/v(g_{e})\) is then converted back into distance at flat-ground speed via \(d_{\mathrm{eq},e}=t_{e}\,v_{0}\). Summing these adjusted lengths over the shortest-path \(P_{ij}\) between nodes \(i\) and \(j\) yields  
-        \[
-        d_{\mathrm{eq}}(i,j)=\sum_{e\in P_{ij}}d_{\mathrm{eq},e},
-        \]
-    which may replace the original \(d(i,j)\) in the spatial constraint whenever slope effects are deemed relevant. 
-
-    Thus, the procedure provides an adjusted distance matrix where each shortest path $d_{eq}(i,j)$ reflects slope effects. This measure can directly replace the original distances $d(i,j)$ in the spatial constraint, penalizing uphill segments and rewarding downhill ones.
-
-    \subsection{Optimization modeling}
-    \label{sec:GA}
-
-    In this study, a \ac{ga} is employed to optimize the placement of \ac{bss} stations. \acp{ga} are population-based search procedures inspired by natural selection and genetics, well suited to exploring large combinatorial spaces and handling multiple objectives and constraints without requiring differentiable or convex formulations. These properties make them appropriate for station location problems, where the search space is discrete, constraints such as minimum station spacing must be enforced, and solutions must adapt to different planning objectives while retaining the same underlying spatial structure. A \ac{ga} evolves a population of fixed-length 'chromosome' candidates, each encoding all decision variables, through the operators of \textit{selection}, which favors higher-fitness individuals; \textit{crossover}, which splices gene segments from two parents to create offspring; and \textit{mutation}, which randomly alters individual genes to maintain diversity and avoid premature convergence. This evolutionary cycle continues until a stopping criterion such as a maximum number of generations or a convergence threshold is met. For a comprehensive overview of \ac{ga} concepts and variants, the reader is referred to Katoch et al.~\cite{Katoch2021}.
-
-    Our algorithm follows a single-objective, non-adaptive \ac{ga} with elitism. Each chromosome is a binary vector over all candidate sites ('station' versus 'no station'), encoding a complete \ac{bss} deployment plan $S$ with $k$ stations. The initial population of $N$ candidate plans is generated by constrained random sampling: a first station is selected at random, and subsequent stations are added only if they lie at or beyond the prescribed minimum distance $X$ from all previously chosen sites, until $k$ stations are placed. The population then evolves through selection, crossover, and mutation, while elitism ensures that a fixed fraction of the best solutions is preserved across generations. 
-
-    This design was chosen for its robustness and compatibility with custom, constraint-aware operators. Although other variants such as steady-state, adaptive, or multi-objective \ac{ga} variants exist, the chosen formulation proved sufficient to capture the spatial structure of the problem and to generalize across diverse planning scenarios. As demonstrated in Section~\ref{GA_vs_MILP}, this consistency allows a single hyperparameter optimization process to be reused across all experimental configurations.
-
-
-        \subsubsection{Hyperparameter tuning}
-
-        To ensure adaptability across diverse planning objectives, a comprehensive hyperparameter search was conducted on a representative scenario (\(k=60\) with a randomly generated local-factor weight vector), hypothesizing that these hyperparameter settings would generalize to other station counts and weight combinations (see Section~\ref{GA_vs_MILP}). Each hyperparameter configuration was assessed in terms of solution quality and population diversity over time. The main components of the algorithm, along with the alternative configurations explored, are detailed below and in Table~\ref{table:ga_grid}. 
-
-        {%
-        \setlength{\parskip}{0.45\parskip}%
-        \begin{itemize}
-        \item \textbf{Population size.} The algorithm starts with $N$ solutions, each comprising $k$ station locations that satisfy $X$. A larger $N$ enhances diversity, giving the algorithm a broader view of the solution space and increasing the chances of escaping local optima, but it also increases computational time.
-
-        \item \textbf{Selection strategy.} Determines how parent solutions are selected for reproduction:
+        g_{\ell} = \frac{\Delta h_{\ell}}{d_{\ell}}.
+        \label{eq:slope_components}
+        \end{equation}
+        \begin{equation}
+        v(g_{\ell})=v_{0}+b_{\mathrm{up}}\,g_{+,\ell}+b_{\mathrm{down}}\,g_{-,\ell},
+        \label{eq:slope_speed}
+        \end{equation}
+    
+    To extend this edge-level conversion to an origin-destination pair \((i,j)\), the edge-level equivalent flat distances are aggregated along the shortest path \(P_{ij}\), yielding the path-level equivalent flat distance. Repeating this for all origin-destination pairs yields an adjusted distance matrix in which each shortest path $d_{\mathrm{eq}}(i,j)$ reflects slope effects. 
         
-        \begin{itemize}
-            \item \textit{Roulette-wheel:} individuals are selected with a probability proportional to their fitness score. High-performing solutions are more likely to be chosen, but lower-quality ones retain a non-zero chance.
-            \item \textit{Tournament:} a small subset of individuals is randomly drawn from the population, and the one with the highest fitness within this group is selected.  This approach introduces selection pressure while still allowing less-fit individuals a chance to be chosen.            
-        \end{itemize}
+\subsection{Optimization modelling}\label{sec:GA}
 
-        \item \textbf{Crossover strategy.} Controls how offspring are generated from parent solutions: 
-        
-        \begin{itemize}
-            \item \textit{Greedy:} candidate nodes from both parents are ranked by score, and the best ones are iteratively added while respecting spatial constraints. 
-            \item \textit{Top-first:} the top 25\% of nodes by score are shuffled and selected first, with remaining slots filled by random picks from the other 75\%.
-            \item \textit{Weighted-random:} nodes are sampled with probabilities proportional to their scores, balancing exploration and exploitation. 
-        \end{itemize}
+    In this study, a \ac{ga} is used to optimize \ac{bss} station placement. \acp{ga} are population-based search methods inspired by natural selection, and are well suited to large combinatorial problems with discrete decisions and explicit constraints. A \ac{ga} evolves a population of fixed-length chromosome candidates through three operators: \textit{selection}, which favors high-fitness solutions; \textit{crossover}, which combines parent solutions to create offspring; and \textit{mutation}, which introduces random variation to preserve diversity and reduce premature convergence. Evolution continues until a stopping criterion is reached (e.g., maximum generations or convergence threshold). For a comprehensive overview of \ac{ga} concepts and variants, the reader is referred to Katoch et al.~\cite{Katoch2021}.
 
-        \item \textbf{Mutation strategy.} each node of non-elite offspring has a probability of mutation, capped at 20\% of nodes. Node replacements must satisfy the distance constraint \(X\).
+    Our implementation is a single-objective, non-adaptive \ac{ga} with elitism. Each chromosome is a binary vector over candidate sites (station vs.\ no station), encoding a complete deployment plan $S$ with $k$ stations. The initial population of $N$ plans is generated by constrained random sampling: the first station is selected at random, and each subsequent station is accepted only if it is at least $X$ meters from all previously selected stations. The population then evolves through selection, crossover, and mutation, while elitism preserves a fixed fraction of the best solutions across generations. This design was selected for robustness and compatibility with custom, constraint-aware operators. Although other variants exist (e.g., steady-state, adaptive, multi-objective), this formulation was sufficient to capture the spatial structure of the problem and to generalize across planning scenarios.
 
-        \item \textbf{Elitism.} A fixed proportion of the best-performing solutions is directly transferred to the next generation. This guarantees that high-quality individuals are preserved and not lost through random variation.
+    \subsubsection{Hyper-parameter tuning}
 
-        \item \textbf{Early stopping.} To avoid unnecessary computation, the algorithm is terminated if no improvement is observed in either the best or average fitness score after 300 consecutive generations.
-        \end{itemize}
-        }%
+    To ensure adaptability across planning objectives, a comprehensive hyperparameter search was conducted on a representative scenario (\(k=60\) with a randomly generated local-factor weight vector). The working hypothesis was that the selected settings would generalize to other station counts and weight combinations (\textcolor{red}{see Section~\ref{GA_vs_baselines}}). Each configuration was evaluated using both solution quality and population diversity over time. Across all runs, the maximum number of generations was fixed at 10,000, with early stopping triggered after 300 generations without improvement in either best or average fitness. Table~\ref{table:ga_grid} summarizes the tested components, their role in the \ac{ga}, and the values explored.
 
 
-        \begin{table}[!htbp]
-        \centering
-        \caption[GA hyperparameter grid search space]{
+    \begin{table}[!htbp]
+    \centering
+    \caption[GA hyperparameter grid search space]{
             \textbf{\ac{ga} hyperparameter grid search space.} 
             Combinations of hyperparameters that were not feasible due to insufficient numbers in the different \ac{ga} operators were skipped.
         }
-        \label{table:ga_grid}
-        \footnotesize
-            \begin{tabular}{ll}
-            \toprule
-            \textbf{Hyperparameter} & \textbf{Values tested} \\
-            \midrule
-            Population size & 25, 50, 100, 200 \\
-            Mutation rate & 0.01, 0.02, 0.05, 0.1, 0.2 \\
-            Elite fraction & 0.01, 0.02, 0.05, 0.1, 0.2 \\
-            Selection strategy & Tournament, Roulette-wheel \\
-            Crossover strategy & Greedy, Weighted-random, Top-first \\
-            Max generations & 10,000 (with early stopping)\\
-            \bottomrule
-            \end{tabular}
-        \end{table}
-
-        The best‐performing set comprised tournament selection, greedy crossover, \(N=50\), mutation rate 0.05, and elite fraction 0.05.  
-
-
-        \subsubsection[GA accuracy bench-marking]{\ac{ga} accuracy bench-marking}
-        \label{GA_vs_MILP}
-
-        Although the \ac{ga} hyperparameters were tuned on a single scenario, they were expected to generalize across planning scenarios, as the network topology remains fixed, and therefore, the search space is the same. To validate this hypothesis, \ac{ga} solution utilities were compared against the exact optima obtained from a \ac{milp} formulation. \acp{ga} are meta-heuristic and cannot guarantee global optimality, whereas \ac{milp} solvers certify the optimal solution, making them ideal benchmarks.
-
-        The full \ac{bss} utility function is nonlinear, as it combines both local-factor and network-structure metrics. As a result, it cannot be exactly solved using \ac{milp}. To enable a direct comparison, both the \ac{milp} and \ac{ga} methods were set to optimize only the linear part of the objective:
-        \[
-        f_{\mathrm{linear}} = \max_{x}\;\sum_{i\in V} x_i\,U_i
-        \]
-        subject to  
-        \[
-        \sum_{i\in V} x_i = k,\quad
-        x_i + x_j \le 1\;\;\forall\,(i,j)\in\mathcal{E},\quad
-        x_i\in\{0,1\},
-        \]
-        where \(V\) is the set of all nodes, \(U_i\) is the local-factor utility for node \(i\), \(k\) is the required number of stations, and \(\mathcal{E}=\{(i,j)\mid d(i,j)<X\}\) defines pairs of nodes that cannot both be selected due to the minimum inter-station distance \(X\). This linearized formulation maintains the original deployment constraints while significantly simplifying the optimization problem and avoiding errors that would be introduced through linearization of nonlinear terms. However, it is important to note that this \ac{milp} benchmark uses a simplified version of the problem, omitting the nonlinear aspects (specifically, the incorporation of network-structure metrics into $U_{\mathrm{BSS}}$). Therefore, it only partially assesses how well the \ac{ga} hyperparameters optimize the complete \ac{bss} objective. To evaluate the \ac{ga}'s robustness, two sets of experiments were conducted:
-
-        \begin{enumerate}
-        \item \textbf{Weight sensitivity} (fixed $k=60$).
-            A total of 118 weight vectors for the local factors were generated by Monte Carlo sampling. A sample size of 118 was chosen based on a preliminary power analysis with 20 samples to ensure that a one-sided test at the 0.5\% gap threshold would achieve at least 90\% power with \(\alpha=0.05\). For each weight vector, the \ac{milp} solved the linear model to optimality and the \ac{ga} was executed with the tuned hyperparameters, enabling paired comparisons of \(U_{\mathrm{BSS,GA} }\) and \(U_{\mathrm{BSS,MILP}}\).
-
-        \item \textbf{Station-count sensitivity (fixed weights, 24 vectors).}  
-            Four station counts (\(k=30,60,90,120\)) were each tested against 96 randomly generated weight vectors. The choice of 96 weight combinations per \(k\) is guided by the same power analysis.
-
-        \end{enumerate}
-
-        For every test instance, the optimality gap was computed as in Alkhalifa et al.~\cite{Alkhalifa2025}:
-
-        \[
-        \mathrm{Gap} = 100\times\frac{f_{\mathrm{BSS,MILP}} - f_{\mathrm{BSS,GA}}}{f_{\mathrm{BSS,MILP}}}
-        \]
-
-        Runs with $\mathrm{Gap}\leq1\%$ were classified as near-optimal, following the convention in the heuristic optimization literature \cite{Lagos2023, Madadi2024, Pisinger2007}. Results are summarized in Table~\ref{table:MILP_combined}. In all instances the \ac{ga} achieved gaps under 1\% of the \ac{milp} optimum, confirming that neither weight variation nor station count degrades \ac{ga} accuracy under the simplified linear formulation. To statistically validate this equivalence, paired percentage gaps were tested for normality (Shapiro--Wilk) and, depending on the result, subjected to either one-sample $t$-tests or Wilcoxon signed-rank tests against a $0.5\%$ threshold. In every scenario the one-tailed $p$-value was below $0.001$, and observed mean gaps ranged from $0.23\%$ to $0.35\%$. 
-        %Post-hoc power analyses ($\alpha=0.001$, power=0.9999) showed that our sample sizes far exceed the numbers needed to detect these effects. 
-
-        These findings demonstrate that the \ac{ga} can approximate exact solutions very closely when the problem is linear. Since the \ac{milp} benchmark excludes the network metric of the full \ac{bss} utility $U^*_{\mathrm{BSS}}$, the results should be interpreted as an indicative rather than exhaustive validation. On the other hand, although \ac{ga} runtimes (10–66 min) exceed \ac{milp} times (6 min), only the \ac{ga} approach, among the two, can optimize the full $U^*_{\mathrm{BSS}}$, and its near-optimal performance on the linear proxy gives confidence in its ability to tackle the complete problem.
-
-
-        \begin{table}[!htbp]
-        \centering
-        \caption[Benchmark comparison between GA and MILP optimization]{
-            \textbf{Benchmark comparison between \ac{ga} and \ac{milp} optimization.} 
-            Results for both the weight and station count sensitivity analysis. \ac{ga} scores correspond to the best solution of the population.}
-        \label{table:MILP_combined}
-        \footnotesize
-        \begin{tabular}{r r r cc cc}
+    \label{table:ga_grid}
+    \small
+        \setlength{\tabcolsep}{5pt}
+        \renewcommand{\arraystretch}{1.3}
+        \begin{tabular}{>{\raggedright\arraybackslash}p{0.20\linewidth}>{\raggedright\arraybackslash}p{0.55\linewidth}>{\raggedright\arraybackslash}p{0.20\linewidth}}
         \toprule
-        & & & \multicolumn{2}{c}{\textbf{MILP}} & \multicolumn{2}{c}{\textbf{GA}} \\
-        \cmidrule(lr){4-5} \cmidrule(lr){6-7}
-        \textbf{Scenario} & \textbf{\(k\)} & \textbf{Weights} 
-            & \textbf{Score (Avg\,$\pm$\,Std)} & \textbf{Time (Avg\,$\pm$\,Std)} 
-            & \textbf{Score (Avg\,$\pm$\,Std)} & \textbf{Time (Avg\,$\pm$\,Std)} \\
+        \textbf{Hyperparameter} & \textbf{Role in the \ac{ga}} & \textbf{Values tested} \\
         \midrule
-        Weights & 60 & 118 & 53.48 $\pm$ 0.51 & 5.92 $\pm$ 0.07 & 53.29 $\pm$ 0.54 & 33.60 $\pm$ 10.25 \\
-        \midrule
-        Stations & 30 & 24  & 27.73 $\pm$ 0.10 & 5.92 $\pm$ 0.08 & 27.67 $\pm$ 0.13 & 10.51 $\pm$ 2.76 \\
-                            & 60 & 24  & 53.44 $\pm$ 0.43 & 5.93 $\pm$ 0.11 & 53.26 $\pm$ 0.46 & 21.45 $\pm$ 4.69 \\
-                            & 90 & 24  & 77.77 $\pm$ 0.77 & 5.94 $\pm$ 0.06 & 77.50 $\pm$ 0.76 & 38.01 $\pm$ 11.86 \\
-                            & 120& 24  & 100.89 $\pm$ 1.03 & 5.96 $\pm$ 0.10 & 100.60 $\pm$ 1.03 & 65.66 $\pm$ 20.23 \\
+        Population size ($N$) & Number of candidate station plans per generation; larger $N$ improves diversity but increases runtime. & 25, 50, 100, 200 \\
+        Selection strategy & Determines how parents are chosen for reproduction. \newline \textit{Roulette-wheel}: fitness-proportional parent sampling. \newline \textit{Tournament}: select the fittest individual within a random subset. & Tournament \newline Roulette-wheel \\
+        Crossover strategy & Defines how offspring are built from parent solutions. \newline \textit{Greedy}: iteratively add the highest-score feasible nodes from both parents. \newline \textit{Top-first}: prioritize shuffled top-25\% nodes, then fill remaining slots from lower-ranked candidates. \newline \textit{Weighted-random}: sample candidates with score-proportional probability. & Greedy \newline Top-first \newline Weighted-random \\
+        Mutation rate & Per-node mutation probability in non-elite offspring; replacement nodes must satisfy distance constraint $X$ (max 20\% mutated nodes). & 0.01, 0.02, 0.05, 0.1, 0.2 \\
+        Elite fraction & Share of top-performing solutions copied directly to the next generation. & 0.01, 0.02, 0.05, 0.1, 0.2 \\
         \bottomrule
         \end{tabular}
-        \end{table}
+    \end{table}
+
+    The best-performing configuration used tournament selection, greedy crossover, \(N=50\), mutation rate 0.05, and elite fraction 0.05.
+
+
+    \subsubsection{GA accuracy bench-marking}
+    \label{GA_vs_baselines}
+
+    Although the \ac{ga} hyperparameters were tuned on a single scenario, they are expected to 
+    generalize across planning scenarios, as the network topology remains fixed. To validate this hypothesis, the \ac{ga} is compared against two baseline heuristics and one alternative metaheuristic. Since no exact optimum is available for the non-linear full objective, performance is assessed comparatively. All methods used the same settings, ensuring direct comparability. Robustness was assessed with two experiments:
+
+    \begin{enumerate}
+    \item \textbf{Weight sensitivity} (fixed $k=60$).
+        A total of 118 weight vectors for the local factors were generated by Monte Carlo sampling. A sample size of 118 was chosen based on a preliminary power analysis with 20 samples to ensure that a one-sided test at the 0.5\% performance threshold would achieve at least 90\% power with \(\alpha=0.05\). For each weight vector, all methods (\ac{ga}, random baseline, greedy baseline, and \ac{simann}) were executed and compared using \(U_{\mathrm{BSS}}^*\).
+
+    \item \textbf{Station-count sensitivity (fixed weights, 24 vectors).}  
+        Four station counts (\(k=30,60,90,120\)) were each tested against 96 randomly generated weight vectors. The choice of 96 weight combinations per \(k\) is guided by the same power analysis.
+
+    \end{enumerate}
+
+    Compared methods are defined as follows:
+    \begin{itemize}
+    \item \textbf{Random baseline heuristic:} generates multiple feasible station sets by random sampling under \(d(i,j)\ge X\), and reports the average \(U_{\mathrm{BSS}}^*\) across runs.
+    \item \textbf{Greedy baseline heuristic:} constructs a feasible set sequentially by adding, at each step, the highest-scoring valid node according to node-level utility \(U_i\) while respecting the spacing constraint. The final set is then evaluated once with \(U_{\mathrm{BSS}}^*\).
+    \item \textbf{Simulated annealing (\acs{simann}):} starts from a feasible random solution and explores neighbors via one-node feasible swaps. Better moves are always accepted; worse moves are accepted with Metropolis probability \(\exp(\Delta/T)\), where \(\Delta=U_{\mathrm{BSS,new}}^*-U_{\mathrm{BSS,current}}^*\). Temperature follows geometric cooling \(T_{t+1}=rT_t\) (\(T_0=1.0\), \(r=0.9995\), max iterations \(=10{,}000\)).
+    \end{itemize}
+
+
+
+    \begin{table}[!htbp]
+    \centering
+    \caption[Score and time assessment across methods]{
+        \textbf{Score and time assessment across methods.} All methods are evaluated with \(U_{\mathrm{BSS}}^*\) and the same feasibility constraints.
+    }
+    \label{table:ga_baseline_comparison}
+    \footnotesize
+    \begin{tabular}{l r r c c c}
+    \toprule
+    \textbf{Scenario} & \textbf{\(k\)} & \textbf{Weights}
+        & \textbf{Method} & \textbf{Score (Avg\,$\pm$\,Std)} & \textbf{Time (Avg\,$\pm$\,Std)} \\
+    \midrule
+    Weights & 60 & 118 & Random & -- & -- \\
+            &    &     & Greedy & -- & -- \\
+            &    &     & SA & -- & -- \\
+            &    &     & GA & -- & -- \\
+    \midrule
+    Stations & 30 & 24 & Random & -- & -- \\
+            &    &    & Greedy & -- & -- \\
+            &    &    & SA & -- & -- \\
+            &    &    & GA & -- & -- \\
+    \midrule
+            & 60 & 24 & Random & -- & -- \\
+            &    &    & Greedy & -- & -- \\
+            &    &    & SA & -- & -- \\
+            &    &    & GA & -- & -- \\
+    \midrule
+            & 90 & 24 & Random & -- & -- \\
+            &    &    & Greedy & -- & -- \\
+            &    &    & SA & -- & -- \\
+            &    &    & GA & -- & -- \\
+    \midrule
+            & 120 & 24 & Random & -- & -- \\
+                &     &    & Greedy & -- & -- \\
+                &     &    & SA & -- & -- \\
+                &     &    & GA & -- & -- \\
+    \bottomrule
+    \end{tabular}
+    \end{table}
+
+    \textcolor{red}{TODO: COMENTAR ELS RESULTATS}
