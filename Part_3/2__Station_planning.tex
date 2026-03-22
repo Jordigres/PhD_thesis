@@ -1,7 +1,12 @@
 \chapter[Designing BSS Station Networks]{Designing \ac{bss} Station Networks}
 \label{ch:station_planning_in_barcelona}
 
-This Chapter establishes the conceptual and methodological foundations for the station planning framework presented in this Part. It reviews the state of the art in station placement, introduces the optimization problem and the proposed approach and illustrates its use for scenario exploration and incremental network expansion with the Barcelona case study (Chapter~\ref{ch:use_case_barcelona}). The material in this Chapter is adapted from Grau-Escolano et al.~\cite{GrauEscolano2025}, currently under review.
+\textcolor{red}{This Chapter establishes the conceptual and methodological foundations for the station planning framework presented in this Part. It reviews the state of the art in station placement, introduces the optimization problem and the proposed approach and illustrates its use for scenario exploration and incremental network expansion with the Barcelona case study.}
+
+\textcolor{blue}{Placing docking stations is among the most consequential design choices in a docked \acp{bss}, because it shapes accessibility, the demand the system can attract, and the burden placed on operations. Where to place these stations is mostly based on the system objectives, and existing frameworks are often rigid: only a handful of objectives are considered, candidate locations are screened on coarse areal units rather than along the street network, and topography is set aside even when high-resolution data would allow a more faithful picture. Against that backdrop, this thesis targets the following question: \emph{How can a single, flexible station-planning framework be developed that explores multiple, competing planning objectives and is detailed enough to support practical, street-level system design?}}
+
+\textcolor{blue}{This Chapter develops the first contribution of the thesis. It reviews the state of the art in station placement strategies and presents the flexible station-placement optimization framework applied to Barcelona: an \ac{mcdm} scoring layer evaluates candidate sites under heterogeneous, scenario-specific criteria and weights, within a multi-objective optimization framework solved through a \ac{ga}; network-level distances are computed on a directed, topography-adjusted street graph. It illustrates the framework through three planning scenarios and an incremental network expansion case study in l'Eixample.}
+The material in this Chapter is adapted from Grau-Escolano et al.~\cite{GrauEscolano2025}, currently under review.
 
 \input{Part_3/2_1__Intro_Biblio.tex}
 \input{Part_3/2_2__Methods.tex}
