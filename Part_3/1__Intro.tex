@@ -1,5 +1,22 @@
-\chapter{Barcelona as a case study}
+Designing an effective bike-sharing station network is one of the most important strategic decisions in the planning of docked \acp{bss}. Station placement affects system accessibility, influences potential demand, and directly affects management operations such as rebalancing. As will be seen in Chapter~\ref{ch:station_planning_in_barcelona}, research in this field has progressed from early heuristic and \ac{gis}-based suitability analyses that relied on low-resolution spatial data to more advanced multi-criteria and optimization-driven approaches that make use of high-resolution datasets. Despite these advances, many existing methods remain limited in flexibility and are seldom adapted to the fine-grained urban realities of specific cities.
+
+Part~\ref{pt:data-driven-station-planning} addresses this gap by developing and applying a flexible data-driven framework for station planning in Barcelona. After introducing the city as a case study, Chapter~\ref{ch:station_planning_in_barcelona} reviews the state of the art in station placement strategies and presents the modelling approach, which integrates high-resolution spatial data, topography-adjusted cycling distances, and network-based system accessibility and inter-station proximity metrics into a multi-objective optimization framework solved through a \ac{ga}. It also illustrates how the framework supports scenario exploration and incremental network expansion using Barcelona as the case study. The chapter is adapted from Grau-Escolano et al.~\cite{GrauEscolano2025}, currently under review.
+
+
+% Unnumbered chapter (no large chapter number in the heading), in TOC. Do not
+% \refstepcounter{chapter} so the following chapter keeps the next number (no
+% gap in the sequence). book's \chapter starts with \cleardoublepage/\clearpage;
+% relax both so the heading can follow the previous text on the same page.
+\begingroup
+\let\cleardoublepage\relax
+\let\clearpage\relax
+\vspace{25pt}
+\chapter*{Barcelona as a case study}
+\phantomsection
 \label{ch:use_case_barcelona}
+\addcontentsline{toc}{chapter}{\protect\numberline{}Barcelona as a case study}
+\endgroup
+\vspace{-45pt} % remove the extra space added by the chapter title
 
 Barcelona, the capital of Catalonia in northeastern Spain, occupies approximately 101 km² and was home to roughly 1.7 million residents in 2024, making it one of Europe’s most densely populated cities. Its municipal boundary is delineated by two important geographic features: the Mediterranean Sea to the southeast and the Collserola mountain range to the northwest. These natural limits not only constrain urban expansion but also shape travel patterns, as coastal flatlands yield to the steep slopes of Collserola rising to nearly 450 m (Figure~\ref{fig:Barcelona_use_case}C). Administratively, Barcelona is divided into 10 districts and 73 neighborhoods (Figure~\ref{fig:Barcelona_use_case}A), which display marked socioeconomic contrasts (Figure~\ref{fig:Barcelona_use_case}B and D). Districts such as Sarrià–Sant Gervasi and Les Corts stand out with the highest average incomes, while Nou Barris and parts of Ciutat Vella record much lower income levels. The l'Eixample district, although more socioeconomically mixed, concentrates the largest number of amenities and \acp{poi}, making it a major hub of urban activity. 
 
@@ -26,7 +43,7 @@ How residents make use of this infrastructure is reflected in the 2024 survey \t
 \begin{table}[!htbp]
     \centering
     \caption[Modal split of trips in Barcelona based on EMEF 2024 survey]{
-        \textbf{Modal split of trips in Barcelona based on EMEF 2024 survey.}
+        \textbf{Modal split of trips in Barcelona based on EMEF 2024 survey~\cite{EMEF2024}.}
     }
     \label{tab:modal_split}
     \begin{tabular}{lccc}
