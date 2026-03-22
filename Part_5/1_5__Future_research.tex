@@ -1,17 +1,35 @@
 \section{Future research directions}
 \label{sec:conclusions_future}
 
-The work presented in this thesis opens several directions for further research.
-
-A first priority is to deploy the methods developed in this thesis in live operator environments. Integrating them within operator data pipelines and decision workflows would enable iterative refinement from real-world feedback, and their impact could then be assessed through operational and societal outcomes, such as service-level reliability, avoided empty or full stations, reduced downtime, and cost and emissions.
+The work presented in this thesis opens several directions for further research. A first priority is to deploy the methods developed in this thesis in live operator environments. Integrating them within operator data pipelines and decision workflows would enable iterative refinement from real-world feedback, and their impact could then be assessed through operational and societal outcomes, such as service-level reliability, avoided empty or full stations, reduced downtime, and cost and emissions. 
+\textcolor{blue}{
+    Moreover, coupling these deployments with live telemetry feeds would further support a shift from periodic reporting to real-time control systems that adjust rebalancing, staffing, or charging decisions as conditions evolve.
+}
 
 On the other hand, as \acp{bss} are becoming more technologically advanced, \ac{gps} and other sensors are becoming increasingly available. Therefore, richer data could strengthen the models developed in this thesis and bring them closer to deployment. For mobility and battery modeling, \ac{gps} or similar route data would improve trip characterization and consumption estimates, and higher-resolution and longer battery time series would support more robust forecasts. For \ac{pm}, onboard condition signals (e.g.\ vibration, tire pressure) could provide additional information on bicycle state and deterioration. Moreover, in station planning, integrating demand estimates from existing \ac{bss} usage or surveys, and feasibility filters for candidate sites (e.g.\ from street-level or satellite imagery), would support more realistic scenario testing. Together with expanding open urban data and data-sharing practices, these trends are lowering barriers to adoption and are likely to make the approaches developed in this thesis progressively more feasible in real-world deployments.
 
 Beyond deployment and data availability, a first set of research directions builds directly on the contributions of this thesis. Based on the mobility and battery patterns documented here, rebalancing strategies could be refined to account for the distinct usage of \acp{m-b} and \acp{e-b}, for topography-driven demand, and for the battery dynamics, and the \ac{pm} framework could be extended to more components to support a more comprehensive maintenance system. In the same vein, the station planning framework could be extended beyond \acp{bss} to other mobility-related facility location problems. Although such extensions lie outside the scope of this thesis, its core components are not specific to \ac{bss} stations and could usefully support the placement of elements such as bus stops and electric vehicle charging points. Adaptation would require defining the relevant network and choosing factors, weights, and constraints for the facility type in question.
 
-Beyond these direct extensions, future research could address other operational challenges within \acp{bss}. Lost demand arises when users find a station empty and cannot pick up a bike; conversely, full stations prevent successful returns and force users to search for another dock or abandon the trip. Promising directions include infering the volumes of this unmeasured demand and rebalancing strategies that respond to these imbalances.
+\textcolor{blue}{
+    Related to station placement and network design, this thesis touches on equity in planning (e.g.\ through scenario objectives and topography-aware accessibility), but it does not measure whether \acp{bss} outcomes--such as access to stations, service reliability, or the burden of empty or full docks--are distributed fairly across neighborhoods and groups. Future work could study how rebalancing, station placement, and other planning choices affect those outcomes, and whether the plans or scenarios suggested by a model would actually deliver what a city has already said it wants--for example, whether every neighborhood would receive at least a chosen level of access or service, or whether gaps between the best- and worst-served areas stay within limits set in policy.
+}
 
-At a more ambitious, system level, future work could develop integrated decision-support that jointly optimizes station planning and day-to-day operations under resource and service-level constraints, rather than treating these components in isolation. Empirically, this motivates research that quantifies causal links between structural design choices and downstream operational outcomes.
+
+Beyond these direct extensions, future research could address other operational challenges within \acp{bss}.
+\textcolor{red}{
+    Lost demand arises when users find a station empty and cannot pick up a bike; conversely, 
+    full stations prevent successful returns and force users to search for another dock or 
+    abandon the trip. Promising directions include inferring the volumes of this unmeasured 
+    demand and rebalancing strategies that respond to these imbalances.
+}
+\textcolor{blue}{%
+    Building on the station-level demand and battery predictions developed in this thesis, a natural next step is to close the operational demand--supply loop through rebalancing strategies and routing optimization for redistribution vehicles or field crews, ideally treating these elements as an integrated problem rather than as loosely coupled modules. However, trip and station inventory data usually used to inform rebalancing decisions only reveal realized trips and observed station states; they do not reveal how much unmet need corresponds to lost demand--trips that do not appear in the data because users cannot pick up or return a bike when stations are empty or full. Predicting the volumes of this unmeasured demand and designing rebalancing strategies that respond explicitly to these imbalances would be a major step forward.
+}
+
+At a more ambitious, system level, future work could develop integrated decision-support that jointly optimizes station planning and day-to-day operations under resource and service-level constraints, rather than treating these components in isolation. Empirically, this motivates research that quantifies causal links between structural design choices and downstream operational outcomes. 
+\textcolor{blue}{
+    One way to advance such integrated decision-support is to embed such models in urban mobility digital twins---coherent representations of demand, supply, and infrastructure that support scenario analysis. Such twins could help planners compare infrastructure and operational interventions before deployment.
+}
 
 In addition to these application-level directions, methodological advances in \ac{ai} and \ac{ml} offer further opportunities. For station planning, multi-objective optimization algorithms such as \ac{nsgaii} or \ac{spea2} could approximate Pareto fronts in a single run, offering a more comprehensive view of trade-offs between planning goals.
 
@@ -19,4 +37,12 @@ For prediction tasks, battery and demand forecasting could be cast as time serie
 
 For \ac{pm}, transformers also represent a promising direction. The survival and \ac{ml} models used here could be extended with transformer-based variants such as SurvTRACE~\cite{Wang2022SurvTRACE}, which handles competing events and provides interpretable attention over covariates.
 
-Finally, applying and benchmarking these approaches across multiple cities would clarify transferability. Comparative applications would help establish how data quality, urban form, and topography shape model performance and would strengthen the evidence base for adoption elsewhere.
+\textcolor{red}{
+    Finally, applying and benchmarking these approaches across multiple cities would clarify 
+    transferability. Comparative applications would help establish how data quality, urban 
+    form, and topography shape model performance and would strengthen the evidence base for 
+    adoption elsewhere.
+}
+\textcolor{blue}{
+    Finally, generalizability and transferability of the approaches developed in this thesis remain open questions. The findings of this thesis are solely grounded in Barcelona and \textit{Bicing}, and therefore the approaches have not been validated in other cities or \acp{bss}. It is therefore unclear how model performance and conclusions would carry over when urban context, system design and operations, or data quality differ--for instance, whether a different street network, \acp{e-b} share, or maintenance strategy would change which planning or operational choices are best, or would mainly require recalibration of the same methodologies. Future work could reduce that uncertainty by applying the same methods in other cities and \acp{bss} and comparing results. That would make it possible to compare outcomes across settings, to separate what appears robust about the methods from what is inherently tied to the Barcelona case study, and to identify which contextual factors matter most.
+}
