@@ -1,14 +1,23 @@
 \chapter{Spatiotemporal mobility patterns in \textit{Bicing}} \label{ch:bicing_mobility_patterns}
 
-This Chapter provides the mobility context for the battery and \ac{pm} frameworks developed in Chapters~\ref{ch:mobility_and_battery_modeling_bicing} and~\ref{ch:failure_forecasting_bicing}. The material is adapted from Grau-Escolano et al.~\cite{Grau-Escolano2024}, published in \textit{EPJ Data Science}.
+\textcolor{red}{
+    This Chapter provides the mobility context for the battery and \ac{pm} frameworks developed in Chapters~\ref{ch:mobility_and_battery_modeling_bicing} and~\ref{ch:failure_forecasting_bicing}.
+}
+
+\textcolor{blue}{
+    Part~\ref{pt:predictive_operations} turns to developing operational predictions for \textit{Bicing}: bicycle flows, \ac{e-b} batteries, and \ac{pm} for bike components. After the case-study introduction to the system, this Chapter provides the mobility context needed for the predictive frameworks developed in Chapters~\ref{ch:mobility_and_battery_modeling_bicing} and~\ref{ch:failure_forecasting_bicing}.
+}
+The material in this Chapter is adapted from Grau-Escolano et al.~\cite{Grau-Escolano2024}, published in \textit{EPJ Data Science}.
 
 \section{Introduction}
 
 \acp{bss} have been extensively studied from various angles, including station location optimization~\cite{Liu2015} and fairness~\cite{DuranRodas2020}, bike rebalancing strategies~\cite{Chardon2016}, as well as studies on user behavior changes and their impact on health~\cite{Ma2020, Qiu2018}. While substantial research has focused on human mobility within \acp{bss} in recent years~\cite{Talavera_Garcia2021, Kon2021}, the advent of fourth-generation \acp{bss} has introduced a new layer of complexity through the global adoption of \acp{e-b}~\cite{Shaheen2010, MeddinWorldMapReport2022}. Existing \acp{bss}, such as Barcelona's \textit{Bicing}, in Spain, have progressively integrated \acp{e-b} into their \acp{m-b} fleets, while there are instances of entirely new fully electric systems like Barcelona metropolitan area's \textit{AMBici}. As \ac{bss} users increasingly embrace \acp{e-b} for their speed, convenience, and reduced physical exertion, significant changes in existing \ac{bss} mobility dynamics are expected. However, the evolving mobility dynamics resulting from the coexistence of both mechanical and electric transportation modes remain an area ripe for study.
 
-This Chapter addresses that gap by characterising the main spatiotemporal mobility patterns of \textit{Bicing} during 2022, with a particular focus on how \acp{m-b} and \acp{e-b} differ in terms of trip counts, duration, distance, speed, and elevation, and how topography shapes the spatial distribution of both modes across stations. The analysis provides the empirical context needed for the battery and \ac{pm} frameworks developed in Chapters~\ref{ch:mobility_and_battery_modeling_bicing} and~\ref{ch:failure_forecasting_bicing}.
+This Chapter addresses that gap by characterizing the main spatiotemporal mobility patterns of \textit{Bicing} during 2022, with a particular focus on how \acp{m-b} and \acp{e-b} differ in terms of trip counts, duration, distance, speed, and elevation, and how topography shapes the spatial distribution of both modes across stations. \textcolor{red}{
+    The analysis provides the empirical context needed for the battery and \ac{pm} frameworks developed in Chapters~\ref{ch:mobility_and_battery_modeling_bicing} and~\ref{ch:failure_forecasting_bicing}.
+}
 
-\subsection{Literature review}
+\section{Literature review}
 
 Research in \ac{bss} mobility typically involves the examination of aspects like temporal usage patterns and trip characteristics, which include factors such as distance, duration, and speed. These kinds of analyses serve multiple purposes, such as examining general system dynamics~\cite{Jensen2010, Ciancia2015, Zaltz2013}, designing effective rebalancing strategies~\cite{Chiariotti2018}, predicting \ac{bss} demand~\cite{Borgnat2011}, and estimating trip destinations and durations~\cite{Zhang2016Bicycle}. While trip characteristics can vary depending on the specific city in which the \ac{bss} is implemented, existing publications generally concur on certain approximate values. On average, \ac{bss} trips tend to have a mean distance of between 1 and 2 kilometers, a mean duration ranging from 10 to 20 minutes, and an average speed in the range of 10 to 15 kilometers per hour. Regarding trip distances, \ac{gps} data has been used to map actual ride routes~\cite{Talavera_Garcia2021}. However, when \ac{gps} data is unavailable, trip distances are estimated. In some instances, the shortest paths between origin and destination stations are calculated~\cite{Oliveira2016}. Nevertheless, comparisons between \ac{gps} routes and the shortest paths have suggested that the shortest paths may not accurately reflect the actual choices made by walkers, drivers, and cyclists~\cite{Zhu2015, Lu2018, Klein2023}. Factors such as a greener environment, the presence of amenities, or roads with greater connectivity often lead to deviations from the shortest paths~\cite{Klein2023}.
 
@@ -24,19 +33,21 @@ Mobility data from \textit{Bicing} has served as a valuable resource in various 
 
 \section{Methodology}
 
-        \subsection{Data}
+\subsection{Data}
 
-    The analysis is based on trip records provided by \textit{Bicing}, which encompass the following information:
+The analysis is based on trip records provided by \textit{Bicing}, which encompass the following information:
 
-    \begin{itemize}
-            \item Starting and ending dates and times with second-level granularity
-            \item Starting and ending stations
-            \item Bike identifier
-            \item Bike model (\ac{m-b} or \ac{e-b})
-            \item Anonymized user identifier
-    \end{itemize}
+\vspace{-1.1em}
+\begin{itemize}\setlength\itemsep{0em}
+    \item Starting and ending dates and times with second-level granularity
+    \item Starting and ending stations
+    \item Bike identifier
+    \item Bike model (\ac{m-b} or \ac{e-b})
+    \item Anonymized user identifier
+\end{itemize}
+\vspace{-0.6em}
 
-    The complete dataset covers trips from April 2019 to December 2022 (i.e., 3 years and 9 months), totaling 53 million trips (62\% \ac{m-b}, 38\% \ac{e-b}). However, this Section uses only trips from 2022 to minimize the impact of the COVID-19 pandemic and to reflect the increasing use of \acp{e-b}, as detailed in Appendix~\ref{app_paper3:section_data_exploration}. Additionally, geographical data for the 519 stations, including latitude and longitude coordinates, are provided. 
+The complete dataset covers trips from April 2019 to December 2022 (i.e., 3 years and 9 months), totaling 53 million trips (62\% \ac{m-b}, 38\% \ac{e-b}). However, this Section uses only trips from 2022 to minimize the impact of the COVID-19 pandemic and to reflect the increasing use of \acp{e-b}, as detailed in Appendix~\ref{app_paper3:section_data_exploration}. Additionally, geographical data for the 519 stations, including latitude and longitude coordinates, are provided.
 
     
     \subsection{Trips processing} \label{section_trips_processing}
@@ -76,7 +87,7 @@ Additionally, each mobility mode exhibits unique spatial mobility dynamics (Figu
     \centering
     \includegraphics[width=1\textwidth]{0_plots/paper3/main/panel_2.pdf}
     \caption[Trip flow percentages for e-bikes and m-bikes in 2022, segmented by trip elevation.]{
-        \textbf{Trip flow percentages for \acp{e-b} and \acp{m-b} in 2022, segmented by trip elevation.} Each pair of maps displays the differences in \ac{e-b} and \ac{m-b} trip percentages for incoming and outgoing trips at each station. The left maps include all trips, whereas the remaining figures apply a filter based on trip elevation. Within each map, individual dots represent \ac{bss} stations. The dot size reflects the station's altitude, with larger dots indicating higher altitudes, and the dot color signifies differences in trip flow percentages. Grey dots denote stations that do not receive or send trips with the specified altitude filter.
+        \textbf{Trip flow percentages for \acp{e-b} and \acp{m-b} in 2022, segmented by trip elevation.} Each pair of maps displays the differences in \ac{e-b} and \ac{m-b} trip percentages for incoming and outgoing trips at each station. The left maps include all trips, whereas the remaining figures apply a filter based on trip elevation. Within each map, individual dots represent \ac{bss} stations. The dot size reflects the station's altitude, with larger dots indicating higher altitudes, and the dot color signifies differences in trip flow percentages. Gray dots denote stations that do not receive or send trips with the specified altitude filter.
     }
     \label{fig:elevation_maps}
 \end{figure}

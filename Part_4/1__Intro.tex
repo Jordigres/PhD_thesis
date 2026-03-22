@@ -1,7 +1,26 @@
-\chapter{Bicing as a case study}
-\label{ch:use_case_bicing}
+Beyond strategic design, the day-to-day performance of a \ac{bss} depends critically on the ability to anticipate and manage operational imbalances. Two linked challenges have become increasingly important: predicting where bicycles move across the network and how battery levels evolve---both of which affect rebalancing and availability---and improving maintenance efficiency by anticipating component failures so that repairs can be planned and resources used more effectively.
 
-\section{History and evolution}
+Part~\ref{pt:predictive_operations} addresses these challenges by developing two parallel predictive frameworks using operational data from Barcelona’s \ac{bss}, \textit{Bicing}. After introducing \textit{Bicing} as a case study, Chapter~\ref{ch:bicing_mobility_patterns} summarizes the main spatiotemporal mobility patterns of \acp{m-b} and \acp{e-b}, which provide context for the predictive tasks. Chapter~\ref{ch:mobility_and_battery_modeling_bicing} presents the joint framework combining a Markov-chain mobility model with a physics-informed battery dynamics function to forecast bike locations and battery levels. Chapter~\ref{ch:failure_forecasting_bicing} presents the \ac{pm} framework to estimate component-level failure risks. The substantive chapters draw on two published articles: Bassolas et al.~\cite{Bassolas2025} and Grau-Escolano et al.~\cite{Grau-Escolano2024}, in \textit{Scientific Reports} and \textit{EPJ Data Science} respectively.
+
+
+% Unnumbered chapter (no large chapter number in the heading), in TOC. Do not
+% \refstepcounter{chapter} so the following chapter keeps the next number (no
+% gap in the sequence). book's \chapter starts with \cleardoublepage/\clearpage;
+% relax both so the heading can follow the previous text on the same page.
+\begingroup
+\let\cleardoublepage\relax
+\let\clearpage\relax
+\vspace{25pt}
+\chapter*{Bicing as a case study}
+\phantomsection
+\label{ch:use_case_bicing}
+\addcontentsline{toc}{chapter}{\protect\numberline{}Bicing as a case study}
+\endgroup
+\vspace{-45pt} % remove the extra space added by the chapter title
+
+\section*{History and evolution}
+\phantomsection
+\addcontentsline{toc}{section}{\protect\numberline{}History and evolution}
 
 Barcelona’s public docked \ac{bss}, known as \textit{Bicing}, was launched in March 2007 to support the city’s sustainable mobility goals and encourage shifts away from private motorized transport~\cite{Winslow2019}. Implemented with an initial fleet of around 1,500 bicycles and 94 stations, and operated by \textit{Clear Channel}, the system quickly became one of the first large-scale \acp{bss} in Europe. Its rapid success was evident from the fact that, by the end of its first year, \textit{Bicing} had already reached 80,000 subscribers, which was more than six times the number originally anticipated~\cite{Winkels2007}. Moreover, the system’s influence extended beyond its own operations and contributed to a broader cultural shift toward cycling in the city, as reflected in an 82\% increase in bicycle trips in 2007 compared with the previous year~\cite{Winslow2019}. Following its successful debut, \textit{Bicing} expanded progressively over the subsequent years. The system grew outward from the initial downtown stations to cover most flat neighborhoods, reaching 420 docking stations and 6,000 bicycles by 2014~\cite{Winslow2019}. 
 
@@ -17,7 +36,9 @@ A major turning point came in late 2018, when the City Council awarded a new ten
 \end{figure}
 
 
-\section{System design and pricing}
+\section*{System design and pricing}
+\phantomsection
+\addcontentsline{toc}{section}{\protect\numberline{}System design and pricing}
 
 Operating 24 hours a day, seven days a week, \textit{Bicing} functions as a classic docked \ac{bss} (Figure~\ref{fig:bicing_bike_and_station}). Each station consists of a row of docking points where bicycles are locked and can be picked up or returned. Individual stations accommodate between 12 and 54 docking points, and high-demand locations may include multiple stations in close proximity. Since 2019, all docking stations also serve as charging hubs for \acp{e-b}, enabling batteries to recharge automatically when docked.
 

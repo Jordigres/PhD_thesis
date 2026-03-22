@@ -1,9 +1,22 @@
 \chapter[Modeling BSS Fleet Mobility and Battery Status]{Modeling \ac{bss} Fleet Mobility and Battery Status}
 \label{ch:mobility_and_battery_modeling_bicing}
 
-Understanding and predicting battery consumption has become a central challenge in the operation of \acp{bss} equipped with \acp{e-b}. The progressive electrification of fleets increases the need for accurate models of how energy is used throughout the day, as battery depletion directly affects vehicle availability. Bikes with insufficient charge cannot be rented, thereby constraining supply and intensifying the spatiotemporal flow asymmetries that are intrinsic to these systems, and ultimately increasing the need for rebalancing interventions. 
+\textcolor{red}{
+    Understanding and predicting battery consumption has become a central challenge in the operation of \acp{bss} equipped with \acp{e-b}. The progressive electrification of fleets increases the need for accurate models of how energy is used throughout the day, as battery depletion directly affects vehicle availability. Bikes with insufficient charge cannot be rented, thereby constraining supply and intensifying the spatiotemporal flow asymmetries that are intrinsic to these systems, and ultimately increasing the need for rebalancing interventions.
+}
 
-The complexity of this challenge stems from the interaction between multiple factors: the stochastic nature of user trips, the spatial and temporal variability of battery consumption, and the need to predict both bike locations and their corresponding energy states. This Chapter establishes the theoretical and methodological foundations for predicting bike movements and the evolution of their state of charge, and presents the integrated forecasting framework that combines a Markov-chain mobility model with a physics-informed battery dynamics function. The material in this Chapter is adapted from Bassolas et al.~\cite{Bassolas2025}, published in \textit{Scientific Reports}.
+\textcolor{red}{
+    The complexity of this challenge stems from the interaction between multiple factors: the stochastic nature of user trips, the spatial and temporal variability of battery consumption, and the need to predict both bike locations and their corresponding energy states. This Chapter establishes the theoretical and methodological foundations for predicting bike movements and the evolution of their state of charge, and presents the integrated forecasting framework that combines a Markov-chain mobility model with a physics-informed battery dynamics function.
+}
+
+\textcolor{blue}{
+    Part~\ref{pt:predictive_operations} addresses fleet operations in \textit{Bicing} after Chapter~\ref{ch:bicing_mobility_patterns} has characterized mixed \acp{m-b} and \acp{e-b} usage. In an electrified docked system, low state of charge removes \acp{e-b} from the available pool and worsens spatial imbalances, yet operators rarely have continuous GPS routes or in-transit battery telemetry: predictions must be grounded in the same trip-based operational records that \acp{bss} routinely collect. Against that backdrop, this thesis targets the following question: \emph{How can \ac{e-b} battery levels be predicted without exact routes or in-transit measurements, so as to improve bike availability and operational efficiency?}
+}
+
+\textcolor{blue}{
+    This Chapter develops the battery-status forecasting contribution of the thesis. It reviews the literature on \ac{bss} mobility, electrification, and fleet-management challenges, documents spatiotemporal variation in station-level battery status in \textit{Bicing}, and presents the joint forecasting framework that couples a Markov-chain mobility model with a battery model combining physics-inspired consumption and linear charging. The coupled framework supports bike-level and system-level forecasting of bicycle locations and battery levels to inform charging and rebalancing decisions.
+}
+The material in this Chapter is adapted from Bassolas et al.~\cite{Bassolas2025}, published in \textit{Scientific Reports}.
 
 \input{Part_4/3_1__Intro.tex}
 \input{Part_4/3_2__Methods.tex}
