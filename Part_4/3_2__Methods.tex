@@ -17,7 +17,7 @@
 
     \subsection[Predicting e-bikes' locations]{Predicting \acp{e-b}' locations}
 
-    To predict bike locations, a probabilistic model based on a Markov chain approach has been developed \cite{Lu2013, Huang2015}. In this model, each bicycle of the system is modeled independently, with transitions based on the probability of movement from its current station. Given a starting location for a bike and a forecasting horizon $\Delta t$, the algorithm follows the sequence below:
+    Although the datasets record where each bike is at a given time, forecasting battery levels requires knowing where bikes will be in the future. To predict these future bike locations, a probabilistic model based on a Markov chain approach has been developed \cite{Lu2013, Huang2015}. In this model, each bicycle of the system is modeled independently, with transitions based on the probability of movement from its current station. Given a starting location for a bike and a forecasting horizon $\Delta t$, the algorithm follows the sequence below:
 
     \begin{itemize}
         \item An inter-event time is sampled from the distribution $I_i^{w,h}$ to simulate the resting time of a bike given a station $i$ on a specific day type $w$ and hour $h$. The days of the week are grouped into four categories: Working days (Monday to Thursday), Friday, Saturday, and Sunday. The distribution $I_i^{w,h}$ is calculated by determining the time elapsed between a bike’s arrival at station $i$ and its next departure.
@@ -27,7 +27,8 @@
         \item If the forecasting horizon is greater than the inter-event time, a destination $j$ is sampled based on the probability $M_{ij}^{w,h}$, given a weekday $w$, hour $h$, and origin station $i$. This destination then becomes the new location of the bike, and the average travel time between the station pairs, $\tau_{ij}$, is elapsed. The destination probability is calculated using the number of trips $T_{ij}^{w,h}$ between $i$ and $j$ from the 2022 trip data, as follows:
         
             \begin{equation}
-                M_{ij}^{w,h}=\frac{T_{ij}^{w,h}}{\sum_{\forall j} T_{ij}^{w,h}},
+                M_{ij}^{w,h}=\frac{T_{ij}^{w,h}}{\sum_{\forall j} T_{ij}^{w,h}}, 
+                \label{eq:destination_probability}
             \end{equation}
 
         \item If the total time elapsed after completing the trip exceeds the desired $\Delta t$, the final predicted location will be station $j$. Otherwise, the process starts again.
@@ -71,7 +72,6 @@
       \begin{equation}
       \Delta B_{\rm rest}=\frac{K_{\rm rest}t_{\rm rest}}{60}, \label{charge}
       \end{equation}
-
       where $K_{\rm rest}$ represents the charging constant, and $t_{\rm rest}$ is the rest time. The inverse of $K_{\rm rest}$ corresponds to the time required to fully charge a bike from $0\%$ to $100\%$. The division by $60$ is included to express $K_{\rm rest}$ in units of $min^{-1}$. All variables are represented in the International System of Units.
 
       In summary, the battery model employs a linear approach: battery levels increase linearly with time when bikes are docked (Eq.~\ref{charge}), and decrease during trips according to the consumption function described below (Eq.~\ref{consumption}). The main variables used to compute battery consumption during a trip are its duration, the distance between the origin and destination stations, and the slope along the route, with the consumption calculated by integrating the instantaneous power consumption over the trip duration.
@@ -95,14 +95,6 @@
 
       Although the constant $K_{\rm trip}$ is not strictly required mathematically, it allows us to explore feasible values for $K_a$, $K_b$, $K_c$. Apart from $g$, the constants involved in the computation of $K_a$, $K_b$, and $K_c$ are unknown and may vary depending on factors such as rider characteristics, weather conditions, bike status, and terrain type. Therefore, an optimization process is necessary to determine the optimal values of $K_a$, $K_b$, and $K_c$ that enable accurate battery consumption predictions, even when the constants of every trip are not known precisely.
 
-      To perform the optimization, a different range of values is considered for each constant. The mass $m$ is assumed to range between 79 kg and 119 kg, considering the bike's weight of 29 kg. Based on previous studies \cite{Steyn2014, Bertucci2013}, the rolling resistance coefficient can range between $0.001$ and $0.003$, the drag coefficient between $0.6$ and $0.8$, and the effective area between $0.4$ and $0.6$. The air density $\rho$ is fixed at $1.225kg/m^3$, corresponding to a temperature of $15^{\circ}C$ at sea level. Given these constants' value ranges, the following limits are defined for the hyperparameter optimization: $K_a = [774.2, 1166.2]$, $K_b = [0.7742, 3.4986]$, and $K_c = [0.147, 0.294]$. The range for $K_{\rm rest}$ is set between $[0.002083, 0.055]$, corresponding to charging times from 480 to 180 minutes, respectively. The range for $K_{\rm trip}$ is set between $[1 \cdot 10^{-8},1]$.
+      To perform the optimization, a different range of values is considered for each constant. The mass $m$ is assumed to range between 79 kg and 119 kg, considering the bike's weight of 29 kg. Based on previous studies \cite{Steyn2014, Bertucci2013}, the rolling resistance coefficient can range between $0.001$ and $0.003$, the drag coefficient between $0.6$ and $0.8$, and the effective area between $0.4$ and $0.6$. The air density $\rho$ is fixed at $1.225kg/m^3$, corresponding to a temperature of $15^{\circ}C$ at sea level. Given these constants' value ranges, the following limits are defined for the hyperparameter optimization: $K_a = [774.2, 1166.2]$, $K_b = [0.7742, 3.4986]$, and $K_c = [0.147, 0.294]$. The range for $K_{\rm rest}$ is set between $[0.002083, 0.005556]$, corresponding to full-charging times from 480 to 180 minutes, respectively. The range for $K_{\rm trip}$ is set between $[1 \cdot 10^{-8},1]$.
 
-      The Optuna framework was utilized for hyperparameter optimization, using 75\% of the three-week 30-minute dataset for training and 25\% for validation. The optimal values obtained were:
-
-      \begin{align*}
-        & K_a = 911.139 \\
-        & K_b = 3.497 \\
-        & K_c = 0.292 \\
-        & K_{\rm trip} =1.644 \cdot 10^{-6} \\
-        & K_{\rm rest} = 480
-      \end{align*}
+      The Optuna framework~\cite{Optuna2019} was utilized for hyperparameter optimization, minimizing the root mean squared error (RMSE) between observed and predicted battery levels and using 75\% of the three-week 30-minute dataset for training and 25\% for validation.

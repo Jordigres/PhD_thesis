@@ -1,21 +1,10 @@
 \chapter[Modeling BSS Fleet Mobility and Battery Status]{Modeling \ac{bss} Fleet Mobility and Battery Status}
 \label{ch:mobility_and_battery_modeling_bicing}
 
-\textcolor{red}{
-    Understanding and predicting battery consumption has become a central challenge in the operation of \acp{bss} equipped with \acp{e-b}. The progressive electrification of fleets increases the need for accurate models of how energy is used throughout the day, as battery depletion directly affects vehicle availability. Bikes with insufficient charge cannot be rented, thereby constraining supply and intensifying the spatiotemporal flow asymmetries that are intrinsic to these systems, and ultimately increasing the need for rebalancing interventions.
-}
+Building on Chapter~\ref{ch:bicing_mobility_patterns}, which characterized the mobility patterns of \textit{Bicing}, this Chapter addresses a central operational challenge in electrified docked systems: forecasting battery status. Low state of charge removes \acp{e-b} from the available fleet and can intensify spatial imbalances. At the same time, operators rarely have continuous GPS routes or in-transit battery telemetry, so prediction must rely on the trip-based operational data that \acp{bss} routinely collect. Therefore, this Chapter addresses the following research question: \emph{How can \ac{e-b} battery levels be predicted without exact routes or in-transit measurements, so as to improve bike availability and operational efficiency?}
 
-\textcolor{red}{
-    The complexity of this challenge stems from the interaction between multiple factors: the stochastic nature of user trips, the spatial and temporal variability of battery consumption, and the need to predict both bike locations and their corresponding energy states. This Chapter establishes the theoretical and methodological foundations for predicting bike movements and the evolution of their state of charge, and presents the integrated forecasting framework that combines a Markov-chain mobility model with a physics-informed battery dynamics function.
-}
+To address the research question posed above, this Chapter starts from the fact that an \ac{e-b}'s battery level depends on the trips it makes and on the time it spends docked between them, so forecasting battery status first requires forecasting where and when each bike will travel. It therefore develops a joint framework with two components: a Markov-chain mobility model that predicts the future locations of each bike, and a battery model that estimates how its charge evolves along those trips, combining physics-inspired consumption with linear charging at stations. The Chapter first reviews the related literature and documents the spatiotemporal variation in battery levels in \textit{Bicing}, which motivates this approach. It then presents both models and shows how their combination supports bike-level and system-level forecasts of locations and battery levels, informing charging and rebalancing decisions.
 
-\textcolor{blue}{
-    Part~\ref{pt:predictive_operations} addresses fleet operations in \textit{Bicing} after Chapter~\ref{ch:bicing_mobility_patterns} has characterized mixed \acp{m-b} and \acp{e-b} usage. In an electrified docked system, low state of charge removes \acp{e-b} from the available pool and worsens spatial imbalances, yet operators rarely have continuous GPS routes or in-transit battery telemetry: predictions must be grounded in the same trip-based operational records that \acp{bss} routinely collect. Against that backdrop, this thesis targets the following question: \emph{How can \ac{e-b} battery levels be predicted without exact routes or in-transit measurements, so as to improve bike availability and operational efficiency?}
-}
-
-\textcolor{blue}{
-    This Chapter develops the battery-status forecasting contribution of the thesis. It reviews the literature on \ac{bss} mobility, electrification, and fleet-management challenges, documents spatiotemporal variation in station-level battery status in \textit{Bicing}, and presents the joint forecasting framework that couples a Markov-chain mobility model with a battery model combining physics-inspired consumption and linear charging. The coupled framework supports bike-level and system-level forecasting of bicycle locations and battery levels to inform charging and rebalancing decisions.
-}
 The material in this Chapter is adapted from Bassolas et al.~\cite{Bassolas2025}, published in \textit{Scientific Reports}.
 
 \input{Part_4/3_1__Intro.tex}

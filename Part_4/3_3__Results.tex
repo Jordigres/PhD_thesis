@@ -42,7 +42,7 @@
 
     \subsection[Modeling e-bikes' battery levels]{Modeling \acp{e-b}' battery levels}
 
-        Using the battery model described in Section~\ref{sec:battery_modeling} (linear increase when docked, decrease during trips), the optimal parameters for the power consumption equation and charging speed were determined through hyperparameter optimization (see Section~\ref{sec:battery_optimization}). The fit between the observed and expected battery levels, using these optimal parameters, is shown in Figure \ref{fig:battery_fit}. In Figure \ref{fig:battery_fit}A, the predicted battery percentage is displayed, while in Figure \ref{fig:battery_fit}B, the predicted battery variation is presented. Despite the dispersion, a significant correlation is observed, with values closely aligned to the diagonal. Factors such as user heterogeneity, missing route information, or bikes not charging while docked could contribute to the dispersion. The parameters were also validated using the 8-hour dataset, with similar correlation values (Appendix~\ref{app_paper2:subsection_linear_battery_function}). In addition, a non-linear charging function was tested using a sigmoid-like function to account for faster charging times at lower battery levels. The fitting results are very similar to the linear function, with the optimal shape inferred being almost linear (Appendix~\ref{app_paper2:subsection_nonlinear_charging_function}).
+        Using the battery model described in Section~\ref{sec:battery_modeling} (linear increase when docked, decrease during trips), the optimal parameters for the power consumption equation and charging speed were determined through hyperparameter optimization (see Section~\ref{sec:battery_optimization}). The optimal values obtained were $K_a = 911.139$, $K_b = 3.497$, $K_c = 0.292$, $K_{\rm trip} = 1.644 \cdot 10^{-6}$, and $K_{\rm rest} = 1/480$, corresponding to a full charge in 480 minutes. The fit between the observed and expected battery levels, using these optimal parameters, is shown in Figure \ref{fig:battery_fit}. In Figure \ref{fig:battery_fit}A, the predicted battery percentage is displayed, while in Figure \ref{fig:battery_fit}B, the predicted battery variation between consecutive snapshots is presented. Despite the dispersion, a significant correlation is observed, with values closely aligned to the diagonal. Factors such as user heterogeneity, missing route information, or bikes not charging while docked could contribute to the dispersion. The parameters were also validated using the 8-hour dataset, with similar correlation values (Appendix~\ref{app_paper2:subsection_linear_battery_function}). In addition, a non-linear charging function was tested using a sigmoid-like function to account for faster charging times at lower battery levels. The fitting results are very similar to the linear function, with the optimal shape inferred being almost linear (Appendix~\ref{app_paper2:subsection_nonlinear_charging_function}).
 
         \begin{figure}[!htbp]
           \begin{center}
@@ -51,7 +51,7 @@
           \caption[Battery model validation using the 30-minute battery dataset]{
             \textbf{Battery model validation using the 30-minute battery dataset.} 
             \textbf{(A)} Observed battery level as a function of the predicted values. 
-            \textbf{(B)} Battery variation observed as a function of the predicted values. Each point corresponds to one battery-level observation. The Root Mean Squared Error (RMSE) is $0.0178$ and the Pearson correlation coefficient is significant in both cases (p-val<0.001). The linear fit is shown in gray.
+            \textbf{(B)} Observed battery variation between consecutive snapshots as a function of the predicted values. The Root Mean Squared Error (RMSE) is $0.0178$ and the Pearson correlation coefficient is significant in both cases (p-val<0.001). The linear fit is shown in gray.
           } 
           \label{fig:battery_fit}
         \end{figure}
@@ -61,7 +61,7 @@
 
     \subsection{Single trip application}
 
-        Evaluating short-term scenarios for a single bike can be achieved by coupling the battery model with the distribution of possible destinations $P_{ij}^{w,h}$. In Figure \ref{fig:single_trip}, given \textit{St. Ciutat de Granada, 168} as the origin station, the probability of arriving at each destination is represented by the size of the dots, while the battery consumption for each bike trip is indicated by the color. The probability of destinations changes significantly between 8:00 and 18:00 despite the same origin station. At 18:00, trips tend to be shorter and head towards nearby stations, while morning trips are longer and converge towards a few work-related hot spots. Additionally, battery consumption varies notably based on the elevation changes along the route, with trips going downhill consuming less battery over the same distance. 
+        Evaluating short-term scenarios for a single bike can be achieved by coupling the battery model with the distribution of possible destinations $M_{ij}^{w,h}$ (Eq.~\ref{eq:destination_probability}). In Figure \ref{fig:single_trip}, given \textit{St. Ciutat de Granada, 168} as the origin station, the probability of arriving at each destination is represented by the size of the dots, while the battery consumption for each bike trip is indicated by the color. The probability of destinations changes significantly between 8:00 and 18:00 despite the same origin station. At 18:00, trips tend to be shorter and head towards nearby stations, while morning trips are longer and converge towards a few work-related hot spots. Additionally, battery consumption varies notably based on the elevation changes along the route, with trips going downhill consuming less battery over the same distance. 
 
         \begin{figure}[!htbp]
           \begin{center}
@@ -77,10 +77,9 @@
         Furthermore, an impact index can be computed to assess the influence of each origin station on battery levels. This index depends on the probability of each destination given an origin station, the battery consumption of each possible trip, and the average hourly trips departing from station $i$ to other stations. The impact index can be written as:
 
         \begin{equation}
-        \gamma^{w,h}_i=\langle T^{w,h}_i \rangle P^{w,h}_{ij} \Delta B_{ij}
-        \end{equation} 
-
-        where $\langle T^{w,h}_i \rangle$ represents the average number of trips departing from station $i$, $P^{w,h}_{ij}$ is the probability that a trip generated in station $i$ ends in station $j$, and $\Delta B_{ij}$ is the battery consumed by a trip from $i$ to $j$. An example of the impact index $\gamma$ at 8:00 and 18:00 on a regular weekday is shown in Figure \ref{fig:impact}. Due to the variation in trip patterns captured by $P^{w,h}_{ij}$, the stations with the highest impact change throughout the day.
+        \gamma^{w,h}_i=\langle T^{w,h}_i \rangle \sum_{j} M^{w,h}_{ij} \Delta B_{ij}
+        \end{equation}
+        where $\langle T^{w,h}_i \rangle$ represents the average number of trips departing from station $i$, $M^{w,h}_{ij}$ is the destination probability defined in Eq.~\ref{eq:destination_probability}, and $\Delta B_{ij}$ is the battery consumed by a trip from $i$ to $j$. An example of the impact index $\gamma$ at 8:00 and 18:00 on a regular weekday is shown in Figure \ref{fig:impact}. Due to the variation in trip patterns captured by $M^{w,h}_{ij}$, the stations with the highest impact change throughout the day.
 
         \begin{figure}[!htbp]
           \begin{center}

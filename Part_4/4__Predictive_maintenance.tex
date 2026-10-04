@@ -1,21 +1,10 @@
 \chapter[Predicting Failures in BSS Maintenance Operations]{Predicting Failures in \ac{bss} Maintenance Operations}
 \label{ch:failure_forecasting_bicing}
 
-\textcolor{red}{
-    Predicting component failures and scheduling maintenance effectively has become a central challenge in the operation of \acp{bss}. The scale of fleets and the importance of reliability increase the need for anticipatory models of when components are likely to fail, as unplanned failures directly affect vehicle availability and user experience. Bikes with worn or failed components cannot be rented or are unsafe, thereby constraining supply, undermining user trust, and ultimately increasing reactive repair costs and downtime.
-}
+After Chapters~\ref{ch:bicing_mobility_patterns} and~\ref{ch:mobility_and_battery_modeling_bicing} document the mobility and battery dynamics of \textit{Bicing}, Part~\ref{pt:predictive_operations} turns to bike maintenance. Here, the central challenge is that \acp{m-b} and \acp{e-b} are used in different ways, and consequently, the wear and tear on the different bike components can evolve differently. Moreover, to make maintenance planning proactive rather than reactive, operators not only need component-failure risk estimates but also interpretable indicators to build trust in the predictions. This motivates the following research question: \emph{How can data-driven and interpretable predictive maintenance strategies be developed to anticipate vehicle failures, optimize maintenance scheduling, and improve the operational efficiency and sustainability of fleet services?}
 
-\textcolor{red}{
-    The complexity of this challenge stems from two main factors: the variability of usage and wear across bikes and components, and the censoring inherent in maintenance records (many components remain in service at the end of the observation period). This Chapter establishes the theoretical and methodological foundations for predicting component-level failures in \acp{bss}, and presents the \ac{pm} framework that combines \ac{sa} models with interpretability techniques for brake pads, wheel spokes, and chains in both \acp{m-b} and \acp{e-b}.
-}
+To address the research question posed above, this Chapter develops the \ac{pm} contribution of the thesis for bike components. It builds on the mobility context to analyze maintenance data for brake pads, wheel spokes, and chains, documenting distinct failure dynamics between \acp{m-b} and \acp{e-b} and the role of cumulative distance and bike type. It then trains \ac{sa} and \ac{ml}-based survival models to estimate component-level failure risk, with interpretability analyses that align predictors to empirical wear patterns.
 
-\textcolor{blue}{
-    After Chapters~\ref{ch:bicing_mobility_patterns} and~\ref{ch:mobility_and_battery_modeling_bicing} have documented mobility and battery dynamics in \textit{Bicing}, Part~\ref{pt:predictive_operations} turns to workshop-level maintenance prediction. Component wear is only partially observed through workshop records: survival times are censored, failure rates differ across parts, and \acp{m-b} and \acp{e-b} are not used in the same way, so maintenance decisions need data-driven risk estimates that remain interpretable to operators. Against that backdrop, this thesis targets the following question: \emph{How can data-driven and interpretable predictive maintenance strategies be developed to anticipate vehicle failures, optimize maintenance scheduling, and improve the operational efficiency and sustainability of fleet services?}
-}
-
-\textcolor{blue}{
-    This Chapter develops the predictive maintenance contribution of the thesis. It builds on that mobility context to analyze maintenance data for brake pads, wheel spokes, and chains, documenting distinct failure dynamics between \acp{m-b} and \acp{e-b} and the role of cumulative distance and bike type. It then trains \ac{sa} and \ac{ml}-based survival models to estimate component-level failure risk, with interpretability analyses that align predictors to empirical wear patterns; the results support fleet-wide risk estimation and workshop scheduling and spare-parts planning.
-}
 The material in this Chapter is adapted from Grau-Escolano et al.~\cite{Grau-Escolano2024}, published in \textit{EPJ Data Science}.
 
 \input{Part_4/4_1__Intro_Biblio.tex}

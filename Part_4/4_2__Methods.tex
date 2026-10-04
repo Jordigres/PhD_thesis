@@ -31,14 +31,14 @@ The data sets used for the survival models follow a format where each row encaps
 \end{itemize}
 
     \subsection{Models}
-To predict the survival time of the bike components, the following statistical and machine learning models have been employed:
+To predict the survival time of the bike components, the following statistical and \ac{ml} models have been employed:
 
 \begin{enumerate}
 \item \textbf{\acl{cph}} (\acs{cph})\acused{cph} model~\cite{Cox1972} (lifelines' implementation~\cite{Lifelines2021}): is a semi-parametric approach that enables to evaluate how covariates influence the hazard rate of an event as time progresses. This model relies on an underlying assumption known as the proportional hazard assumption, which asserts that the relative risk between two distinct groups remains constant over time. Meeting this assumption simplifies the analytical process and enhances the interpretability of outcomes. Although evaluating the assumption holds theoretical importance for attaining a meaningful interpretation of covariates, adherence to this assumption might not be imperative.~\cite{Stensrud2020} noted that when dealing with a sufficiently large sample size, even minor deviations from the assumption may show up. Furthermore, when the main goal is survival prediction, there is no need to test the proportional hazard assumption, since the main objective is to maximize an score~\cite{lifelines_ph_assumption}. Consequently, for the purpose of this study, the analysis will prioritize predictive accuracy over strict adherence to the assumption.
 
 \item \textbf{\acl{mtlr}} (\acs{mtlr})\acused{mtlr} model~\cite{Yu2021} (pysurvival's implementation~\cite{pysurvival}): stands as an alternative to \ac{cph} when the assumption of proportional hazards does not hold. \ac{mtlr} model relies on a sequence of logistic regression models constructed across distinct time intervals. This allows the estimation of the probability associated with the occurrence of the event of interest within each interval. Consequently, the initial step involves specifying the desired number of intervals, with the present use case opting for the number of days in the maintenance data.
 
-\item \textbf{\acl{csf}} (\acs{csf})\acused{csf} model~\cite{Wright2017} (pysurvival's implementation~\cite{pysurvival}): is a machine learning model that extends Random Forest ensembles to effectively handle right-censored data. Therefore, this survival model allows to appropriately model data with nonlinear relationships and censoring.
+\item \textbf{\acl{csf}} (\acs{csf})\acused{csf} model~\cite{Wright2017} (pysurvival's implementation~\cite{pysurvival}): is a \ac{ml} model that extends Random Forest ensembles to effectively handle right-censored data. Therefore, this survival model allows to appropriately model data with nonlinear relationships and censoring.
 
 \item \textbf{\acl{deepsurv}} (\acs{deepsurv})\acused{deepsurv} model~\cite{Katzman2018} (pysurvival's implementation~\cite{pysurvival}): is an improved version of the \ac{cph} model that brings in elements of deep learning to its core structure. This enhancement enables the model to better capture complex patterns while still being able to handle censored data effectively.
 \end{enumerate}
