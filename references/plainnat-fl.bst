@@ -284,10 +284,15 @@ FUNCTION {format.issn}
   if$
 }
 
+% If both doi and url are set, print only the DOI (avoids duplicate links, e.g. MDPI).
 FUNCTION {format.url}
 { url empty$
     { "" }
-    { new.block "URL \url{" url * "}" * }
+    { doi empty$
+        { new.block "\url{" url * "}" * }
+        { "" }
+      if$
+    }
   if$
 }
 

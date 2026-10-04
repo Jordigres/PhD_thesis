@@ -77,6 +77,46 @@
   linkcolor=magenta,
   urlcolor=cyan}
 
+% Bibliography links (plainnat-fl writes \doi{...} for the doi field).
+% (1) If doi is set: show one clickable DOI link — use full URL as-is when it is
+%     already http(s); otherwise https://doi.org/{id} after stripping optional
+%     doi:/DOI: prefix. (2) If doi is empty, plainnat-fl prints url only (format.url).
+% Defined before the .bbl so \providecommand{\doi} in .bbl is skipped.
+\makeatletter
+\newcommand{\doi}[1]{%
+  \begingroup
+  \urlstyle{rm}%
+  \edef\DOI@full{\detokenize{#1}}%
+  \expandafter\DOI@emit\DOI@full\DOI@tail
+  \endgroup
+}
+\def\DOI@tail{\DOI@tail}
+% Split off first token: http(s) URLs keep full string #1#2; else resolve bare DOI.
+% Use \pdfstrcmp (pdfTeX): \ifnum`#1=`h breaks when #1 is empty or not a plain char token.
+\def\DOI@emit#1#2\DOI@tail{%
+  \def\DOI@first{#1}%
+  \ifnum\pdfstrcmp{\DOI@first}{h}=0
+    \href{#1#2}{\url{#1#2}}%
+  \else
+    \ifnum\pdfstrcmp{\DOI@first}{H}=0
+      \href{#1#2}{\url{#1#2}}%
+    \else
+      \DOI@bare{#1#2}%
+    \fi
+  \fi
+}
+% Strip leading doi: / DOI: (optional); then always use resolver URL for display.
+\def\DOI@bare#1{%
+  \DOI@A #1\DOI@@@%
+}
+\def\DOI@A doi:#1\DOI@@@{\DOI@link{#1}}
+\def\DOI@A DOI:#1\DOI@@@{\DOI@link{#1}}
+\def\DOI@A #1\DOI@@@{\DOI@link{#1}}
+\def\DOI@link#1{%
+  \href{https://doi.org/#1}{\url{https://doi.org/#1}}%
+}
+\makeatother
+
 % \usepackage[square,numbers]{natbib}
 \usepackage{graphicx}
 \usepackage{amsfonts,amssymb,amsmath,amsthm, mathtools}
@@ -101,6 +141,17 @@
 % Optional: use block paragraphs (no first-line indent) instead of the default
 % indented style: uncomment the next line.
 % \setlength{\parindent}{0pt}
+% A blank line after a display starts a new paragraph. Keep that paragraph
+% flush: the formula does not begin a new indented block.
+\usepackage{noindentafter}
+\NoIndentAfterEnv{equation}
+\NoIndentAfterEnv{equation*}
+\NoIndentAfterEnv{align}
+\NoIndentAfterEnv{align*}
+\NoIndentAfterEnv{gather}
+\NoIndentAfterEnv{gather*}
+\NoIndentAfterEnv{multline}
+\NoIndentAfterEnv{multline*}
 \usepackage{algorithm} 
 \usepackage[algo2e]{algorithm2e} 
 \usepackage{algpseudocode}
@@ -138,7 +189,9 @@
 \usepackage{etoc}
 % Packages for PART and EPIGRAPH
 \usepackage{epigraph}
-\usepackage{titlesec}
+% indentafter: indent the first paragraph after a chapter or section title,
+% same as every other paragraph.
+\usepackage[indentafter]{titlesec}
 \titleformat{\part}[display]
   {\filleft\fontsize{40}{40}\selectfont\scshape}
   {\fontsize{90}{90}\selectfont\thepart}
