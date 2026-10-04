@@ -462,19 +462,83 @@
   \end{figure}
 
 
-\section{Results}
-
+  \section{GA validation}
+  \label{app_paper1:ga_validation}
   \setcounter{figure}{0}
   \setcounter{table}{0}
   \renewcommand{\thefigure}{A.6.\arabic{figure}}
   \renewcommand{\thetable}{A.6.\arabic{table}}
+  
+  Although the \ac{ga} hyper-parameters were tuned on a single scenario, they are expected to generalize across planning scenarios, as the network topology remains fixed. To test this, the \ac{ga} was benchmarked against two baseline heuristics and one alternative metaheuristic in an experiment focused on sensitivity to the number of stations and weight vectors. Specifically, three different station counts (\(k=33,66,100\)) were each evaluated using 20 randomly generated weight vectors for the local factors; for every combination of \(k\) and weights, all methods (\ac{ga}, random baseline, greedy baseline, and \ac{simann}) were run under identical constraints and compared using \(U_{\mathrm{BSS}}^*\). Since no exact optimum is available for the non-linear full objective, performance is assessed comparatively.
+  
+  Compared methods are defined as follows:
+  \begin{itemize}
+    \item \textbf{Random baseline heuristic:} generates multiple feasible station sets by random sampling under \(d(i,j)\ge X\), and reports the average \(U_{\mathrm{BSS}}^*\) across 10 independent runs.
+    \item \textbf{Greedy baseline heuristic:} constructs a feasible set sequentially by adding, at each step, the highest-scoring valid node according to node-level utility \(U_i\) while respecting the spacing constraint. The final set is then evaluated once with \(U_{\mathrm{BSS}}^*\).
+    \item \textbf{Simulated annealing (SimAnn):} starts from a feasible random solution and explores neighbors via one-node feasible swaps. Improving moves are always accepted, whereas worsening moves are accepted with a certain probability \(\exp(\Delta/T)\), where \(\Delta=U_{\mathrm{BSS,new}}^*-U_{\mathrm{BSS,current}}^*\). Temperature follows geometric cooling \(T_{t+1}=rT_t\) (\(T_0=1.0\), \(r=0.9995\), max iterations \(=10{,}000\)).
+  \end{itemize}
+  
+  \begin{table}[!htbp]
+    \centering
+    \caption[Score and time assessment across methods]{
+        \textbf{Score and time assessment across methods.}
+        All methods are evaluated with \(U_{\mathrm{BSS}}^*\) and the same feasibility constraints.
+    }
+    \label{table:ga_baseline_comparison}
+    \footnotesize
+    \begin{tabular}{l r r c c c}
+    \toprule
+    \textbf{Scenario} & \textbf{\(k\)} & \textbf{Weights}
+        & \textbf{Method} & \textbf{Score (Avg\,$\pm$\,Std)} & \textbf{Time [min] (Avg\,$\pm$\,Std)} \\
+    \midrule
+    Stations & 33 & 20 & Random & 3.08 \(\pm\) 0.21 & 0.06 \(\pm\) 0.02 \\
+             &    &    & Greedy & 18.01 \(\pm\) 1.38 & 0.14 \(\pm\) 0.05 \\
+             &    &    & SimAnn & 21.05 \(\pm\) 2.17 & 123.09 \(\pm\) 0.41 \\
+             &    &    & GA & 21.24 \(\pm\) 1.88 & 207.19 \(\pm\) 12.06 \\
+    \midrule
+             & 66 & 20 & Random & 6.04 \(\pm\) 0.48 & 0.15 \(\pm\) 0.04 \\
+             &    &    & Greedy & 33.13 \(\pm\) 3.10 & 0.71 \(\pm\) 0.06 \\
+             &    &    & SimAnn & 40.45 \(\pm\) 4.52 & 183.72 \(\pm\) 16.45 \\
+             &    &    & GA & 41.90 \(\pm\) 4.41 & 482.31 \(\pm\) 147.29 \\
+    \midrule
+             & 100 & 20  & Random & 8.60 \(\pm\) 0.86 & 0.19 \(\pm\) 0.019 \\
+              &     &    & Greedy & 39.29 \(\pm\) 5.48 & 1.18 \(\pm\) 0.15 \\
+              &     &    & SimAnn & 50.49 \(\pm\) 6.08 & 200.02 \(\pm\) 17.64 \\
+              &     &    & GA & 60.43 \(\pm\) 6.65 & 461.23 \(\pm\) 57.11 \\
+    \bottomrule
+    \end{tabular}
+    \end{table}
+  
+  \ac{ga} obtains the best average score for all tested station counts, with \ac{simann} consistently second, greedy third, and random last. Greedy already delivers a large score improvement over random while keeping runtime very low. \ac{ga}'s improvement over \ac{simann} increases with problem size: the relative score gain is about \(0.9\%\) at \(k=33\), \(3.6\%\) at \(k=66\), and \(19.7\%\) at \(k=100\). This trend indicates that \ac{ga} becomes increasingly competitive in quality as the station-allocation problem grows. Although \ac{ga} requires more computation than the simpler heuristics, it consistently provides the strongest solutions across all tested scenarios, especially for larger station sets. Figure~\ref{fig:ga_fitness_example} provides a representative example of a \ac{ga} optimization process with a random weight vector, showing how best and average fitness evolve across generations.
+
+  \begin{figure}[!htbp]
+    \centering
+    \includegraphics[width=0.9\linewidth]{0_plots/paper1/appendices/ga_fitness_plot.png}
+    \caption[Example of GA convergence behavior]{
+      \textbf{Example of \ac{ga} convergence behavior.} Optimization process for one representative run with a random weight vector. The solid line shows the best fitness found so far and the dashed line shows the population-average fitness across generations.
+    }
+    \label{fig:ga_fitness_example}
+  \end{figure}
+
+  
+  \clearpage
+
+
+
+
+\section{Results}
+
+  \setcounter{figure}{0}
+  \setcounter{table}{0}
+  \renewcommand{\thefigure}{A.7.\arabic{figure}}
+  \renewcommand{\thetable}{A.7.\arabic{table}}
 
     \subsection{Spatial distributions of local factors for scenarios S1–S3}
     \label{app_paper1:scenarios}
     \setcounter{figure}{0}
     \setcounter{table}{0}
-    \renewcommand{\thefigure}{A.6.1.\arabic{figure}}
-    \renewcommand{\thetable}{A.6.1.\arabic{table}}
+    \renewcommand{\thefigure}{A.7.1.\arabic{figure}}
+    \renewcommand{\thetable}{A.7.1.\arabic{table}}
 
       \begin{figure}[!htbp]
           \centering
@@ -508,8 +572,8 @@
     \label{app_paper1:network_scenarios} 
     \setcounter{figure}{0}
     \setcounter{table}{0}
-    \renewcommand{\thefigure}{A.6.2.\arabic{figure}}
-    \renewcommand{\thetable}{A.6.2.\arabic{table}}
+    \renewcommand{\thefigure}{A.7.2.\arabic{figure}}
+    \renewcommand{\thetable}{A.7.2.\arabic{table}}
 
       \begin{figure}[!htbp]
           \centering
@@ -544,8 +608,8 @@
     \label{app_paper1:results_altitude}
     \setcounter{figure}{0}
     \setcounter{table}{0}
-    \renewcommand{\thefigure}{A.6.3.\arabic{figure}}
-    \renewcommand{\thetable}{A.6.3.\arabic{table}}
+    \renewcommand{\thefigure}{A.7.3.\arabic{figure}}
+    \renewcommand{\thetable}{A.7.3.\arabic{table}}
 
       \begin{figure}[!htbp]
         \centering
@@ -578,8 +642,8 @@
     \label{app_paper1:results_bss_expansion}
     \setcounter{figure}{0}
     \setcounter{table}{0}
-    \renewcommand{\thefigure}{A.6.4.\arabic{figure}}
-    \renewcommand{\thetable}{A.6.4.\arabic{table}}
+    \renewcommand{\thefigure}{A.7.4.\arabic{figure}}
+    \renewcommand{\thetable}{A.7.4.\arabic{table}}
 
       \begin{figure}[!htbp]
           \centering
